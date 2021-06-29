@@ -1,0 +1,39 @@
+const db = require("../../database/connection");
+
+const Address = {};
+
+Address.createOne = (
+  userid,
+  city,
+  state,
+  phone,
+  country,
+  address1,
+  address2
+) => {
+  return db.query(
+    "INSERT INTO Addresses(UserID, AddressCity, AddressState, AddressPhone, AddressCountry, Address1, Address2",
+    [userid, city, state, phone, country, address1, address2]
+  );
+};
+
+Address.updateOne = (
+  userid,
+  city,
+  state,
+  phone,
+  country,
+  address1,
+  address2
+) => {
+  return db.query(
+    "UPDATE Addresses SET AddressCity = $1, AddressState = $2, AddressPhone = $3, AddressCountry = $4, Address1 = $5, Address2 = $6 WHERE UserID = $7",
+    [city, state, phone, country, address1, address2, userid]
+  );
+};
+
+Address.removeOneByUserID = (userid) => {
+  return db.query("DELETE Addresses WHERE UserID = $1", [userid]);
+};
+
+module.exports.AddressCRUD = Address;
