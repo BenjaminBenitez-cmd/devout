@@ -8,6 +8,7 @@ const { InventoryCRUD } = require("./inventory.crud");
 const { DiscountCRUD } = require("./discounts.crud");
 const { AddressCRUD } = require("./Addresses.crud");
 const { ImageCRUD } = require("./image.crud");
+const { OrderCRUD } = require("./order.crud");
 
 module.exports = {
   AdminCRUD,
@@ -20,4 +21,5 @@ module.exports = {
   DiscountCRUD,
   AddressCRUD,
   ImageCRUD,
+  OrderCRUD,
 };

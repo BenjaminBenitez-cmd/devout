@@ -36,12 +36,13 @@ CREATE TABLE EmailPrefferences (
 INSERT INTO EmailPrefferences(UserID) VALUES (1);
 
 --generate these tables before the products table --
-CREATE TABLE ProductCategories (
+CREATE TABLE Categories (
     CategoryID BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     CategoryName VARCHAR(50) NOT NULL
 );
 
-INSERT INTO ProductCategories(CategoryName) VALUES('Addidas');
+INSERT INTO Categories(CategoryName) VALUES ('Addidas');
+INSERT INTO Categories(CategoryName) VALUES ('Nike');
 
 CREATE TABLE ProductDiscounts (
     DiscountID BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
@@ -60,6 +61,7 @@ CREATE TABLE ProductInventory (
 );
 
 INSERT INTO ProductInventory(InventoryQuantity, InventoryLive, InventoryUnlimited) VALUES (20.23, true, false);
+INSERT INTO ProductInventory(InventoryQuantity, InventoryLive, InventoryUnlimited) VALUES (20.23, true, false);
 
 -- Lets add a product --
 CREATE TABLE Products (
@@ -69,13 +71,23 @@ CREATE TABLE Products (
     ProductCartDesc VARCHAR(250) NOT NULL,
     ProductShortDesc VARCHAR(1000) NOT NULL,
     ProductLongDesc TEXT NOT NULL,
-    ProductCategoryID INT REFERENCES ProductCategories(CategoryID),
     ProductDiscountID INT REFERENCES ProductDiscounts(DiscountID)
 );
 
+CREATE TABLE ProductCategories (
+   CategoryID INT NOT NULL REFERENCES Categories(CategoryID),
+   ProductID INT NOT NULL REFERENCES Products(ProductID),
+   PRIMARY KEY(CategoryID, ProductID)
+);
+
+
+
 --We insert a value into the database--
-INSERT INTO Products(ProductName, ProductPrice, ProductCartDesc, ProductShortDesc, ProductLongDesc, ProductCategoryID)
-VALUES ('Addidas Super Star', 125.00, 'The addidas super start is the best shoe', 'The best shoe in the world', 'The super start is an award winning shoe designed with comfort in mind', 1); 
+INSERT INTO Products(ProductName, ProductPrice, ProductCartDesc, ProductShortDesc, ProductLongDesc)
+VALUES ('Addidas Super Star', 125.00, 'The addidas super start is the best shoe', 'The best shoe in the world', 'The super start is an award winning shoe designed with comfort in mind'); 
+
+INSERT INTO ProductCategories (CategoryID, ProductID) VALUES (1, 1);
+INSERT INTO ProductCategories (CategoryID, ProductID) VALUES (2, 1);
 
 CREATE TABLE ProductOptions(
     OptionID BIGINT GENERATED ALWAYS AS IDENTITY,
@@ -119,6 +131,7 @@ CREATE TABLE ProductSKUS (
 -- Here each product is maked to an sku, option, and value
 -- example product 1, has an sku of 1, option of 1 and value of 1
 INSERT INTO ProductSKUS (SKUName, ProductID, Price, ProductInventoryID) VALUES ('AD-SM-RD', 1, 125.00, 1);
+INSERT INTO ProductSKUS (SKUName, ProductID, Price, ProductInventoryID) VALUES ('AD-SM-PT', 1, 125.00, 2);
 
 CREATE TABLE ProductSKUValues (
     ProductID INT NOT NULL,
@@ -131,7 +144,7 @@ CREATE TABLE ProductSKUValues (
     PRIMARY KEY (ProductID, SKUID, OptionID)
 );
 
-INSERT INTO ProductSKUValues(ProductID, SKUID, OptionID, ValueID) VALUES (1, 1, 1, 1);
+INSERT INTO ProductSKUValues(ProductID, SKUID, OptionID, ValueID) VALUES (1, 2, 1, 1);
 
 --Create a products table for images it will reference unique products
 -- Using their composite key
@@ -144,6 +157,7 @@ CREATE TABLE ProductImages (
 );
 
 INSERT INTO ProductImages(ImageUrl, ProductID, SKUID) VALUES ('http://testurl.com', 1, 1);
+INSERT INTO ProductImages(ImageUrl, ProductID, SKUID) VALUES ('http://testurl.com', 1, 2);
 
 --Create tables necessary for order items
 CREATE TABLE PaymentDetails (
@@ -203,4 +217,5 @@ CREATE TABLE AdminUsers (
 );
 
 INSERT INTO AdminUsers (AdminUserName, AdminPassword, AdminFirstName, AdminLastName) VALUES ('testadmin', 'password', 'John', 'Doe');
+
 

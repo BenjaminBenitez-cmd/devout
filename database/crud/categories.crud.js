@@ -3,7 +3,7 @@ const db = require("../../database/connection");
 const Categories = {};
 
 Categories.getMany = () => {
-  return db.query("SELECT * FROM ProductCategories");
+  return db.query("SELECT * FROM Categories");
 };
 
 Categories.getOne = (id) => {
@@ -12,8 +12,15 @@ Categories.getOne = (id) => {
 
 Categories.createOne = (name) => {
   return db.query(
-    "INSERT INTO ProductCategories(CategoryName) VALUES ($1) returning*",
+    "INSERT INTO Categories (CategoryName) VALUES ($1) returning*",
     [name]
+  );
+};
+
+Categories.updateOne = (id, name) => {
+  return db.query(
+    "UPDATE Categories SET CategoryName = $1 WHERE CategoryID = $2 returning*",
+    [name, id]
   );
 };
 

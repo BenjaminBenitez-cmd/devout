@@ -1,6 +1,46 @@
 const db = require("../../database/connection");
 
-const Options = {};
+const Options = { values: {} };
+
+Options.values.getMany = (optionid) => {
+  return db.query(`SELECT * FROM ProductOptionsValues WHERE OptionID = $1`, [
+    optionid,
+  ]);
+};
+
+Options.values.getOne = (valueid) => {
+  return db.query(`SELECT * FROM ProductOptionValues WHERE ValueID = $1`, [
+    valueid,
+  ]);
+};
+
+Options.values.createOne = (name, productid, optionid) => {
+  return db.query(
+    `
+    INSERT INTO ProductOptionValues(ValueName, ProductID, OptionID) 
+    VALUES ($1, $2, $3) returning*`,
+    [name, productid, optionid]
+  );
+};
+
+Options.values.updateOne = (id, name) => {
+  return db.query(
+    `
+        UPDATE ProductOptionValues
+        SET ValueName = $1
+        WHERE ValueID = $2
+        returning* 
+    `,
+    [name, id]
+  );
+};
+
+Options.values.removeOne = (id) => {
+  return db.query(
+    "DELETE FROM ProductOptionValues WHERE ValueID = $1 returning*",
+    [id]
+  );
+};
 
 Options.getMany = (productid) => {
   return db.query(`SELECT * FROM ProductOptions WHERE ProductID = $1`, [
@@ -41,45 +81,4 @@ Options.removeOne = (id) => {
     id,
   ]);
 };
-
-Options.values.getMany = (optionid) => {
-  return db.query(`SELECT * FROM ProductOptionsValues WHERE OptionID = $1`, [
-    optionid,
-  ]);
-};
-
-option.values.getOne = (valueid) => {
-  return db.query(`SELECT * FROM ProductOptionValues WHERE ValueID = $1`, [
-    valueid,
-  ]);
-};
-
-Options.values.createOne = (name, productid, optionid) => {
-  return db.query(
-    `
-    INSERT INTO ProductOptionValues(ValueName, ProductID, OptionID) 
-    VALUES ($1, $2, $3) returning*`,
-    [name, productid, optionid]
-  );
-};
-
-Options.values.updateOne = (id, name) => {
-  return db.query(
-    `
-        UPDATE ProductOptionValues
-        SET ValueName = $1
-        WHERE ValueID = $2
-        returning* 
-    `,
-    [name, id]
-  );
-};
-
-Option.values.removeOne = (id) => {
-  return db.query(
-    "DELETE FROM ProductOptionValues WHERE ValueID = $1 returning*",
-    [id]
-  );
-};
-
 module.exports.ProductOptionsCRUD = Options;

@@ -29,4 +29,4 @@ Users.updateOne = (
   );
 };
 
-module.exports.UserModel = Users;
+module.exports.UsersCRUD = Users;

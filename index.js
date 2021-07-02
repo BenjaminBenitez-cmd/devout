@@ -1,19 +1,23 @@
 const express = require("express");
-const db = require("./database/connection");
-const { UserModel } = require("./resources/crud/user.crud");
+const { ProductCRUD, SKUCRUD, ImageCRUD } = require("./database/crud");
 const { productRouter } = require("./resources/routes/products.route");
 const { handleError } = require("./utils/errors");
 const app = express();
+const morgan = require("morgan");
+const { categoryRouter } = require("./resources/routes/categories.route");
 
 app.use(express.json());
+app.use(morgan("tiny"));
 
 app.get("/api/hello", (request, response) => {
-  response.status(200).send("hello");
+  SKUCRUD.values.getManyByProductID(1).then((res) => {
+    response.status(200).send(res.rows);
+  });
 });
 
 app.use("/api/admin/products", productRouter);
-app.use("/api/admin/discounts");
-app.use("/api/admin/orders");
+app.use("/api/admin/categories", categoryRouter);
+// app.use("/api/admin/orders");
 
 const port = process.env.PORT || 3000;
 

@@ -1,6 +1,6 @@
 const db = require("../connection");
 
-const SKU = {};
+const SKU = { values: {} };
 
 SKU.values.createOne = (productid, skuid, optionid, valueid) => {
   return db.query(
@@ -12,34 +12,44 @@ SKU.values.createOne = (productid, skuid, optionid, valueid) => {
   );
 };
 
-SKU.values.getMany = (productid) => {
-  return db.query(`SELECT * FROM ProductSKUValues WHERE SKUID = $1`, [
+SKU.values.getOne = (productid, skuid, optionid) => {
+  return db.query(
+    `SELECT * FROM productSKUValues WHERE (ProductID = $1 AND SKUID = $2 AND OptionID = $3)`,
+    [productid, skuid, optionid]
+  );
+};
+
+SKU.values.getOneBySKUID = (id) => {
+  return db.query(`SELECT * FROM productSKUValues WHERE SKUID = $1`, [id]);
+};
+
+SKU.values.getManyByProductID = (productid) => {
+  return db.query(`SELECT * FROM ProductSKUValues WHERE ProductID = $1`, [
     productid,
   ]);
 };
 
 SKU.values.deleteOne = (skuid, productid) => {
   return db.query(
-    `DELETE FROM ProductSKUValues WHERE SKUID = $1 AND ProductID = $3 returning*`
+    `DELETE FROM ProductSKUValues WHERE SKUID = $1 AND ProductID = $3 returning*`,
+    [skuid, productid]
   );
 };
 
-SKU.getOne = (productid) => {
+SKU.getManyByProductID = (productid) => {
   return db.query("SELECT * FROM ProductSKUS WHERE ProductID = $1", [
     productid,
   ]);
 };
 
-SKU.getMany = (productid) => {
-  return db.query("SELECT * FROM ProductSKUS WHERE ProductID = $1", [
-    productid,
-  ]);
+SKU.getOneBySKUID = (skuid) => {
+  return db.query("SELECT * FROM ProductSKUS WHERE SKUID = $1", [skuid]);
 };
 
 SKU.createOne = (skucode, price, inventoryid, productid) => {
   return db.query(
     `
-    INSERT INTO ProductSKUS (SKUName, ProductID, Price, ProductInventoryID) 
+    INSERT INTO ProductSKUS (SKUName, Price, ProductInventoryID, ProductID) 
     VALUES ($1, $2, $3, $4) returning*
     `,
     [skucode, price, inventoryid, productid]
