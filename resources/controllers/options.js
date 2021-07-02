@@ -39,10 +39,11 @@ const updateAnOption = async (request, response, next) => {
     next(err);
   }
 };
+
 const deleteAnOption = async (request, response, next) => {
-  const { id } = request.params;
+  const { optionid } = request.params;
   try {
-    await ProductOptionsCRUD.removeOne(id);
+    await ProductOptionsCRUD.removeOne(optionid);
     response.status(SUCCESS_MODIFICATION).send("Successfully deleted option");
   } catch (err) {
     next(err);
@@ -51,10 +52,9 @@ const deleteAnOption = async (request, response, next) => {
 
 //Option with productid
 const getOptions = async (request, response, next) => {
-  const { id } = request.params;
+  const { productid } = request.params;
   try {
-    const optionQuery = await ProductOptionsCRUD.getMany(id);
-    console.log(optionQuery.rows);
+    const optionQuery = await ProductOptionsCRUD.getMany(productid);
     const mapOptions = optionQuery.rows.map((node) => {
       return {
         optionid: node.optionid,

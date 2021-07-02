@@ -3,7 +3,7 @@ const db = require("../../database/connection");
 const Options = { values: {} };
 
 Options.values.getMany = (optionid) => {
-  return db.query(`SELECT * FROM ProductOptionsValues WHERE OptionID = $1`, [
+  return db.query(`SELECT * FROM ProductOptionValues WHERE OptionID = $1`, [
     optionid,
   ]);
 };
@@ -81,4 +81,5 @@ Options.removeOne = (id) => {
     id,
   ]);
 };
+
 module.exports.ProductOptionsCRUD = Options;

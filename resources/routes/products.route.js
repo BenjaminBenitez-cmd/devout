@@ -1,6 +1,15 @@
 const express = require("express");
-const { getOptions, deleteAnOption } = require("../controllers/options");
-const { getValues } = require("../controllers/OptionValues");
+const {
+  getOptions,
+  deleteAnOption,
+  addAnOption,
+  updateAnOption,
+} = require("../controllers/options");
+const {
+  getValues,
+  addAValue,
+  removeAValue,
+} = require("../controllers/OptionValues");
 const router = express.Router({ mergeParams: true });
 const {
   getAllProducts,
@@ -22,11 +31,23 @@ router
   .get(getAVariant)
   .patch(updateAVariant);
 
-//product/options
-router.route("/:id/options").get(getOptions).delete(deleteAnOption);
-router.route("/:id/options/:optionid/values").get(getValues);
+//product options
+router.route("/:productid/options").get(getOptions).post(addAnOption);
+router
+  .route("/:productid/options/:optionid")
+  .delete(deleteAnOption)
+  .put(updateAnOption);
 
-route.route();
+//product values
+router
+  .route("/:productid/options/:optionid/values")
+  .get(getValues)
+  .post(addAValue);
+router
+  .route("/:productid/options/:optionid/values/:valueid")
+  .delete(removeAValue);
+
+// router.route();
 
 //product/
 router.route("/").get(getAllProducts).post(addAProduct).patch(updateAProduct);

@@ -3,14 +3,14 @@ const {
   SUCCESS,
   SUCCESS_MODIFICATION,
 } = require("../../constants/statuscodes");
-const { OptionsCRUD } = require("../../database/crud");
+const { ProductOptionsCRUD } = require("../../database/crud/option.crud");
 const checkResults = require("../../utils/validate");
 
 const addAValue = async (request, response, next) => {
   const { name, productid, optionid } = request.body;
 
   try {
-    const valueQuery = await OptionsCRUD.values.createOne(
+    const valueQuery = await ProductOptionsCRUD.values.createOne(
       name,
       productid,
       optionid
@@ -34,7 +34,7 @@ const addAValue = async (request, response, next) => {
 const getValues = async (request, response, next) => {
   const { optionid } = request.params;
   try {
-    const valueQuery = await OptionsCRUD.values.getMany(optionid);
+    const valueQuery = await ProductOptionsCRUD.values.getMany(optionid);
 
     let values;
     if (valueQuery.rows.length > 0) {
@@ -54,9 +54,9 @@ const getValues = async (request, response, next) => {
 };
 
 const removeAValue = async (request, response, next) => {
-  const { id } = request.params;
+  const { valueid } = request.params;
   try {
-    await OptionsCRUD.values.removeOne(id);
+    await ProductOptionsCRUD.values.removeOne(valueid);
     response.status(SUCCESS_MODIFICATION).send("Successfully removed value");
   } catch (err) {
     next(err);
