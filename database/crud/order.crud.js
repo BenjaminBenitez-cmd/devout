@@ -2,24 +2,29 @@ const db = require("../connection");
 
 const Orders = { details: {}, items: {} };
 
-Orders.details.createOne = () => {
-  return db.query("", []);
+Orders.details.createOne = (userid, total, paymentid) => {
+  return db.query(
+    "INSERT INTO OrderDetails(UserID, OrderDetailTotal, OrderDetailPaymentID) VALUES ($1, $2, $3) returning*",
+    [userid, total, paymentid]
+  );
 };
 
-Orders.details.updateOne = () => {
-  return db.query("", []);
+Orders.details.getManyByUserID = (userid) => {
+  return db.query("SELECT * FROM OrderDetails WHERE UserID = $1", [userid]);
 };
 
-Orders.details.getMany = (id) => {
-  return db.query("SELECT * FROM OrderDetails WHERE OrderDetailsID = $1", [id]);
+Orders.details.getMany = () => {
+  return db.query("SELECT * FROM OrderDetails WHERE OrderDetailsID = $1");
 };
 
-Orders.details.removeOne = () => {
-  return db.query("", []);
+Orders.details.removeOne = (orderdetailsid) => {
+  return db.query("DELETE FROM OrderDetails WHERE OrderDetailsID = $1", [
+    orderdetailsid,
+  ]);
 };
 
-Orders.items.getManyByProductID = (id) => {
-  return db.query("SELECT * FROM OrderItems WHERE ProductID = $1", [id]);
+Orders.items.getManyByOrderDetailsID = (id) => {
+  return db.query("SELECT * FROM OrderItems WHERE OrderDetailsID = $1", [id]);
 };
 
 Orders.items.getSalesByProductID = (id) => {
@@ -37,4 +42,21 @@ Orders.items.getSalesByProductID = (id) => {
   );
 };
 
+Orders.getMany = () => {
+  return db.query(`
+    SELECT OD.OrderDetailsID, U.UserEmail, OD.OrderDetailTotal, PD.PaymentStatus, PD.PaymentID
+    FROM OrderDetails AS OD
+    INNER JOIN PaymentDetails AS PD
+    ON OD.OrderDetailPaymentID = PD.PaymentID
+    INNER JOIN Users AS U
+    ON OD.UserID = U.UserID;
+  `);
+};
+
+Orders.getOne = () => {
+  return db.query(`
+
+  `);
+};
+Orders.createOne = () => {};
 module.exports.OrderCRUD = Orders;

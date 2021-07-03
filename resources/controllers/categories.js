@@ -1,4 +1,4 @@
-const { CategoriesCRUD } = require("../../database/crud");
+const { CategoriesCRUD, ProductCatCRUD } = require("../../database/crud");
 const checkResults = require("../../utils/validate");
 const {
   ERROR,
@@ -67,9 +67,61 @@ const deleteACategory = async (_, response, next) => {
   }
 };
 
+const addCategoryToProduct = async (request, response, next) => {
+  const { productid, categoryid } = request.params;
+
+  try {
+    await ProductCatCRUD.createOne(productid, categoryid);
+    response
+      .status(SUCCESS_MODIFICATION)
+      .send("Successfully added category to product");
+  } catch (err) {
+    next(err);
+  }
+};
+
+const removeCategoryFromProduct = async (request, response, next) => {
+  const { productid, categoryid } = request.params;
+
+  try {
+    await ProductCatCRUD.removeOne(productid, categoryid);
+    response
+      .status(SUCCESS_MODIFICATION)
+      .send("Successfully removed category from product");
+  } catch (err) {
+    next(err);
+  }
+};
+
+const getCategoriesForProduct = async (request, response, next) => {
+  const { productid } = request.params;
+
+  try {
+    const { rows } = await ProductCatCRUD.getMany(productid);
+
+    let categories;
+    if (rows.length > 0) {
+      rows.map((node) => {
+        return {
+          id: node.categoryid,
+          name: node.categoryname,
+        };
+      });
+    }
+    response
+      .status(SUCCESS)
+      .json({ message: "success", categories: categories });
+  } catch (err) {
+    next(err);
+  }
+};
+
 module.exports = {
   addACategory,
   updateACategory,
   deleteACategory,
   getAllCategories,
+  removeCategoryFromProduct,
+  addCategoryToProduct,
+  getCategoriesForProduct,
 };

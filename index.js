@@ -1,10 +1,11 @@
 const express = require("express");
-const { ProductCRUD, SKUCRUD, ImageCRUD } = require("./database/crud");
+const { SKUCRUD } = require("./database/crud");
 const { productRouter } = require("./resources/routes/products.route");
 const { handleError } = require("./utils/errors");
 const app = express();
 const morgan = require("morgan");
 const { categoryRouter } = require("./resources/routes/categories.route");
+const { OrderRouter } = require("./resources/routes/orders.route");
 
 app.use(express.json());
 app.use(morgan("tiny"));
@@ -17,7 +18,7 @@ app.get("/api/hello", (request, response) => {
 
 app.use("/api/admin/products", productRouter);
 app.use("/api/admin/categories", categoryRouter);
-// app.use("/api/admin/orders");
+app.use("/api/admin/orders", OrderRouter);
 
 const port = process.env.PORT || 3000;
 

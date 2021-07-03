@@ -7,7 +7,8 @@ const { ProductOptionsCRUD } = require("../../database/crud/option.crud");
 const checkResults = require("../../utils/validate");
 
 const addAValue = async (request, response, next) => {
-  const { name, productid, optionid } = request.body;
+  const { productid, optionid } = request.params;
+  const { name } = request.body;
 
   try {
     const valueQuery = await ProductOptionsCRUD.values.createOne(
@@ -21,8 +22,6 @@ const addAValue = async (request, response, next) => {
       message: "Success",
       value: {
         id: valueQuery.rows[0].valueid,
-        productid: productid,
-        optionid: optionid,
         name: name,
       },
     });

@@ -24,7 +24,6 @@ const addAProduct = async (request, response, next) => {
     cartdesc,
     shortdesc,
     longdesc,
-    categoryid,
     discountid,
     images,
     amount,
@@ -48,8 +47,7 @@ const addAProduct = async (request, response, next) => {
       price,
       cartdesc,
       shortdesc,
-      longdesc,
-      categoryid
+      longdesc
     );
     checkResults(productInsert, ERROR, "Something went wrong");
 
@@ -118,7 +116,6 @@ const getAllProducts = async (request, response, next) => {
           productcartdesc,
           productshortdesc,
           productlongdesc,
-          productcategoryid,
           productdiscountid,
         } = product;
 
@@ -144,7 +141,6 @@ const getAllProducts = async (request, response, next) => {
           cartdescription: productcartdesc,
           shortdescription: productshortdesc,
           longdescription: productlongdesc,
-          categoryid: productcategoryid,
           discountid: productdiscountid,
           sales: saleQuery.rows.length,
           orders: orderQuery.rows.length,
@@ -179,7 +175,6 @@ const getAProduct = async (request, response, next) => {
       productcartdesc,
       productshortdesc,
       productlongdesc,
-      productcategoryid,
       productdiscountid,
     } = productQuery.rows[0];
 
@@ -232,7 +227,6 @@ const getAProduct = async (request, response, next) => {
         cartdescription: productcartdesc,
         shortdescription: productshortdesc,
         longdescription: productlongdesc,
-        categoryid: productcategoryid,
         discountid: productdiscountid,
         variants: mapvariants,
       },

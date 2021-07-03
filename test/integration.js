@@ -91,7 +91,6 @@ describe("Testing API", () => {
           "cartdescription",
           "shortdescription",
           "longdescription",
-          "categoryid",
           "discountid",
           "sales",
           "orders",
@@ -116,7 +115,6 @@ describe("Testing API", () => {
         "cartdescription",
         "shortdescription",
         "longdescription",
-        "categoryid",
         "discountid",
         "variants"
       );
@@ -295,5 +293,79 @@ describe("Testing API", () => {
     });
   });
 
-  describe();
+  describe("Option Models", () => {
+    const data = {
+      productid: 1,
+      optionid: 1,
+      optionname: "Height",
+    };
+
+    it.skip("It should POST an Option", async () => {
+      const response = await chai
+        .request(app)
+        .post(`${APIROUTE}/products/${data.productid}/options`)
+        .send({ name: optionname });
+
+      response.should.have.status(200);
+      response.body.option.should.have.all.keys("id", "name");
+    });
+
+    it("It should GET all options", async () => {
+      const response = await chai
+        .request(app)
+        .get(`${APIROUTE}/products/${data.productid}/options`);
+
+      response.should.have.status(200);
+      response.body.should.have.property("options");
+    });
+
+    it.skip("It should DELETE options", async () => {
+      const response = await chai
+        .request(app)
+        .delete(
+          `${APIROUTE}/products/${data.productid}/options/${data.optionid}`
+        );
+      response.should.have.status(201);
+    });
+  });
+
+  describe("It should get values", () => {
+    const data = {
+      productid: 1,
+      optionid: 1,
+      valueid: 1,
+    };
+    it("Should GET all values", async () => {
+      const response = await chai
+        .request(app)
+        .get(
+          `${APIROUTE}/products/${data.productid}/options/${data.optionid}/values`
+        );
+      response.should.have.status(200);
+      response.body.values.should.be.a("array");
+      response.body.values.should.have.lengthOf.above(2);
+    });
+
+    it("Should POST a value", async () => {
+      const response = await chai
+        .request(app)
+        .post(
+          `${APIROUTE}/products/${data.productid}/options/${data.optionid}/values`
+        )
+        .send({ name: "XSS" });
+      response.should.have.status(200);
+      response.body.value.should.have.all.keys("id", "name");
+    });
+
+    it.skip("Should DELETE a value", async () => {
+      const response = await chai
+        .request(app)
+        .post(
+          `${APIROUTE}/products/${data.productid}/options/${data.optionid}/values/${data.valueid}`
+        )
+        .send({ name: "XXS" });
+      response.should.have.status(200);
+      response.body.value.should.have.all.keys("id", "name");
+    });
+  });
 });

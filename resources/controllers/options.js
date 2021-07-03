@@ -7,12 +7,13 @@ const { ProductOptionsCRUD } = require("../../database/crud/option.crud");
 const checkResults = require("../../utils/validate");
 
 const addAnOption = async (request, response, next) => {
-  const { productid, name } = request.body;
+  const { productid } = request.params;
+  const { name } = request.body;
 
   try {
     //Create an option
     const optionQuery = await ProductOptionsCRUD.createOne(productid, name);
-    checkResults(optionQuery, ERROR, "Unable to add option");
+    checkResults(optionQuery, ERROR, "Value already exists");
 
     const { optionname, optionid } = optionQuery.rows[0];
 

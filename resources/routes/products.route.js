@@ -1,5 +1,10 @@
 const express = require("express");
 const {
+  getCategoriesForProduct,
+  addCategoryToProduct,
+  removeCategoryFromProduct,
+} = require("../controllers/categories");
+const {
   getOptions,
   deleteAnOption,
   addAnOption,
@@ -47,7 +52,12 @@ router
   .route("/:productid/options/:optionid/values/:valueid")
   .delete(removeAValue);
 
-// router.route();
+//Categories
+router.route("/:productid/categories").get(getCategoriesForProduct);
+router
+  .route("/:productid/categories/:categoryid")
+  .put(addCategoryToProduct)
+  .delete(removeCategoryFromProduct);
 
 //product/
 router.route("/").get(getAllProducts).post(addAProduct).patch(updateAProduct);
