@@ -4,7 +4,7 @@ const {
   SUCCESS_MODIFICATION,
 } = require("../../constants/statuscodes");
 const { ProductOptionsCRUD } = require("../../database/crud/option.crud");
-const checkResults = require("../../utils/validate");
+const { checkResults } = require("../../utils/validate");
 
 const addAValue = async (request, response, next) => {
   const { productid, optionid } = request.params;

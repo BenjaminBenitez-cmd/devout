@@ -4,35 +4,12 @@ let chai = require("chai");
 //import the chai http interface
 let chaiHttp = require("chai-http");
 
-//import the database pool and connection
-let { Pool } = require("pg");
-let client = require("../database/connection");
-
 chai.should();
 chai.use(chaiHttp);
 
-describe("Testing API", () => {
+describe("Admin integration tests", () => {
   let app = require("../index");
-  const APIROUTE = "/api/admin";
-
-  // //Use the mocha before hook to stage connection with db
-  // before("Mock connection to the api", () => {
-  //   const pool = new Pool({
-  //     database: process.env.PGDATABASE,
-  //     user: process.env.PGUSER,
-  //     password: process.env.PGPASSWORD,
-  //     port: process.env.PGPORT,
-  //     max: 1,
-  //     idleTimeoutMillis: 0,
-  //   });
-
-  //   client.query = (text, params) => {
-  //     return pool.query(text, params);
-  //   };
-
-  //   //Import server after initializing our connection
-  //   app = require("../index");
-  // });
+  const APIROUTE = "/api/v1";
 
   describe("/api/admin/products", () => {
     const productdata = {
@@ -193,9 +170,10 @@ describe("Testing API", () => {
    * Testing Methods for variants
    */
 
-  describe("Variant Models", () => {
+  describe("Variant routes", () => {
     const data = {
       productid: 1,
+      skuid: 2,
       skucode: "PT-RB-HS",
       price: 20.0,
       amount: 3,
@@ -207,10 +185,11 @@ describe("Testing API", () => {
       valueid: "1",
     };
 
-    const urlroute = APIROUTE + "/products/variants";
-
     it.skip("Should POST a variant", async () => {
-      const response = await chai.request(app).post(urlroute).send(data);
+      const response = await chai
+        .request(app)
+        .post(`${APIROUTE}/products/${data.productid}/variants`)
+        .send(data);
 
       response.should.have.status(200);
       response.body.should.have.property("status");
@@ -220,22 +199,18 @@ describe("Testing API", () => {
     });
 
     it("Should NOT GET a variant without query string", async () => {
-      const response = await chai.request(app).get(`${urlroute}`);
+      const response = await chai
+        .request(app)
+        .get(`${APIROUTE}/products/${data.productid}/variants/${data.skuid}`);
       response.should.have.status(400);
     });
 
     it("Should GET a variant", async () => {
-      const data = {
-        productid: 1,
-        skuid: 2,
-        optionid: 1,
-      };
       const response = await chai
         .request(app)
         .get(
-          `${urlroute}?productid=${data.productid}&skuid=${data.skuid}&optionid=${data.optionid}`
+          `${APIROUTE}/products/${data.productid}/variants/${data.skuid}?optionid=${data.optionid}`
         );
-
       response.should.have.status(200);
       response.body.variant.should.be.a("object");
       response.body.variant.should.have.all.keys(
@@ -261,8 +236,10 @@ describe("Testing API", () => {
         skucode: "MN-GH-GJ",
       };
 
-      const response = await chai.request(app).patch(urlroute).send(data);
-      console.log(response.error);
+      const response = await chai
+        .request(app)
+        .patch(`${APIROUTE}/products/${data.productid}/variants/${data.skuid}`)
+        .send(data);
       response.should.have.status(201);
       response.body.variant.should.have.any.keys(
         "productid",
@@ -281,8 +258,10 @@ describe("Testing API", () => {
         images: ["http://fakeimage.com/test.jpg"],
       };
 
-      const response = await chai.request(app).patch(urlroute).send(data);
-      console.log(response.error);
+      const response = await chai
+        .request(app)
+        .patch(`${APIROUTE}/products/${data.productid}/variants/${data.skuid}`)
+        .send(data);
       response.should.have.status(201);
       response.body.variant.should.have.all.keys(
         "productid",
@@ -293,7 +272,9 @@ describe("Testing API", () => {
     });
   });
 
-  describe("Option Models", () => {
+  /**Test  */
+
+  describe("Option routes", () => {
     const data = {
       productid: 1,
       optionid: 1,
@@ -335,6 +316,7 @@ describe("Testing API", () => {
       optionid: 1,
       valueid: 1,
     };
+
     it("Should GET all values", async () => {
       const response = await chai
         .request(app)
@@ -366,6 +348,46 @@ describe("Testing API", () => {
         .send({ name: "XXS" });
       response.should.have.status(200);
       response.body.value.should.have.all.keys("id", "name");
+    });
+  });
+
+  /** Test admin authentication methods */
+
+  describe("Authentication routes", () => {
+    const data = {
+      username: Math.round(Math.random() * 100000) + "@email.com",
+      password: "testpassword",
+    };
+
+    before("Create an admin so we can signin", async () => {
+      await chai
+        .request(app)
+        .post(APIROUTE + "/admin/signup")
+        .send(data);
+    });
+
+    it("It should POST and create an admin", async () => {
+      const data = {
+        username: Math.round(Math.random() * 100000) + "@email.com",
+        password: "testpassword",
+      };
+
+      const response = await chai
+        .request(app)
+        .post(`${APIROUTE}/admin/signup`)
+        .send(data);
+      response.should.have.status(200);
+      response.body.should.have.property("user");
+      response.body.user.should.have.property("username");
+    });
+
+    it("It should POST and Signin an admin", async () => {
+      const response = await chai
+        .request(app)
+        .post(`${APIROUTE}/admin/signin`)
+        .send(data);
+      response.should.have.status(200);
+      response.body.token.should.have.lengthOf.above(10);
     });
   });
 });

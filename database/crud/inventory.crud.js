@@ -40,4 +40,17 @@ Inventory.removeOne = (id) => {
   );
 };
 
+Inventory.getAmount = (skuid) => {
+  return db.query(
+    ` 
+    SELECT I.InventoryQuantity, I.InventoryLive, PSK.SKUID, PSK.Price
+    FROM ProductSKUS AS PSK
+    INNER JOIN ProductInventory AS I
+    ON PSK.ProductInventoryID = I.InventoryID
+    WHERE PSK.SKUID = $1
+    `,
+    [skuid]
+  );
+};
+
 module.exports.InventoryCRUD = Inventory;

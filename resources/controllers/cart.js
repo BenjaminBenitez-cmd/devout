@@ -1,0 +1,100 @@
+const {
+  SUCCESS,
+  ERROR,
+  SUCCESS_MODIFICATION,
+} = require("../../constants/statuscodes");
+const { CartItemCRUD } = require("../../database/crud");
+const { CartCRUD } = require("../../database/crud/cart.crud");
+const { ErrorHandler } = require("../../utils/errors");
+
+const addACart = async (request, response, next) => {
+  const { id } = request.user;
+  let { total } = request.body;
+
+  if (total == null) {
+    total = 0;
+  }
+  /**
+   * check if a cart already exists
+   * create a session cart for the user
+   * insert the id and quantity if provided
+   */
+
+  try {
+    const cartQuery = await CartCRUD.getOneByUserID(id);
+    if (cartQuery.rows.length > 0) {
+      throw new ErrorHandler(ERROR, "A cart for this user already exists");
+    }
+
+    await CartCRUD.createOne(id, total);
+    response.status(SUCCESS).end();
+  } catch (err) {
+    console.log(err);
+    next(err);
+  }
+};
+
+const getACart = async (request, response, next) => {
+  const { id } = request.user;
+
+  /**
+   * use the user's id to get cart
+   * if the user has a cart use it to fetch cart items
+   */
+
+  try {
+    const cartQuery = await CartCRUD.getOneByUserID(id);
+    console.log(cartQuery.rows);
+    //if cart is empty return empty
+    if (cartQuery.rows.length === 0) {
+      return response
+        .status(SUCCESS)
+        .json({ message: "Success", cart: {} })
+        .end();
+    }
+
+    let cartItems;
+
+    const { sessionid } = cartQuery.rows[0];
+
+    if (cartQuery.rows.length > 0) {
+      const cartItemsQuery = await CartItemCRUD.getManyBySessionID(sessionid);
+      cartItems =
+        cartItemsQuery.rows.length > 0 &&
+        cartItemsQuery.rows.map((item) => {
+          return {
+            id: item.cartid,
+            productid: item.productid,
+            skuid: item.skuid,
+            quantity: item.quantity,
+          };
+        });
+    }
+
+    response.status(SUCCESS).json({
+      message: "Success",
+      cart: sessionid && { id: sessionid, items: cartItems },
+    });
+  } catch (err) {
+    console.log(err);
+    next(err);
+  }
+};
+
+const deleteACart = async (request, response, next) => {
+  const { id } = request.user;
+  const { cartid } = request.params;
+
+  try {
+    await CartCRUD.removeOne(cartid, id);
+    response.status(SUCCESS_MODIFICATION).end();
+  } catch (err) {
+    next(err);
+  }
+};
+
+module.exports = {
+  addACart,
+  getACart,
+  deleteACart,
+};

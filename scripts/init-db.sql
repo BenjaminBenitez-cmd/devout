@@ -2,11 +2,11 @@
 CREATE TABLE Users (
    UserID BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
    UserEmail VARCHAR(500) NOT NULL,
-   UserPassword VARCHAR(500) NOT NULL,
+   UserPassword VARCHAR(500),
    UserFirstName VARCHAR(50),
    UserLastName VARCHAR(50),
    UserEmailVerified BOOLEAN DEFAULT FALSE,
-   UserVerificationCode VARCHAR(20),
+   UserVerificationCode VARCHAR(1000),
    UserRegistrationDate TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
 );
 
@@ -203,10 +203,11 @@ CREATE TABLE CartItem (
     SessionID INT NOT NULL REFERENCES ShoppingSession(SessionID) ON DELETE CASCADE,
     ProductID INT NOT NULL,
     SKUID INT NOT NULL,
+    Quantity INT NOT NULL DEFAULT 1,
     FOREIGN KEY (ProductID, SKUID) REFERENCES ProductSKUS(ProductID, SKUID)
 );
 
-INSERT INTO CartItem (SessionID, ProductID, SKUID) VALUES (1, 1, 1);
+INSERT INTO CartItem (SessionID, ProductID, SKUID) VALUES (1, 1, 1, 3);
 
 CREATE TABLE AdminUsers (
     AdminID BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,

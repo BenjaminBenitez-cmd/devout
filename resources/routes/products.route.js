@@ -1,4 +1,5 @@
 const express = require("express");
+const { protectAdmin, protectUser } = require("../controllers/authorization");
 const {
   getCategoriesForProduct,
   addCategoryToProduct,
@@ -24,17 +25,23 @@ const {
   updateAProduct,
 } = require("../controllers/products");
 const {
-  createAVariant,
   getAVariant,
   updateAVariant,
+  deleteAVariant,
+  getAllVariants,
+  createAVariant,
 } = require("../controllers/variant");
 
-//product/variants
 router
-  .route("/variants")
-  .post(createAVariant)
+  .route("/:productid/variants")
+  .get(getAllVariants)
+  .post(getAllVariants, createAVariant);
+
+router
+  .route("/:productid/variants/:skuid")
   .get(getAVariant)
-  .patch(updateAVariant);
+  .patch(updateAVariant)
+  .delete(deleteAVariant);
 
 //product options
 router.route("/:productid/options").get(getOptions).post(addAnOption);

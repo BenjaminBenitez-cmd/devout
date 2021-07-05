@@ -23,8 +23,19 @@ Orders.details.removeOne = (orderdetailsid) => {
   ]);
 };
 
-Orders.items.getManyByOrderDetailsID = (id) => {
-  return db.query("SELECT * FROM OrderItems WHERE OrderDetailsID = $1", [id]);
+Orders.items.createOne = (detailsid, productid, skuid) => {
+  return db.query(
+    "INSERT INTO OrderItems (OrderDetailsID, ProductID, SKUID) VALUES ($1, $2, $3) returning*",
+    [detailsid, productid, skuid]
+  );
+};
+
+Orders.items.getManyByProductID = (id) => {
+  return db.query("SELECT * FROM OrderItems WHERE ProductID = $1", [id]);
+};
+
+Orders.items.getManyByProductID = (id) => {
+  return db.query("INSERT INTO OrderItems()", [id]);
 };
 
 Orders.items.getSalesByProductID = (id) => {
@@ -49,14 +60,30 @@ Orders.getMany = () => {
     INNER JOIN PaymentDetails AS PD
     ON OD.OrderDetailPaymentID = PD.PaymentID
     INNER JOIN Users AS U
-    ON OD.UserID = U.UserID;
+    ON OD.UserID = U.UserID
   `);
 };
 
-Orders.getOne = () => {
-  return db.query(`
-
-  `);
+Orders.getManyByUserID = (userid) => {
+  return db.query(
+    `
+    SELECT OD.OrderDetailsID, OD.OrderDetailTotal, PD.PaymentAmount, PD.PaymentStatus FROM OrderDetails AS OD
+    INNER JOIN PaymentDetails AS PD
+    ON PD.PaymentID = OD.OrderDetailPaymentID
+    WHERE OD.UserID = $1;
+  `,
+    [userid]
+  );
 };
-Orders.createOne = () => {};
+
+Orders.createOne = (userid, total, paymentid) => {
+  return db.query(
+    `
+    INSERT INTO OrderDetails (UserID, OrderDetailTotal, OrderDetailPaymentID)
+    VALUES ($1, $2, $3) returning*;
+  `,
+    [userid, total, paymentid]
+  );
+};
+
 module.exports.OrderCRUD = Orders;

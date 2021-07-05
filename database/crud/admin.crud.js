@@ -24,4 +24,8 @@ Admin.getOneByUserName = (username) => {
   ]);
 };
 
+Admin.getOneByID = (id) => {
+  return db.query(`SELECT * FROM AdminUsers WHERE AdminID = $1`, [id]);
+};
+
 module.exports.AdminCRUD = Admin;

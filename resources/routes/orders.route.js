@@ -6,4 +6,4 @@ router.route("/").get(getAllOrders);
 
 router.route("/:orderid").get().delete();
 
-module.exports.OrderRouter = router;
+module.exports.orderRouter = router;

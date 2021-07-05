@@ -6,12 +6,18 @@ const { SKUCRUD } = require("./sku.crud");
 const { OptionsCRUD } = require("./option.crud");
 const { InventoryCRUD } = require("./inventory.crud");
 const { DiscountCRUD } = require("./discounts.crud");
-const { AddressCRUD } = require("./Addresses.crud");
+const { AddressCRUD } = require("./addresses.crud");
 const { ImageCRUD } = require("./image.crud");
 const { OrderCRUD } = require("./order.crud");
+const { CartCRUD } = require("./cart.crud");
+const { CartItemCRUD } = require("./cartitems.crud");
 const { ProductCatCRUD } = require("./productcategories.crud");
+const { PaymentCRUD } = require("./payment.crud");
 
 module.exports = {
+  PaymentCRUD,
+  CartItemCRUD,
+  CartCRUD,
   ProductCatCRUD,
   AdminCRUD,
   UsersCRUD,

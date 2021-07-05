@@ -1,10 +1,9 @@
 const { CategoriesCRUD, ProductCatCRUD } = require("../../database/crud");
-const checkResults = require("../../utils/validate");
+const { checkResults } = require("../../utils/validate");
 const {
   ERROR,
   SUCCESS_MODIFICATION,
   SUCCESS,
-  NOT_AUTHORIZED,
   NOT_FOUND,
 } = require("../../constants/statuscodes");
 

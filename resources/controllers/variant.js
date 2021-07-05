@@ -11,11 +11,11 @@ const { InventoryCRUD } = require("../../database/crud/inventory.crud");
 const { ProductCRUD } = require("../../database/crud/product.crud");
 const { SKUCRUD } = require("../../database/crud/sku.crud");
 const { ErrorHandler } = require("../../utils/errors");
-const checkResults = require("../../utils/validate");
+const { checkResults } = require("../../utils/validate");
 
 const createAVariant = async (request, response, next) => {
-  const { productid, skucode, price, amount, images, optionid, valueid } =
-    request.body;
+  const { productid } = request.params;
+  const { skucode, price, amount, images, optionid, valueid } = request.body;
   //manually populate values for islive and unlimited amounts
   const islive = true;
   const unlimited = false;
@@ -101,10 +101,10 @@ const createAVariant = async (request, response, next) => {
 };
 
 const deleteAVariant = async (request, response, next) => {
-  const { id } = request.params;
+  const { variantid } = request.params;
 
   try {
-    await SKUCRUD.removeOne(id);
+    await SKUCRUD.removeOne(variantid);
     response.status(SUCCESS_MODIFICATION).send("Successfully removed variant");
   } catch (err) {
     next(err);
@@ -112,7 +112,8 @@ const deleteAVariant = async (request, response, next) => {
 };
 
 const updateAVariant = async (request, response, next) => {
-  const { productid, skuid, price, amount, skucode, images } = request.body;
+  const { productid, skuid } = request.params;
+  const { price, amount, skucode, images } = request.body;
 
   /** Need to update any inventory information, images, and values */
   try {
@@ -159,7 +160,8 @@ const updateAVariant = async (request, response, next) => {
 };
 
 const getAVariant = async (request, response, next) => {
-  const { skuid, optionid, productid } = request.query;
+  const { productid, skuid } = request.params;
+  const { optionid } = request.query;
 
   //Check Params
   if (skuid == undefined || optionid == undefined || productid == undefined) {
@@ -168,11 +170,7 @@ const getAVariant = async (request, response, next) => {
 
   try {
     //get inventory ids, sku and options and value id
-    const variantQuery = await SKUCRUD.values.getOne(
-      productid,
-      skuid,
-      optionid
-    );
+    const variantQuery = await SKUCRUD.values.getOneBySKUID(skuid);
     checkResults(variantQuery, NOT_FOUND, "Could not find variant");
 
     const { valueid } = variantQuery.rows[0];
@@ -219,8 +217,62 @@ const getAVariant = async (request, response, next) => {
   }
 };
 
+const getAllVariants = async (request, response, next) => {
+  const { productid } = request.params;
+
+  try {
+    //GET SKUS with productid
+    const skuvariantsQuery = await SKUCRUD.getManyByProductID(productid);
+    checkResults(skuvariantsQuery, NOT_FOUND, "Product could not be located");
+
+    //This is the result from fetching variants
+    const { rows } = skuvariantsQuery;
+
+    /**if there is only one variant it means we dont have to
+     * map the inventory to each row  */
+
+    const mapvariants = await Promise.all(
+      rows.map(async (variant) => {
+        const { skuid, skuname, price, productinventoryid } = variant;
+
+        const inventoryQuery = await InventoryCRUD.getOne(productinventoryid);
+        checkResults(
+          inventoryQuery,
+          NOT_FOUND,
+          "Could not find matching inventory"
+        );
+
+        const { inventoryquantity, inventorylive, inventoryunlimited } =
+          inventoryQuery.rows[0];
+
+        const imageQuery = await ImageCRUD.getManyByProductAndSKU(
+          productid,
+          skuid
+        );
+
+        return {
+          skuid,
+          skuname,
+          price,
+          quantity: inventoryunlimited ? "unlimited" : inventoryquantity,
+          live: inventorylive,
+          images: imageQuery.rows,
+        };
+      })
+    );
+
+    response
+      .status(SUCCESS)
+      .json({ message: "Success", variants: mapvariants });
+  } catch (err) {
+    next(err);
+  }
+};
+
 module.exports = {
   createAVariant,
   getAVariant,
   updateAVariant,
+  deleteAVariant,
+  getAllVariants,
 };

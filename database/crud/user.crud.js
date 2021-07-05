@@ -3,10 +3,11 @@ const db = require("../connection");
 const Users = {};
 
 Users.getOneByID = (id) => {
-  return db.query(
-    "SELECT UserID, UserEmail, UserFirstName, UserLastName, UserEmailVerified, UserVerificationCode FROM Users WHERE UserID = $1",
-    [id]
-  );
+  return db.query("SELECT * FROM Users WHERE UserID = $1", [id]);
+};
+
+Users.getOneByEmail = (email) => {
+  return db.query("SELECT * FROM Users WHERE UserEmail = $1", [email]);
 };
 
 Users.createOne = (email, firstname, lastname, password) => {
@@ -26,6 +27,13 @@ Users.updateOne = (
   return db.query(
     "UPDATE Users SET UserFirstName = $1, UserLastName = $2, UserEmailVerified = $3, UserVerificationCode = $4 WHERE UserID = $5 returning*",
     [firstname, lastname, emailverified, verificationcode, id]
+  );
+};
+
+Users.updateVerificationStatus = (id, emailverified, verificationcode) => {
+  return db.query(
+    "UPDATE Users SET UserEmailVerified = $1, UserVerificationCode = $2 WHERE UserID = $3 returning*",
+    [emailverified, verificationcode, id]
   );
 };
 

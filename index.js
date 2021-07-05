@@ -5,7 +5,14 @@ const { handleError } = require("./utils/errors");
 const app = express();
 const morgan = require("morgan");
 const { categoryRouter } = require("./resources/routes/categories.route");
-const { OrderRouter } = require("./resources/routes/orders.route");
+const { orderRouter } = require("./resources/routes/orders.route");
+const {
+  signInAnAdmin,
+  createAnAdmin,
+  ProtectAdmin,
+} = require("./resources/controllers/authorization");
+const { UserRouter } = require("./resources/routes/user.route");
+const { cartRouter } = require("./resources/routes/cart.route");
 
 app.use(express.json());
 app.use(morgan("tiny"));
@@ -16,9 +23,18 @@ app.get("/api/hello", (request, response) => {
   });
 });
 
-app.use("/api/admin/products", productRouter);
-app.use("/api/admin/categories", categoryRouter);
-app.use("/api/admin/orders", OrderRouter);
+app.use("/api/v1/products", productRouter);
+app.use("/api/v1/categories", categoryRouter);
+app.use("/api/v1/orders", orderRouter);
+// app.use("/api/v1/users/", UserRouter);
+
+//routes for handling user requests
+app.use("/api/v1/users", UserRouter);
+app.use("/api/v1/users/cart", cartRouter);
+app.get("/api/v1/users/orders", cartRouter);
+
+app.post("/api/v1/admin/signin", signInAnAdmin);
+app.post("/api/v1/admin/signup", createAnAdmin);
 
 const port = process.env.PORT || 3000;
 

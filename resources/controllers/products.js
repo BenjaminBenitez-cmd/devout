@@ -13,7 +13,7 @@ const {
   OrderCRUD,
 } = require("../../database/crud");
 const { ErrorHandler } = require("../../utils/errors");
-const checkResults = require("../../utils/validate");
+const { checkResults } = require("../../utils/validate");
 
 const addAProduct = async (request, response, next) => {
   // if (!request.body) next(new ErrorHandler(400, "Request Body Missing"));

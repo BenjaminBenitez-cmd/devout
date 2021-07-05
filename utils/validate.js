@@ -10,4 +10,18 @@ const checkResults = (response, statuscode, message) => {
   }
 };
 
-module.exports = checkResults;
+const checkIfAvailable = (inventoryamount, inventorylive, productQuantity) => {
+  let isValid;
+  if (inventoryamount < productQuantity) {
+    isValid = false;
+  } else if (inventorylive === false) {
+    isValid = false;
+  }
+
+  return isValid;
+};
+
+module.exports = {
+  checkResults,
+  checkIfAvailable,
+};
