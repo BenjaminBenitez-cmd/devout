@@ -1,17 +1,14 @@
-const {
+import { SKUCRUD, ProductCRUD, ImageCRUD } from "../../database/crud";
+import { ErrorHandler } from "../../utils/errors";
+import { checkResults } from "../../utils/validate";
+import {
   NOT_AUTHORIZED,
   NOT_FOUND,
   ERROR,
   SUCCESS,
   MISSING_PARAMS,
   SUCCESS_MODIFICATION,
-} = require("../../constants/statuscodes");
-const { ImageCRUD } = require("../../database/crud");
-const { InventoryCRUD } = require("../../database/crud/inventory.crud");
-const { ProductCRUD } = require("../../database/crud/product.crud");
-const { SKUCRUD } = require("../../database/crud/sku.crud");
-const { ErrorHandler } = require("../../utils/errors");
-const { checkResults } = require("../../utils/validate");
+} from "../../constants/statuscodes";
 
 const createAVariant = async (request, response, next) => {
   const { productid } = request.params;
@@ -269,10 +266,12 @@ const getAllVariants = async (request, response, next) => {
   }
 };
 
-module.exports = {
+const VariantControllers = {
   createAVariant,
   getAVariant,
   updateAVariant,
   deleteAVariant,
   getAllVariants,
 };
+
+export default VariantControllers;

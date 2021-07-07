@@ -333,10 +333,12 @@ const deleteAProduct = async (request, response, next) => {
   }
 };
 
-module.exports = {
+const ProductControllers = {
   addAProduct,
   getAllProducts,
   getAProduct,
   updateAProduct,
   deleteAProduct,
 };
+
+export default ProductControllers;

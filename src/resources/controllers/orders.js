@@ -1,15 +1,13 @@
-const { SUCCESS, NOT_FOUND } = require("../../constants/statuscodes");
-const {
+import { SUCCESS, NOT_FOUND } from "../../constants/statuscodes";
+import {
   OrderCRUD,
   ProductCRUD,
   CartCRUD,
   CartItemCRUD,
   InventoryCRUD,
-  PaymentCRUD,
-} = require("../../database/crud");
-const { ErrorHandler } = require("../../utils/errors");
-const { checkResults, checkIfAvailable } = require("../../utils/validate");
-const { checkoutService } = require("../services/checkout.service");
+} from "../../database/crud";
+import { checkResults } from "../../utils/validate";
+import { checkoutService } from "../services/checkout.service";
 
 const getAllOrders = async (_, response, next) => {
   try {
@@ -174,8 +172,10 @@ const createOrder = async (request, response, next) => {
   }
 };
 
-module.exports = {
+const OrderControllers = {
   getAllOrders,
   getAllUserOrders,
   createOrder,
 };
+
+export default OrderControllers;

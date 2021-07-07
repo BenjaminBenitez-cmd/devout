@@ -1,11 +1,11 @@
-const { CategoriesCRUD, ProductCatCRUD } = require("../../database/crud");
-const { checkResults } = require("../../utils/validate");
-const {
+import { CategoriesCRUD, ProductCatCRUD } from "../../database/crud";
+import { checkResults } from "../../utils/validate";
+import {
   ERROR,
   SUCCESS_MODIFICATION,
   SUCCESS,
   NOT_FOUND,
-} = require("../../constants/statuscodes");
+} from "../../constants/statuscodes";
 
 const addACategory = async (request, response, next) => {
   const { name } = request.body;
@@ -115,7 +115,7 @@ const getCategoriesForProduct = async (request, response, next) => {
   }
 };
 
-module.exports = {
+const CategoryControllers = {
   addACategory,
   updateACategory,
   deleteACategory,
@@ -124,3 +124,5 @@ module.exports = {
   addCategoryToProduct,
   getCategoriesForProduct,
 };
+
+export default CategoryControllers;

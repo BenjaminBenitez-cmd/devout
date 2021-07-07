@@ -1,13 +1,13 @@
-const express = require("express");
+import { Router } from "express";
 import AuthControllers from "../controllers/authorization";
-const { getAllUserOrders, createOrder } = require("../controllers/orders");
+import OrderControllers from "../controllers/orders";
 
-const router = express.Router();
+const router = Router();
 
 //user orders
 router
   .route("/")
-  .get(AuthControllers.protectUser, getAllUserOrders)
-  .post(AuthControllers.protectUser, createOrder);
+  .get(AuthControllers.protectUser, OrderControllers.getAllUserOrders)
+  .post(AuthControllers.protectUser, OrderControllers.createOrder);
 
 module.exports.userOrderRouter = router;

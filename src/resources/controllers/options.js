@@ -1,10 +1,10 @@
-const {
+import {
   ERROR,
   SUCCESS,
   SUCCESS_MODIFICATION,
-} = require("../../constants/statuscodes");
-const { ProductOptionsCRUD } = require("../../database/crud/option.crud");
-const { checkResults } = require("../../utils/validate");
+} from "../../constants/statuscodes";
+import { ProductOptionsCRUD } from "../../database/crud";
+import { checkResults } from "../../utils/validate";
 
 const addAnOption = async (request, response, next) => {
   const { productid } = request.params;
@@ -72,9 +72,11 @@ const getOptions = async (request, response, next) => {
   }
 };
 
-module.exports = {
+const OptionControllers = {
   addAnOption,
   updateAnOption,
   deleteAnOption,
   getOptions,
 };
+
+export default OptionControllers;
