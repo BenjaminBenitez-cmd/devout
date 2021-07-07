@@ -36,4 +36,8 @@ Address.removeOneByUserID = (userid) => {
   return db.query("DELETE Addresses WHERE UserID = $1", [userid]);
 };
 
+Address.getOneByUserID = (userid) => {
+  return db.query("SELECT * FROM Addresses WHERE UserID = $1", [userid]);
+};
+
 module.exports.AddressCRUD = Address;

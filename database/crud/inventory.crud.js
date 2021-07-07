@@ -43,7 +43,7 @@ Inventory.removeOne = (id) => {
 Inventory.getAmount = (skuid) => {
   return db.query(
     ` 
-    SELECT I.InventoryQuantity, I.InventoryLive, PSK.SKUID, PSK.Price
+    SELECT I.InventoryQuantity, I.InventoryLive, PSK.SKUID, PSK.Price, I.InventoryID
     FROM ProductSKUS AS PSK
     INNER JOIN ProductInventory AS I
     ON PSK.ProductInventoryID = I.InventoryID

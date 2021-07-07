@@ -15,7 +15,7 @@ const {
   getValues,
   addAValue,
   removeAValue,
-} = require("../controllers/OptionValues");
+} = require("../controllers/optionValues");
 const router = express.Router({ mergeParams: true });
 const {
   getAllProducts,

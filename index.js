@@ -11,8 +11,10 @@ const {
   createAnAdmin,
   ProtectAdmin,
 } = require("./resources/controllers/authorization");
-const { UserRouter } = require("./resources/routes/user.route");
+const { userRouter } = require("./resources/routes/user.route");
 const { cartRouter } = require("./resources/routes/cart.route");
+const { userOrderRouter } = require("./resources/routes/userorder.route");
+const { AddressRouter } = require("./resources/routes/address.route");
 
 app.use(express.json());
 app.use(morgan("tiny"));
@@ -26,15 +28,19 @@ app.get("/api/hello", (request, response) => {
 app.use("/api/v1/products", productRouter);
 app.use("/api/v1/categories", categoryRouter);
 app.use("/api/v1/orders", orderRouter);
-// app.use("/api/v1/users/", UserRouter);
 
 //routes for handling user requests
-app.use("/api/v1/users", UserRouter);
+app.use("/api/v1/users/address", AddressRouter);
 app.use("/api/v1/users/cart", cartRouter);
-app.get("/api/v1/users/orders", cartRouter);
+app.use("/api/v1/users/orders", userOrderRouter);
+app.use("/api/v1/users", userRouter);
 
+//admin routes
 app.post("/api/v1/admin/signin", signInAnAdmin);
 app.post("/api/v1/admin/signup", createAnAdmin);
+
+//guest routes
+app.post("/api/v1/guest/order");
 
 const port = process.env.PORT || 3000;
 

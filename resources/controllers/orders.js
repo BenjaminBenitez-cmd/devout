@@ -8,7 +8,8 @@ const {
   PaymentCRUD,
 } = require("../../database/crud");
 const { ErrorHandler } = require("../../utils/errors");
-const { checkResults } = require("../../utils/validate");
+const { checkResults, checkIfAvailable } = require("../../utils/validate");
+const { checkoutService } = require("../services/checkout.service");
 
 const getAllOrders = async (_, response, next) => {
   try {
@@ -75,9 +76,9 @@ const getAllUserOrders = async (request, response, next) => {
   }
 };
 
-const createOrder = async (request, response, next) => {
+const createPublicOrder = async (request, response, next) => {
   const { id } = request.user;
-  const { provider, status } = request.body;
+  const { email } = request.body;
 
   /**
    *check if if items in cart are available
@@ -85,7 +86,7 @@ const createOrder = async (request, response, next) => {
    *check if user has payment details
    *create an order details column
    *create order items for each item in the cart
-   *return success message
+   *Update the inventory for each product
    */
   try {
     //get cart with id
@@ -98,75 +99,81 @@ const createOrder = async (request, response, next) => {
     );
     checkResults(cartItemsQuery, NOT_FOUND, "No items found");
 
-    //get products
-    const productItems = await Promise.all(
-      cartItemsQuery.rows.map(async (item) => {
-        const inventoryQuery = await InventoryCRUD.getAmount(item.skuid);
-        checkResults(inventoryQuery, NOT_FOUND, "Item is unavailable");
-        const { inventoryquantity, inventorylive } = inventoryQuery.rows[0];
+    const isValid = await checkoutService.validateItems(cartItemsQuery.rows);
+    // const newOrder = await checkoutService.createNewOrder(id, isValid);
 
-        if (item.quantity > inventoryquantity) {
-          throw new ErrorHandler(NOT_FOUND, "unable to meet quantity amount");
-        } else if (!inventorylive) {
-          throw new ErrorHandler(NOT_FOUND, "Item is not live");
-        }
+    //Cart and inventory clean up
 
-        return {
-          ...item,
-          ...inventoryQuery.rows[0],
-        };
-      })
-    );
+    isValid.forEach(async (item) => {
+      let newInventoryQuantity = item.inventoryquantity - item.quantity;
+      let isLive = item.inventorylive;
+      await InventoryCRUD.updateOne(
+        item.inventoryid,
+        newInventoryQuantity,
+        isLive
+      );
+    });
 
-    /**
-     * calculate total product items total
-     */
-    console.log(productItems);
-    let total = productItems.reduce(
-      (a, b) => a.price * a.quantity + b.price * b.quantity,
-      0
-    );
-
-    /**
-     * Insert payment info
-     * @params { float} total
-     * @params { String } provider
-     * @params { Boolean } status
-     *
-     */
-    const paymentQuery = await PaymentCRUD.createOne(total, provider, status);
-    checkResults(paymentQuery, NOT_FOUND, "Something went wrong");
-
-    /**
-     *
-     */
-    const orderDetailQuery = await OrderCRUD.createOne(
-      id,
-      total,
-      paymentQuery.rows[0].paymentid
-    );
-
-    checkResults(orderDetailQuery, NOT_FOUND, "Unable to add order");
-
-    await Promise.all(
-      cartItemsQuery.rows.forEach(async (item) => {
-        await OrderCRUD.items.createOne(
-          orderDetailQuery.rows[0].orderdetailid,
-          item.productid,
-          item.skuid
-        );
-      })
-    );
+    await CartCRUD.removeOne(cartQuery.rows[0].sessionid, id);
 
     response.status(SUCCESS).json({
       message: "success",
-      orders: { id: orderDetailQuery.rows[0].orderdetailid },
+      orders: { id: newOrder.orderdetailsid },
     });
   } catch (err) {
-    console.log(err);
     next(err);
   }
 };
+
+const createOrder = async (request, response, next) => {
+  const { id } = request.user;
+
+  /**
+   *check if if items in cart are available
+   *check if user has address
+   *check if user has payment details
+   *create an order details column
+   *create order items for each item in the cart
+   *Update the inventory for each product
+   */
+  try {
+    //get cart with id
+    const cartQuery = await CartCRUD.getOneByUserID(id);
+    checkResults(cartQuery, NOT_FOUND, "No cart found");
+
+    //get cartitems with cart id
+    const cartItemsQuery = await CartItemCRUD.getManyBySessionID(
+      cartQuery.rows[0].sessionid
+    );
+    checkResults(cartItemsQuery, NOT_FOUND, "No items found");
+
+    const isValid = await checkoutService.validateItems(cartItemsQuery.rows);
+
+    const newOrder = await checkoutService.createNewOrder(id, isValid);
+
+    //Cart and inventory clean up
+
+    isValid.forEach(async (item) => {
+      let newInventoryQuantity = item.inventoryquantity - item.quantity;
+      let isLive = item.inventorylive;
+      await InventoryCRUD.updateOne(
+        item.inventoryid,
+        newInventoryQuantity,
+        isLive
+      );
+    });
+
+    await CartCRUD.removeOne(cartQuery.rows[0].sessionid, id);
+
+    response.status(SUCCESS).json({
+      message: "success",
+      orders: { id: newOrder.orderdetailsid },
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
 module.exports = {
   getAllOrders,
   getAllUserOrders,

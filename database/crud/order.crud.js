@@ -34,10 +34,6 @@ Orders.items.getManyByProductID = (id) => {
   return db.query("SELECT * FROM OrderItems WHERE ProductID = $1", [id]);
 };
 
-Orders.items.getManyByProductID = (id) => {
-  return db.query("INSERT INTO OrderItems()", [id]);
-};
-
 Orders.items.getSalesByProductID = (id) => {
   return db.query(
     `

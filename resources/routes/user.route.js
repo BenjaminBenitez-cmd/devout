@@ -18,10 +18,4 @@ router.route("/signup").post(createAUser);
 //User Validation
 router.route("/validate").post(signupAuthentication);
 
-//user orders
-router
-  .route("/orders")
-  .get(protectUser, getAllUserOrders)
-  .post(protectUser, createOrder);
-
-module.exports.UserRouter = router;
+module.exports.userRouter = router;

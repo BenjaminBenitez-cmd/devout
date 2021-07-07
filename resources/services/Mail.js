@@ -9,17 +9,17 @@ function authMailer(email, text, link) {
   return new Promise((resolve, reject) => {
     // create reusable transporter object using the default SMTP transport
     const transporter = nodemailer.createTransport({
-      host: "smtp.ethereal.email",
-      port: 587,
+      host: process.env.MAIL_HOST,
+      port: process.env.MAIL_PORT,
       auth: {
-        user: "hilda.pagac@ethereal.email",
-        pass: "Epem1pAzPFtQcTvddF",
+        user: process.env.MAIL_USER,
+        pass: process.env.MAIL_PASS,
       },
     });
 
     // send mail with defined transport object
     let info = {
-      from: "grayson.murray@ethereal.email", // sender address
+      from: process.env.MAIL_USER, // sender address
       to: email, // list of receivers
       subject: "Hello ✔", // Subject line
       text: text, // plain text body
