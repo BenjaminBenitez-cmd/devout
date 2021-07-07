@@ -6,15 +6,12 @@ const app = express();
 const morgan = require("morgan");
 const { categoryRouter } = require("./resources/routes/categories.route");
 const { orderRouter } = require("./resources/routes/orders.route");
-const {
-  signInAnAdmin,
-  createAnAdmin,
-  ProtectAdmin,
-} = require("./resources/controllers/authorization");
+
 const { userRouter } = require("./resources/routes/user.route");
 const { cartRouter } = require("./resources/routes/cart.route");
 const { userOrderRouter } = require("./resources/routes/userorder.route");
 const { AddressRouter } = require("./resources/routes/address.route");
+import AuthControllers from "./resources/controllers/authorization";
 
 app.use(express.json());
 app.use(morgan("tiny"));
@@ -36,8 +33,8 @@ app.use("/api/v1/users/orders", userOrderRouter);
 app.use("/api/v1/users", userRouter);
 
 //admin routes
-app.post("/api/v1/admin/signin", signInAnAdmin);
-app.post("/api/v1/admin/signup", createAnAdmin);
+app.post("/api/v1/admin/signin", AuthControllers.signInAnAdmin);
+app.post("/api/v1/admin/signup", AuthControllers.createAnAdmin);
 
 //guest routes
 app.post("/api/v1/guest/order");

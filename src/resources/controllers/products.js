@@ -1,19 +1,19 @@
-const {
+import {
   SUCCESS,
   ERROR,
   NOT_FOUND,
   NOT_AUTHORIZED,
   SUCCESS_MODIFICATION,
-} = require("../../constants/statuscodes");
-const {
+} from "../../constants/statuscodes";
+import {
   InventoryCRUD,
   ProductCRUD,
   SKUCRUD,
   ImageCRUD,
   OrderCRUD,
-} = require("../../database/crud");
-const { ErrorHandler } = require("../../utils/errors");
-const { checkResults } = require("../../utils/validate");
+} from "../../database/crud";
+import { ErrorHandler } from "../../utils/errors";
+import { checkResults } from "../../utils/validate";
 
 const addAProduct = async (request, response, next) => {
   // if (!request.body) next(new ErrorHandler(400, "Request Body Missing"));

@@ -1,5 +1,5 @@
 const express = require("express");
-const { protectUser } = require("../controllers/authorization");
+import AuthControllers from "../controllers/authorization";
 const { getAllUserOrders, createOrder } = require("../controllers/orders");
 
 const router = express.Router();
@@ -7,7 +7,7 @@ const router = express.Router();
 //user orders
 router
   .route("/")
-  .get(protectUser, getAllUserOrders)
-  .post(protectUser, createOrder);
+  .get(AuthControllers.protectUser, getAllUserOrders)
+  .post(AuthControllers.protectUser, createOrder);
 
 module.exports.userOrderRouter = router;

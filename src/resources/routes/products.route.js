@@ -1,5 +1,5 @@
 const express = require("express");
-const { protectAdmin, protectUser } = require("../controllers/authorization");
+
 const {
   getCategoriesForProduct,
   addCategoryToProduct,

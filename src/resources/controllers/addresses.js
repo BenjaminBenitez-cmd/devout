@@ -1,10 +1,10 @@
-const {
+import {
   SUCCESS,
   NOT_FOUND,
   SUCCESS_MODIFICATION,
-} = require("../../constants/statuscodes");
-const { AddressCRUD } = require("../../database/crud");
-const { checkResults } = require("../../utils/validate");
+} from "../../constants/statuscodes";
+import { checkResults } from "../../utils/validate";
+import { AddressCRUD } from "../../database/crud";
 
 const addAAddress = async (request, response, next) => {
   const { id } = request.user;
@@ -70,8 +70,10 @@ const getAddress = async (request, response, next) => {
   }
 };
 
-module.exports = {
+const AddressControllers = {
   addAAddress,
   updateAddress,
   getAddress,
 };
+
+export default AddressControllers;

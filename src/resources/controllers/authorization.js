@@ -246,7 +246,7 @@ const protectUser = async (request, response, next) => {
   }
 };
 
-module.exports = {
+const AuthControllers = {
   signInAnAdmin,
   createAnAdmin,
   protectAdmin,
@@ -255,3 +255,5 @@ module.exports = {
   signInAUser,
   protectUser,
 };
+
+export default AuthControllers;
