@@ -1,12 +1,12 @@
-const {
+import { checkResults } from "../../utils/validate";
+import { ErrorHandler } from "../../utils/errors";
+import { CartItemCRUD, InventoryCRUD } from "../../database/crud";
+import {
   SUCCESS_MODIFICATION,
   ERROR,
   NOT_FOUND,
   SUCCESS,
-} = require("../../constants/statuscodes");
-const { CartItemCRUD, InventoryCRUD } = require("../../database/crud");
-const { ErrorHandler } = require("../../utils/errors");
-const { checkResults } = require("../../utils/validate");
+} from "../../constants/statuscodes";
 
 const getAllItems = async (request, response, next) => {
   const { cartid } = request.params;
@@ -122,9 +122,11 @@ const deleteCartItem = async (request, response, next) => {
   }
 };
 
-module.exports = {
+const CartItemController = {
   addACartItem,
   getAllItems,
   updateCartItem,
   deleteCartItem,
 };
+
+export default CartItemController;
