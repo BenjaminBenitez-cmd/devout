@@ -1,11 +1,10 @@
-const {
+import { CartCRUD } from "../../database/crud";
+import { ErrorHandler } from "../../utils/errors";
+import {
   SUCCESS,
   ERROR,
   SUCCESS_MODIFICATION,
-} = require("../../constants/statuscodes");
-const { CartItemCRUD } = require("../../database/crud");
-const { CartCRUD } = require("../../database/crud/cart.crud");
-const { ErrorHandler } = require("../../utils/errors");
+} from "../../constants/statuscodes";
 
 const addACart = async (request, response, next) => {
   const { id } = request.user;
@@ -93,8 +92,10 @@ const deleteACart = async (request, response, next) => {
   }
 };
 
-module.exports = {
+const CartControllers = {
   addACart,
   getACart,
   deleteACart,
 };
+
+export default CartControllers;
