@@ -1,17 +1,17 @@
-const { ErrorHandler } = require("../../utils/errors");
-const {
+import { ErrorHandler } from "../../utils/errors";
+import {
   NOT_AUTHORIZED,
   NOT_FOUND,
   SUCCESS,
   MISSING_PARAMS,
   ERROR,
   SUCCESS_MODIFICATION,
-} = require("../../constants/statuscodes");
-const { AdminCRUD, UsersCRUD } = require("../../database/crud/");
-const { checkResults } = require("../../utils/validate");
-const { Tokens } = require("../../utils/tokens");
-const { encrypt } = require("../../utils/encrypt");
-const { emailService } = require("../services/Mail");
+} from "../../constants/statuscodes";
+import { AdminCRUD, UserCRUD } from "../../database/crud/admin.crud";
+import { checkResults } from "../../utils/validate";
+import Tokens from "../../utils/tokens";
+import encrypt from "../../utils/encrypt";
+import emailService from "../services/Mail";
 
 const signInAnAdmin = async (request, response, next) => {
   const { username, password } = request.body;

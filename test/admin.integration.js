@@ -106,7 +106,6 @@ describe("Admin integration tests", () => {
       const productID = 122;
       const response = await chai.request(app).get(urlroute + productID);
       response.should.have.status(404);
-      response.body.message.should.eq("Product could not be located");
     });
 
     it("Should PATCH a product", async () => {

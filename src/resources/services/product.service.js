@@ -151,67 +151,73 @@ const getAllProducts = async () => {
   });
 };
 
-const getAProduct = async (request, response, next) => {
-  const { id } = request.params;
+/**
+ *
+ * @param { integer } id will be used to filter for the products
+ * @returns { object } with a product and it's variants
+ */
+const getAProduct = async (id) => {
   if (!id) new ErrorHandler(NOT_AUTHORIZED, "Missing id");
 
-  try {
-    const productQuery = await ProductCRUD.getOneByID(id);
-    checkResults(productQuery, NOT_FOUND, "Product could not be located");
+  return new Promise(async (resolve, reject) => {
+    try {
+      const productQuery = await ProductCRUD.getOneByID(id);
 
-    const {
-      productid,
-      productname,
-      productprice,
-      productcartdesc,
-      productshortdesc,
-      productlongdesc,
-      productdiscountid,
-    } = productQuery.rows[0];
+      if (productQuery.rows.length <= 0) {
+        reject(new ErrorHandler(NOT_FOUND, "Unable to find product"));
+      }
 
-    //GET SKUS with productid
-    const skuvariantsQuery = await SKUCRUD.getManyByProductID(productid);
-    checkResults(skuvariantsQuery, NOT_FOUND, "Product could not be located");
+      const {
+        productid,
+        productname,
+        productprice,
+        productcartdesc,
+        productshortdesc,
+        productlongdesc,
+        productdiscountid,
+      } = productQuery.rows[0];
 
-    //This is the result from fetching variants
-    const { rows } = skuvariantsQuery;
+      //GET SKUS with productid
+      const skuvariantsQuery = await SKUCRUD.getManyByProductID(productid);
+      checkResults(skuvariantsQuery, NOT_FOUND, "Product could not be located");
 
-    /**if there is only one variant it means we dont have to
-     * map the inventory to each row  */
+      //This is the result from fetching variants
+      const { rows } = skuvariantsQuery;
 
-    const mapvariants = await Promise.all(
-      rows.map(async (variant) => {
-        const { skuid, skuname, price, productinventoryid } = variant;
+      /**if there is only one variant it means we dont have to
+       * map the inventory to each row  */
 
-        const inventoryQuery = await InventoryCRUD.getOne(productinventoryid);
-        checkResults(
-          inventoryQuery,
-          NOT_FOUND,
-          "Could not find matching inventory"
-        );
+      const mapvariants = await Promise.all(
+        rows.map(async (variant) => {
+          const { skuid, skuname, price, productinventoryid } = variant;
 
-        const { inventoryquantity, inventorylive, inventoryunlimited } =
-          inventoryQuery.rows[0];
+          const inventoryQuery = await InventoryCRUD.getOne(productinventoryid);
+          checkResults(
+            inventoryQuery,
+            NOT_FOUND,
+            "Could not find matching inventory"
+          );
 
-        const imageQuery = await ImageCRUD.getManyByProductAndSKU(
-          productid,
-          skuid
-        );
+          const { inventoryquantity, inventorylive, inventoryunlimited } =
+            inventoryQuery.rows[0];
 
-        return {
-          skuid,
-          skuname,
-          price,
-          quantity: inventoryunlimited ? "unlimited" : inventoryquantity,
-          live: inventorylive,
-          images: imageQuery.rows,
-        };
-      })
-    );
+          const imageQuery = await ImageCRUD.getManyByProductAndSKU(
+            productid,
+            skuid
+          );
 
-    response.status(SUCCESS).json({
-      status: "Success",
-      product: {
+          return {
+            skuid,
+            skuname,
+            price,
+            quantity: inventoryunlimited ? "unlimited" : inventoryquantity,
+            live: inventorylive,
+            images: imageQuery.rows,
+          };
+        })
+      );
+
+      resolve({
         id: productid,
         name: productname,
         price: productprice,
@@ -220,108 +226,117 @@ const getAProduct = async (request, response, next) => {
         longdescription: productlongdesc,
         discountid: productdiscountid,
         variants: mapvariants,
-      },
-    });
-  } catch (err) {
-    console.log();
-    next(err);
-  }
+      });
+    } catch (err) {
+      console.log();
+      reject(err);
+    }
+  });
 };
 
-const updateAProduct = async (request, response, next) => {
-  const {
-    id,
-    skuid,
-    name,
-    price,
-    shortdescription,
-    longdescription,
-    images,
-    amount,
-  } = request.body;
+/**
+ *
+ * @param {integer} id
+ * @param {integer} skuid
+ * @param {string} name
+ * @param {float} price
+ * @param {string} shortdescription
+ * @param {string} longdescription
+ * @param {array} images
+ * @param {integer} amount
+ * @returns {object} this object contains the id and sku id of recently updated product
+ */
 
-  try {
-    //GET SKUs
-    const isItAVariant = await SKUCRUD.values.getOneBySKUID(skuid);
-    //Check if product is variant
-    if (isItAVariant.rows[0] !== undefined) {
-      throw new ErrorHandler(
-        ERROR,
-        "This is a variant update it with using variants"
+const updateAProduct = async (
+  id,
+  skuid,
+  name,
+  price,
+  shortdescription,
+  longdescription,
+  images,
+  amount
+) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      //GET SKUs
+      const isItAVariant = await SKUCRUD.values.getOneBySKUID(skuid);
+      //Check if product is variant
+      if (isItAVariant.rows[0] !== undefined) {
+        reject(
+          new ErrorHandler(
+            ERROR,
+            "This is a variant update it with using variants"
+          )
+        );
+      }
+
+      await ProductCRUD.updateOne(
+        id,
+        name,
+        price,
+        shortdescription,
+        longdescription
       );
-    }
 
-    const updateQuery = await ProductCRUD.updateOne(
-      id,
-      name,
-      price,
-      shortdescription,
-      longdescription
-    );
+      let imagesQuery;
 
-    checkResults(updateQuery, ERROR, "Unable to update product");
+      //Insert every image if urls were sent
+      if (images !== undefined && images.length > 0) {
+        imagesQuery = await Promise.all(
+          images.map(async (image) => {
+            const imageQuery = await ImageCRUD.createOne(image, id, skuid);
+            checkResults(imageQuery, ERROR, "Unable to add message");
+            let { imageid } = imageQuery.rows[0];
+            return {
+              id: imageid,
+              url: image,
+            };
+          })
+        );
+      }
 
-    let imagesQuery;
+      //update the inventory if parameters were sent
+      if (amount !== undefined && amount !== null) {
+        let islive = true;
+        let unlimited = false;
 
-    //Insert every image if urls were sent
-    if (images !== undefined && images.length > 0) {
-      imagesQuery = await Promise.all(
-        images.map(async (image) => {
-          const imageQuery = await ImageCRUD.createOne(image, id, skuid);
-          checkResults(imageQuery, ERROR, "Unable to add message");
-          let { imageid } = imageQuery.rows[0];
-          return {
-            id: imageid,
-            url: image,
-          };
-        })
-      );
-    }
+        //Get the inventory id
+        const skuQuery = await SKUCRUD.getOneBySKUID(skuid);
+        if (skuQuery.rows.lenght <= 0) {
+          reject(new ErrorHandler(NOT_FOUND, "Unable to find values"));
+        }
 
-    //update the inventory if urls were sent
-    if (amount !== undefined && amount !== null) {
-      let islive = true;
-      let unlimited = false;
+        const { productinventoryid } = skuQuery.rows[0];
 
-      //Get the inventory id
-      const skuQuery = await SKUCRUD.getOneBySKUID(skuid);
-      checkResults(skuQuery, NOT_FOUND, "Unable to find sku");
+        await InventoryCRUD.updateOne(
+          productinventoryid,
+          amount,
+          islive,
+          unlimited
+        );
+      }
 
-      const { productinventoryid } = skuQuery.rows[0];
-
-      await InventoryCRUD.updateOne(
-        productinventoryid,
-        amount,
-        islive,
-        unlimited
-      );
-      checkResults(InventoryCRUD, ERROR, "Unable to update Inventory");
-    }
-
-    response.status(SUCCESS_MODIFICATION).json({
-      status: "Success",
-      product: {
+      resolve({
         id: id,
         skuid: skuid,
         updatedimages: imagesQuery,
-      },
-    });
-  } catch (err) {
-    next(err);
-  }
+      });
+    } catch (err) {
+      reject(err);
+    }
+  });
 };
 
-const deleteAProduct = async (request, response, next) => {
-  const { id } = request.params;
-
-  try {
-    const deleteQuery = await ProductCRUD.removeOne(id);
-    checkResults(deleteQuery, ERROR, "Unable to delete product");
-
-    response.status(SUCCESS_MODIFICATION).send("Success");
-  } catch (err) {
-    next(err);
-  }
+const deleteAProduct = async (id) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      await ProductCRUD.removeOne(id);
+      resolve(true);
+    } catch (err) {
+      reject(err);
+    }
+  });
 };
 
 const ProductService = {

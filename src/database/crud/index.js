@@ -13,8 +13,10 @@ const { CartCRUD } = require("./cart.crud");
 const { CartItemCRUD } = require("./cartitems.crud");
 const { ProductCatCRUD } = require("./productcategories.crud");
 const { PaymentCRUD } = require("./payment.crud");
+const { ProductOptionsCRUD } = require("./option.crud");
 
 module.exports = {
+  ProductOptionsCRUD,
   PaymentCRUD,
   CartItemCRUD,
   CartCRUD,

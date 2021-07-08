@@ -63,71 +63,11 @@ const getAProduct = async (request, response, next) => {
   if (!id) new ErrorHandler(NOT_AUTHORIZED, "Missing id");
 
   try {
-    const productQuery = await ProductCRUD.getOneByID(id);
-    checkResults(productQuery, NOT_FOUND, "Product could not be located");
-
-    const {
-      productid,
-      productname,
-      productprice,
-      productcartdesc,
-      productshortdesc,
-      productlongdesc,
-      productdiscountid,
-    } = productQuery.rows[0];
-
-    //GET SKUS with productid
-    const skuvariantsQuery = await SKUCRUD.getManyByProductID(productid);
-    checkResults(skuvariantsQuery, NOT_FOUND, "Product could not be located");
-
-    //This is the result from fetching variants
-    const { rows } = skuvariantsQuery;
-
-    /**if there is only one variant it means we dont have to
-     * map the inventory to each row  */
-
-    const mapvariants = await Promise.all(
-      rows.map(async (variant) => {
-        const { skuid, skuname, price, productinventoryid } = variant;
-
-        const inventoryQuery = await InventoryCRUD.getOne(productinventoryid);
-        checkResults(
-          inventoryQuery,
-          NOT_FOUND,
-          "Could not find matching inventory"
-        );
-
-        const { inventoryquantity, inventorylive, inventoryunlimited } =
-          inventoryQuery.rows[0];
-
-        const imageQuery = await ImageCRUD.getManyByProductAndSKU(
-          productid,
-          skuid
-        );
-
-        return {
-          skuid,
-          skuname,
-          price,
-          quantity: inventoryunlimited ? "unlimited" : inventoryquantity,
-          live: inventorylive,
-          images: imageQuery.rows,
-        };
-      })
-    );
+    const product = await ProductService.getAProduct(id);
 
     response.status(SUCCESS).json({
       status: "Success",
-      product: {
-        id: productid,
-        name: productname,
-        price: productprice,
-        cartdescription: productcartdesc,
-        shortdescription: productshortdesc,
-        longdescription: productlongdesc,
-        discountid: productdiscountid,
-        variants: mapvariants,
-      },
+      product,
     });
   } catch (err) {
     next(err);
@@ -147,62 +87,7 @@ const updateAProduct = async (request, response, next) => {
   } = request.body;
 
   try {
-    //GET SKUs
-    const isItAVariant = await SKUCRUD.values.getOneBySKUID(skuid);
-    //Check if product is variant
-    if (isItAVariant.rows[0] !== undefined) {
-      throw new ErrorHandler(
-        ERROR,
-        "This is a variant update it with using variants"
-      );
-    }
-
-    const updateQuery = await ProductCRUD.updateOne(
-      id,
-      name,
-      price,
-      shortdescription,
-      longdescription
-    );
-
-    checkResults(updateQuery, ERROR, "Unable to update product");
-
-    let imagesQuery;
-
-    //Insert every image if urls were sent
-    if (images !== undefined && images.length > 0) {
-      imagesQuery = await Promise.all(
-        images.map(async (image) => {
-          const imageQuery = await ImageCRUD.createOne(image, id, skuid);
-          checkResults(imageQuery, ERROR, "Unable to add message");
-          let { imageid } = imageQuery.rows[0];
-          return {
-            id: imageid,
-            url: image,
-          };
-        })
-      );
-    }
-
-    //update the inventory if urls were sent
-    if (amount !== undefined && amount !== null) {
-      let islive = true;
-      let unlimited = false;
-
-      //Get the inventory id
-      const skuQuery = await SKUCRUD.getOneBySKUID(skuid);
-      checkResults(skuQuery, NOT_FOUND, "Unable to find sku");
-
-      const { productinventoryid } = skuQuery.rows[0];
-
-      await InventoryCRUD.updateOne(
-        productinventoryid,
-        amount,
-        islive,
-        unlimited
-      );
-      checkResults(InventoryCRUD, ERROR, "Unable to update Inventory");
-    }
+    const product = await ProductService.updateAProduct(...request.body);
 
     response.status(SUCCESS_MODIFICATION).json({
       status: "Success",
