@@ -9,6 +9,8 @@ const pool = new Pool({
   idleTimeoutMillis: 1000,
 });
 
-module.exports = {
+const db = {
   query: (text, params) => pool.query(text, params),
 };
+
+export default db;

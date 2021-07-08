@@ -1,4 +1,4 @@
-const db = require("../../database/connection");
+import db from "../connection";
 
 const Inventory = {};
 
@@ -53,4 +53,4 @@ Inventory.getAmount = (skuid) => {
   );
 };
 
-module.exports.InventoryCRUD = Inventory;
+export const InventoryCRUD = Inventory;

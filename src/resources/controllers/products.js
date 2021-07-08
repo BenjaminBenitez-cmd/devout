@@ -14,6 +14,7 @@ import {
 } from "../../database/crud";
 import { ErrorHandler } from "../../utils/errors";
 import { checkResults } from "../../utils/validate";
+import ProductService from "../services/product.service";
 
 const addAProduct = async (request, response, next) => {
   // if (!request.body) next(new ErrorHandler(400, "Request Body Missing"));
@@ -29,70 +30,13 @@ const addAProduct = async (request, response, next) => {
     amount,
   } = request.body;
 
-  let isLive = true;
-  let unlimited = false;
-
   try {
-    //insert the amount to the inventory first
-    const inventoryInsert = await InventoryCRUD.createOne(
-      amount,
-      isLive,
-      unlimited
-    );
-    checkResults(inventoryInsert, ERROR, "Something went wrong");
-
-    //Insert the product
-    const productInsert = await ProductCRUD.createOne(
-      name,
-      price,
-      cartdesc,
-      shortdesc,
-      longdesc
-    );
-    checkResults(productInsert, ERROR, "Something went wrong");
-
-    const { inventoryid } = inventoryInsert.rows[0];
-    const { productid } = productInsert.rows[0];
-
-    //We will now create our new SKU for our product
-    const skuInsert = await SKUCRUD.createOne(
-      skucode,
-      price,
-      inventoryid,
-      productid
-    );
-    checkResults(skuInsert, ERROR, "Something went wrong");
-
-    const { skuid } = skuInsert.rows[0];
-
-    //Insert all images
-    const imageQuery = await Promise.all(
-      //insert all image urls to db
-      images.map(async (image) => {
-        let imageResult = await ImageCRUD.createOne(image, productid, skuid);
-        checkResults(imageResult, ERROR, "Something went wrong");
-        let { imageid, imageurl } = imageResult.rows[0];
-        return {
-          id: imageid,
-          url: imageurl,
-        };
-      })
-    );
+    //add a product
+    const newProduct = await ProductService.addAProduct(...request.body);
 
     response.status(SUCCESS).json({
       status: "Success",
-      product: {
-        id: productid,
-        skuid: skuid,
-        name: name,
-        cartdescription: cartdesc,
-        longdescription: longdesc,
-        shortdescription: shortdesc,
-        price: price,
-        amount: amount,
-        islive: isLive,
-        images: imageQuery,
-      },
+      product: newProduct,
     });
   } catch (err) {
     console.log(err);
@@ -102,60 +46,14 @@ const addAProduct = async (request, response, next) => {
 
 const getAllProducts = async (request, response, next) => {
   try {
-    const productQuery = await ProductCRUD.getMany();
-    checkResults(productQuery);
-
-    const { rows } = productQuery;
-
-    const productsOrdersAndSales = await Promise.all(
-      rows.map(async (product) => {
-        const {
-          productid,
-          productname,
-          productprice,
-          productcartdesc,
-          productshortdesc,
-          productlongdesc,
-          productdiscountid,
-        } = product;
-
-        const saleQuery = await OrderCRUD.items.getSalesByProductID(productid);
-
-        const orderQuery = await OrderCRUD.items.getManyByProductID(productid);
-        const skuQuery = await SKUCRUD.getManyByProductID(productid);
-        checkResults(skuQuery, NOT_FOUND, "Unable to fetch SKU");
-
-        const { skuid } = skuQuery.rows[0];
-
-        const imageQuery = await ImageCRUD.getManyByProductAndSKU(
-          productid,
-          skuid
-        );
-
-        checkResults(imageQuery, NOT_FOUND, "Unable to fetch images");
-
-        return {
-          id: productid,
-          name: productname,
-          price: productprice,
-          cartdescription: productcartdesc,
-          shortdescription: productshortdesc,
-          longdescription: productlongdesc,
-          discountid: productdiscountid,
-          sales: saleQuery.rows.length,
-          orders: orderQuery.rows.length,
-          images: imageQuery.rows,
-        };
-      })
-    );
+    const productsAndSales = await ProductService.getAllProducts();
 
     response.status(SUCCESS).json({
       status: "success",
-      results: productsOrdersAndSales.length,
-      products: productsOrdersAndSales,
+      results: productsAndSales.length,
+      products: productsAndSales,
     });
   } catch (err) {
-    console.log(err);
     next(err);
   }
 };
@@ -232,7 +130,6 @@ const getAProduct = async (request, response, next) => {
       },
     });
   } catch (err) {
-    console.log();
     next(err);
   }
 };

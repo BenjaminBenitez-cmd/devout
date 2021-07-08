@@ -1,4 +1,4 @@
-const db = require("../connection");
+import db from "../connection";
 
 const Orders = { details: {}, items: {} };
 
@@ -82,4 +82,4 @@ Orders.createOne = (userid, total, paymentid) => {
   );
 };
 
-module.exports.OrderCRUD = Orders;
+export const OrderCRUD = Orders;

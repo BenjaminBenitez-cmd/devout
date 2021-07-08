@@ -10,7 +10,7 @@ const { orderRouter } = require("./resources/routes/orders.route");
 const { userRouter } = require("./resources/routes/user.route");
 const { cartRouter } = require("./resources/routes/cart.route");
 const { userOrderRouter } = require("./resources/routes/userorder.route");
-const { AddressRouter } = require("./resources/routes/address.route");
+const { addressRouter } = require("./resources/routes/address.route");
 import AuthControllers from "./resources/controllers/authorization";
 
 app.use(express.json());
@@ -27,7 +27,7 @@ app.use("/api/v1/categories", categoryRouter);
 app.use("/api/v1/orders", orderRouter);
 
 //routes for handling user requests
-app.use("/api/v1/users/address", AddressRouter);
+app.use("/api/v1/users/address", addressRouter);
 app.use("/api/v1/users/cart", cartRouter);
 app.use("/api/v1/users/orders", userOrderRouter);
 app.use("/api/v1/users", userRouter);

@@ -1,4 +1,4 @@
-const db = require("../connection");
+import db from "../connection";
 
 const SKU = { values: {} };
 
@@ -74,4 +74,4 @@ SKU.removeOne = (id) => {
   return db.query(`DELETE FROM ProductSKUS WHERE SKUID = $1 returning*`, [id]);
 };
 
-module.exports.SKUCRUD = SKU;
+export const SKUCRUD = SKU;

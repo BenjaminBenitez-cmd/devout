@@ -3,14 +3,14 @@ const chai = require("chai");
 const chaihttp = require("chai-http");
 
 const { Pool } = require("pg");
-const client = require("../database/connection");
+const client = require("../src/database/connection");
 const {
   ProductCRUD,
   ImageCRUD,
   InventoryCRUD,
   SKUCRUD,
-} = require("../database/crud");
-const { AdminCRUD } = require("../database/crud/admin.crud");
+} = require("../src/database/crud");
+const { AdminCRUD } = require("../src/database/crud/admin.crud");
 chai.use(chaihttp);
 chai.should();
 

@@ -1,4 +1,4 @@
-const db = require("../connection");
+import db from "../connection";
 
 const ProductCategories = {};
 
@@ -24,4 +24,4 @@ ProductCategories.getMany = (productid) => {
   );
 };
 
-module.exports.ProductCatCRUD = ProductCategories;
+export const ProductCatCRUD = ProductCategories;

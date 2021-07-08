@@ -1,4 +1,4 @@
-const db = require("../connection");
+import db from "../connection";
 
 const Cart = {};
 
@@ -27,4 +27,4 @@ Cart.updateQuantity = (id, quantity) => {
   );
 };
 
-module.exports.CartCRUD = Cart;
+export const CartCRUD = Cart;

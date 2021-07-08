@@ -9,4 +9,4 @@ router
   .put(AuthControllers.protectUser, AddressControllers.updateAddress)
   .post(AuthControllers.protectUser, AddressControllers.addAAddress);
 
-module.exports.AddressRouter = router;
+export const addressRouter = router;

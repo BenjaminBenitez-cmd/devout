@@ -1,4 +1,9 @@
-import { SKUCRUD, ProductCRUD, ImageCRUD } from "../../database/crud";
+import {
+  SKUCRUD,
+  ProductCRUD,
+  ImageCRUD,
+  InventoryCRUD,
+} from "../../database/crud";
 import { ErrorHandler } from "../../utils/errors";
 import { checkResults } from "../../utils/validate";
 import {

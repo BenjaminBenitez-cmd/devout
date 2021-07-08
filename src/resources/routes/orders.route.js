@@ -6,4 +6,4 @@ router.route("/").get(OrderControllers.getAllOrders);
 
 router.route("/:orderid").get().delete();
 
-module.exports.orderRouter = router;
+export const orderRouter = router;

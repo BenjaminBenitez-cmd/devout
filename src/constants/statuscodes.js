@@ -1,15 +1,6 @@
-const NOT_FOUND = 404;
-const NOT_AUTHORIZED = 401;
-const MISSING_PARAMS = 400;
-const ERROR = 500;
-const SUCCESS = 200;
-const SUCCESS_MODIFICATION = 201;
-
-module.exports = {
-  NOT_FOUND,
-  NOT_AUTHORIZED,
-  MISSING_PARAMS,
-  ERROR,
-  SUCCESS,
-  SUCCESS_MODIFICATION,
-};
+export const NOT_FOUND = 404;
+export const NOT_AUTHORIZED = 401;
+export const MISSING_PARAMS = 400;
+export const ERROR = 500;
+export const SUCCESS = 200;
+export const SUCCESS_MODIFICATION = 201;

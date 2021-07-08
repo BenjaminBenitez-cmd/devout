@@ -9,7 +9,7 @@ const { NOT_FOUND } = require("../constants/statuscodes");
  * @returns { error } returns an error instance
  */
 
-const checkResults = (response, statuscode, message) => {
+export const checkResults = (response, statuscode, message) => {
   if (response.rows[0] === undefined) {
     throw new ErrorHandler(
       statuscode || NOT_FOUND,
@@ -25,7 +25,11 @@ const checkResults = (response, statuscode, message) => {
  * @param { integer } productQuantity the quantity sent by the user
  * @returns
  */
-const checkIfAvailable = (inventoryamount, inventorylive, productQuantity) => {
+export const checkIfAvailable = (
+  inventoryamount,
+  inventorylive,
+  productQuantity
+) => {
   let isValid = true;
   if (inventoryamount < productQuantity) {
     isValid = false;
@@ -33,9 +37,4 @@ const checkIfAvailable = (inventoryamount, inventorylive, productQuantity) => {
     isValid = false;
   }
   return isValid;
-};
-
-module.exports = {
-  checkResults,
-  checkIfAvailable,
 };

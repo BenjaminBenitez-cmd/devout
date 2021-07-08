@@ -1,4 +1,4 @@
-const db = require("../connection");
+import db from "../connection";
 
 const CartItem = {};
 
@@ -34,4 +34,4 @@ CartItem.removeOne = (cartid, itemid) => {
   ]);
 };
 
-module.exports.CartItemCRUD = CartItem;
+export const CartItemCRUD = CartItem;

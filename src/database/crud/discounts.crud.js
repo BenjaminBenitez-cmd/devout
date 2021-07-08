@@ -1,4 +1,4 @@
-const db = require("../../database/connection");
+import db from "../connection";
 
 const Discount = {};
 
@@ -43,4 +43,4 @@ Discount.removeOne = (id) => {
   );
 };
 
-module.exports.DiscountCRUD = Discount;
+export const DiscountCRUD = Discount;

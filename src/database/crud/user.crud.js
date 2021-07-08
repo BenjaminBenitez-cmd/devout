@@ -1,4 +1,4 @@
-const db = require("../connection");
+import db from "../connection";
 
 const Users = {};
 
@@ -37,4 +37,4 @@ Users.updateVerificationStatus = (id, emailverified, verificationcode) => {
   );
 };
 
-module.exports.UsersCRUD = Users;
+export const UsersCRUD = Users;

@@ -1,4 +1,4 @@
-const bcrypt = require("bcrypt");
+import bcrypt from "bcrypt";
 
 const hashPassword = async (password, saltRounds = 10) => {
   try {
@@ -26,7 +26,9 @@ const comparePassword = async (password, hash) => {
   return false;
 };
 
-module.exports.encrypt = {
+const encrypt = {
   hashPassword,
   comparePassword,
 };
+
+export default encrypt;

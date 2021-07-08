@@ -1,6 +1,6 @@
-"use strict";
-require("dotenv").config();
-const nodemailer = require("nodemailer");
+import dotenv from "dotenv";
+dotenv.config();
+import nodemailer from "nodemailer";
 
 // async..await is not allowed in global scope, must use a wrapper
 function authMailer(email, text, link) {
@@ -35,6 +35,8 @@ function authMailer(email, text, link) {
   });
 }
 
-module.exports.emailService = {
+const emailService = {
   authMailer,
 };
+
+export default emailService;

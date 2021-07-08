@@ -59,4 +59,4 @@ router
   .get(ProductControllers.getAProduct)
   .delete(ProductControllers.deleteAProduct);
 
-module.exports.productRouter = router;
+export const productRouter = router;

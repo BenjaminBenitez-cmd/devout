@@ -1,4 +1,4 @@
-const db = require("../connection");
+import db from "../connection";
 
 const Product = {};
 
@@ -66,4 +66,4 @@ Product.getOneByID = (id) => {
   return db.query("SELECT * FROM Products WHERE ProductID = $1", [id]);
 };
 
-module.exports.ProductCRUD = Product;
+export const ProductCRUD = Product;

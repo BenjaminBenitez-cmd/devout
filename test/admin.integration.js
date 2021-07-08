@@ -8,7 +8,7 @@ chai.should();
 chai.use(chaiHttp);
 
 describe("Admin integration tests", () => {
-  let app = require("../index");
+  let app = require("../src/index");
   const APIROUTE = "/api/v1";
 
   describe("/api/admin/products", () => {

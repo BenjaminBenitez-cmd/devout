@@ -1,4 +1,4 @@
-const db = require("../connection");
+import db from "../connection";
 
 const Image = {};
 
@@ -22,4 +22,4 @@ Image.deleteOne = (id) => {
   ]);
 };
 
-module.exports.ImageCRUD = Image;
+export const ImageCRUD = Image;

@@ -1,4 +1,4 @@
-const db = require("../../database/connection");
+import db from "../connection";
 
 const Address = {};
 
@@ -40,4 +40,4 @@ Address.getOneByUserID = (userid) => {
   return db.query("SELECT * FROM Addresses WHERE UserID = $1", [userid]);
 };
 
-module.exports.AddressCRUD = Address;
+export const AddressCRUD = Address;

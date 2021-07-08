@@ -1,4 +1,4 @@
-const db = require("../../database/connection");
+import db from "../connection";
 
 const Categories = {};
 
@@ -28,4 +28,4 @@ Categories.removeOne = (id) => {
   return db.query("DELETE FROM ProductCategories WHERE CategoryID = $1", [id]);
 };
 
-module.exports.CategoriesCRUD = Categories;
+export const CategoriesCRUD = Categories;

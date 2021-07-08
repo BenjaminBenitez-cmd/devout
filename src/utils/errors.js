@@ -1,4 +1,4 @@
-class ErrorHandler extends Error {
+export class ErrorHandler extends Error {
   constructor(statusCode, message) {
     super();
     this.statusCode = statusCode;
@@ -6,7 +6,7 @@ class ErrorHandler extends Error {
   }
 }
 
-const handleError = (err, res) => {
+export const handleError = (err, res) => {
   const { statusCode, message } = err;
   console.log(err);
   if (statusCode === undefined) {
@@ -21,9 +21,4 @@ const handleError = (err, res) => {
     statusCode,
     message,
   });
-};
-
-module.exports = {
-  ErrorHandler,
-  handleError,
 };

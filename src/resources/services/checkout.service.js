@@ -1,11 +1,7 @@
-const { NOT_FOUND } = require("../../constants/statuscodes");
-const {
-  OrderCRUD,
-  InventoryCRUD,
-  PaymentCRUD,
-} = require("../../database/crud");
-const { ErrorHandler } = require("../../utils/errors");
-const { checkResults, checkIfAvailable } = require("../../utils/validate");
+import { NOT_FOUND } from "../../constants/statuscodes";
+import { OrderCRUD, InventoryCRUD, PaymentCRUD } from "../../database/crud";
+import { checkResults, checkIfAvailable } from "../../utils/validate";
+import { ErrorHandler } from "../../utils/errors";
 
 /**
  * ValidateItems will check the inventory against items
@@ -93,7 +89,9 @@ const createNewOrder = async (userid, items) => {
   });
 };
 
-module.exports.checkoutService = {
+const checkoutService = {
   validateItems,
   createNewOrder,
 };
+
+export default checkoutService;

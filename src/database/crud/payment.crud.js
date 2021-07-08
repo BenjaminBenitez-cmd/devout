@@ -1,4 +1,4 @@
-const db = require("../../database/connection");
+import db from "../connection";
 
 const Payment = {};
 
@@ -35,4 +35,4 @@ Payment.deleteOne = (id) => {
   );
 };
 
-module.exports.PaymentCRUD = Payment;
+export const PaymentCRUD = Payment;

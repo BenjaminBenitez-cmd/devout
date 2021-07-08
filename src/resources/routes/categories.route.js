@@ -10,4 +10,4 @@ router
 
 router.route("/:id").delete(CategoryControllers.deleteACategory);
 
-module.exports.categoryRouter = router;
+export const categoryRouter = router;

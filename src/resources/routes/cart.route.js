@@ -25,4 +25,4 @@ router
   .put(AuthControllers.protectUser, CartItemController.updateCartItem)
   .delete(AuthControllers.protectUser, CartItemController.deleteCartItem);
 
-module.exports.cartRouter = router;
+export const cartRouter = router;

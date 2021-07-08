@@ -1,4 +1,4 @@
-const db = require("../../database/connection");
+import db from "../connection";
 
 const Options = { values: {} };
 
@@ -82,4 +82,4 @@ Options.removeOne = (id) => {
   ]);
 };
 
-module.exports.ProductOptionsCRUD = Options;
+export const ProductOptionsCRUD = Options;

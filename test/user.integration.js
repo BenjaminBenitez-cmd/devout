@@ -7,8 +7,8 @@ let chaiHttp = require("chai-http");
 chai.should();
 chai.use(chaiHttp);
 
-describe("User integration tests", () => {
-  let app = require("../index");
+describe.skip("User integration tests", () => {
+  let app = require("../src/index");
   const APIROUTE = "/api/v1/users";
 
   /**

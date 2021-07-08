@@ -1,4 +1,4 @@
-const db = require("../../database/connection");
+import db from "../connection";
 
 const Admin = {};
 
@@ -28,4 +28,4 @@ Admin.getOneByID = (id) => {
   return db.query(`SELECT * FROM AdminUsers WHERE AdminID = $1`, [id]);
 };
 
-module.exports.AdminCRUD = Admin;
+export const AdminCRUD = Admin;

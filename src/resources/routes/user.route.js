@@ -12,4 +12,4 @@ router.route("/signup").post(AuthControllers.createAUser);
 //User Validation
 router.route("/validate").post(AuthControllers.signupAuthentication);
 
-module.exports.userRouter = router;
+export const userRouter = router;

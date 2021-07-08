@@ -10,4 +10,4 @@ router
   .get(AuthControllers.protectUser, OrderControllers.getAllUserOrders)
   .post(AuthControllers.protectUser, OrderControllers.createOrder);
 
-module.exports.userOrderRouter = router;
+export const userOrderRouter = router;
