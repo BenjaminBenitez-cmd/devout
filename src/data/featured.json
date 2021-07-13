@@ -1,0 +1,72 @@
+{
+    "hero": [
+        {
+            "id": 1,
+            "title": "Summer Collection",
+            "image": {
+                "url": "https://images.unsplash.com/photo-1560769629-975ec94e6a86?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=400&q=80",
+                "alt": "White sneakers"
+            }
+        }, 
+        {
+            "id": 1,
+            "title": "Nike Essentials",
+            "image": {
+                "url": "https://images.unsplash.com/photo-1597639564813-769a5118f864?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=334&q=80",
+                "alt": "Man with sneakers"
+            }
+        },
+        {
+            "id": 2,
+            "title": "Addidas Collection",
+            "image": {
+                "url": "https://images.unsplash.com/photo-1505248254168-1de4e1abfa78?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1049&q=80",
+                "alt": "white Yeezy"
+            }
+        }
+    ],
+    "featured": {
+        "title": "The Latest",
+        "products": [ 1, 2, 3, 4]
+    },
+    "product": {
+        "title": "Addidas Arsenal XLL",
+        "image": {
+            "url": "https://images.unsplash.com/flagged/photo-1556637640-2c80d3201be8?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1050&q=80",
+            "alt": "White Adidas"
+        },  
+        "call to action": "Shop Now"
+    },
+    "brands": {
+        "title": "Brands you love",
+        "brands": [
+        
+            {
+                "id": 1,
+                "image": {
+                    "url": "https://images.unsplash.com/photo-1593081891731-fda0877988da?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=334&q=80",
+                    "alt": "Nike Basketball Shoes"
+                }
+            },
+            {
+                "id": 2,
+                "image": {
+                    "url": "https://images.unsplash.com/photo-1511746315387-c4a76990fdce?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80",
+                    "alt": "Adidas Logo"
+                }
+            },
+            {
+                "id": 3,
+                "image": {
+                    "url": "https://images.unsplash.com/photo-1556151092-c5c676716ed8?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=334&q=80",
+                    "alt": "Balenciaga Logo"
+                } 
+            }
+        ]
+
+    },
+    "featured2": {
+        "title": "The latest",
+        "products": [1, 2, 3, 4 ]
+    }
+}

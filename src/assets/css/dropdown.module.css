@@ -1,0 +1,23 @@
+.dropdown {
+  border: 1px solid var(--main-color);
+  position: absolute;
+  transform: translateX(-50%);
+  background-color: var(--secondary-color);
+  margin: 2px;
+}
+
+.dropdown ul {
+  padding: 10px;
+  list-style-type: none;
+}
+
+.dropdown ul li {
+  text-transform: uppercase;
+  color: var(--main-color);
+  z-index: 1;
+  cursor: pointer;
+}
+
+.dropdown ul li:hover {
+  background-color: var(--light-gray);
+}

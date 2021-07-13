@@ -1,0 +1,24 @@
+.primary {
+  background-color: var(--main-color);
+  color: var(--secondary-color);
+  padding: 10px 20px;
+  text-transform: uppercase;
+  display: inline-block;
+  text-align: center;
+}
+
+.secondary {
+  background-color: transparent;
+  color: var(--main-color);
+  border: none;
+  text-transform: uppercase;
+}
+
+.primary:hover,
+.secondary:hover {
+  opacity: 0.8;
+}
+
+.flex {
+  width: 100%;
+}

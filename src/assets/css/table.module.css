@@ -1,0 +1,12 @@
+.th {
+    text-transform: uppercase;
+}
+
+.th, .thead, .tr, .td {
+    border: none;
+    border-style: none;
+}
+
+th, td {
+    font-size: 14px;
+}

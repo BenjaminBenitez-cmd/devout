@@ -1,0 +1,37 @@
+[
+    {
+        "id": 1,
+        "name": "Lebron Soldier 10",
+        "remaining": 2,
+        "orders": 3,
+        "sales": 4
+    },
+    {
+        "id": 2,
+        "name": "Airmax",
+        "remaining": 2,
+        "orders": 3,
+        "sales": 4
+    },
+    {
+        "id": 3,
+        "name": "Roche",
+        "remaining": 2,
+        "orders": 3,
+        "sales": 4
+    },
+    {
+        "id": 4,
+        "name": "Air Force X Jordan",
+        "remaining": 2,
+        "orders": 3,
+        "sales": 4
+    },
+    {
+        "id": 5,
+        "name": "Fear Of God Chelsea",
+        "remaining": 2,
+        "orders": 3,
+        "sales": 4
+    }
+]

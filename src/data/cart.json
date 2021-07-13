@@ -1,0 +1,23 @@
+{
+    "id": 1,
+    "products": [
+        {
+            "productid": 1,
+            "skuid": 2,
+            "quantity": 3,
+            "total": 45.00
+        },
+        {
+            "productid": 2,
+            "skuid": 4,
+            "quantity": 3,
+            "total": 45.00
+        },
+        {
+            "productid": 3,
+            "skuid": 3,
+            "quantity": 3,
+            "total": 45.00
+        }
+    ]
+}

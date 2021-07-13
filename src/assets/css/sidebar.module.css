@@ -1,0 +1,27 @@
+.sidebar {
+  height: 80vh;
+  display: flex;
+  justify-content: flex-start;
+  border-right: 1px solid black;
+}
+
+.ul {
+  height: 100%;
+}
+
+.li {
+  text-transform: uppercase;
+  font-size: 1rem;
+  margin: 1.5rem 0;
+  width: 130px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: var(--main-color);
+}
+
+.subitem {
+  text-transform: uppercase;
+  float: right;
+  margin: 0 30px 10px 0;
+}
