@@ -125,7 +125,7 @@ describe("Admin integration tests", () => {
     it("Should PATCH a product with images", async () => {
       const data = {
         id: 1,
-        skuid: 1,
+        skuid: 2,
         name: "Fear of God",
         price: 500.0,
         shortdescription: "An amazing white sneaker",

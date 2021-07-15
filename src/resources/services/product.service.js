@@ -11,6 +11,7 @@ import {
   SKUCRUD,
   ImageCRUD,
   OrderCRUD,
+  ProductCatCRUD,
 } from "../../database/crud";
 import { ErrorHandler } from "../../utils/errors";
 import { checkResults } from "../../utils/validate";
@@ -217,6 +218,19 @@ const getAProduct = async (id) => {
         })
       );
 
+      let categoriesQuery = await ProductCatCRUD.getMany(id);
+
+      //rename the categories
+      if (categoriesQuery.rows.length > 0) {
+        categoriesQuery = categoriesQuery.rows.map((categories) => {
+          return {
+            categoryid: categories.categoryid,
+            productid: id,
+            name: categories.categoryname,
+          };
+        });
+      }
+
       resolve({
         id: productid,
         name: productname,
@@ -225,6 +239,7 @@ const getAProduct = async (id) => {
         shortdescription: productshortdesc,
         longdescription: productlongdesc,
         discountid: productdiscountid,
+        categories: categoriesQuery,
         variants: mapvariants,
       });
     } catch (err) {

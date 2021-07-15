@@ -1,19 +1,10 @@
 import {
   SUCCESS,
-  ERROR,
-  NOT_FOUND,
   NOT_AUTHORIZED,
   SUCCESS_MODIFICATION,
 } from "../../constants/statuscodes";
-import {
-  InventoryCRUD,
-  ProductCRUD,
-  SKUCRUD,
-  ImageCRUD,
-  OrderCRUD,
-} from "../../database/crud";
+import { ProductCRUD } from "../../database/crud";
 import { ErrorHandler } from "../../utils/errors";
-import { checkResults } from "../../utils/validate";
 import ProductService from "../services/product.service";
 
 const addAProduct = async (request, response, next) => {
@@ -32,7 +23,17 @@ const addAProduct = async (request, response, next) => {
 
   try {
     //add a product
-    const newProduct = await ProductService.addAProduct(...request.body);
+    const newProduct = await ProductService.addAProduct(
+      skucode,
+      name,
+      price,
+      cartdesc,
+      shortdesc,
+      longdesc,
+      discountid,
+      images,
+      amount
+    );
 
     response.status(SUCCESS).json({
       status: "Success",
@@ -87,14 +88,25 @@ const updateAProduct = async (request, response, next) => {
   } = request.body;
 
   try {
-    const product = await ProductService.updateAProduct(...request.body);
+    const product = await ProductService.updateAProduct(
+      id,
+      skuid,
+      name,
+      price,
+      shortdescription,
+      longdescription,
+      images,
+      amount
+    );
+
+    console.log(product.imagesQuery);
 
     response.status(SUCCESS_MODIFICATION).json({
       status: "Success",
       product: {
         id: id,
         skuid: skuid,
-        updatedimages: imagesQuery,
+        updatedimages: product.imagesQuery,
       },
     });
   } catch (err) {
@@ -106,8 +118,8 @@ const deleteAProduct = async (request, response, next) => {
   const { id } = request.params;
 
   try {
-    const deleteQuery = await ProductCRUD.removeOne(id);
-    checkResults(deleteQuery, ERROR, "Unable to delete product");
+    //remove one by product crud
+    await ProductCRUD.removeOne(id);
 
     response.status(SUCCESS_MODIFICATION).send("Success");
   } catch (err) {

@@ -1,25 +1,33 @@
-const express = require("express");
-const { SKUCRUD } = require("./database/crud");
-const { productRouter } = require("./resources/routes/products.route");
-const { handleError } = require("./utils/errors");
-const app = express();
-const morgan = require("morgan");
-const { categoryRouter } = require("./resources/routes/categories.route");
-const { orderRouter } = require("./resources/routes/orders.route");
+import express, { response } from "express";
+import morgan from "morgan";
 
-const { userRouter } = require("./resources/routes/user.route");
-const { cartRouter } = require("./resources/routes/cart.route");
-const { userOrderRouter } = require("./resources/routes/userorder.route");
-const { addressRouter } = require("./resources/routes/address.route");
+//routers
+import { productRouter } from "./resources/routes/products.route";
+import { orderRouter } from "./resources/routes/orders.route";
+import { categoryRouter } from "./resources/routes/categories.route";
+import { userRouter } from "./resources/routes/user.route";
+import { cartRouter } from "./resources/routes/cart.route";
+import { userOrderRouter } from "./resources/routes/userorder.route";
+import { addressRouter } from "./resources/routes/address.route";
+
+//Status codes
+import { handleError } from "./utils/errors";
 import AuthControllers from "./resources/controllers/authorization";
+import { ImageRouter } from "./resources/routes/image.route";
+import db from "./database/connection";
+import cors from "cors";
+
+const app = express();
 
 app.use(express.json());
 app.use(morgan("tiny"));
+app.use(cors());
 
-app.get("/api/hello", (request, response) => {
-  SKUCRUD.values.getManyByProductID(1).then((res) => {
-    response.status(200).send(res.rows);
-  });
+app.use(express.static(__dirname + "/public"));
+
+app.get("/api/", async (req, res) => {
+  const response = await db.query("SELECT * FROM ProductSKUValues");
+  res.status(200).json(response.rows);
 });
 
 app.use("/api/v1/products", productRouter);
@@ -37,14 +45,16 @@ app.post("/api/v1/admin/signin", AuthControllers.signInAnAdmin);
 app.post("/api/v1/admin/signup", AuthControllers.createAnAdmin);
 
 //guest routes
-app.post("/api/v1/guest/order");
+// app.post("/api/v1/guest/order");
 
-const port = process.env.PORT || 3000;
+app.use("/api/v1/images", ImageRouter);
+
+const port = process.env.PORT || 3005;
 
 app.use((error, request, response, next) => {
   handleError(error, response);
 });
 
 module.exports = app.listen(port, () => {
-  console.log("Listening on port 3000...");
+  console.log(`Listening on port ${port}...`);
 });
