@@ -28,10 +28,19 @@
   width: 100%;
   margin-bottom: 1rem;
   display: flex;
+  flex-wrap: wrap;
   justify-content: flex-start;
 }
 
 .imagebox {
+  overflow: hidden;
   height: 85px;
   width: 120px;
+}
+
+.closecircle {
+  position: absolute;
+  right: 0;
+  background-color: transparent;
+  border: none;
 }

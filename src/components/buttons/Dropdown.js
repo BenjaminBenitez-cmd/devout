@@ -11,7 +11,6 @@ const Dropdown = (props) => {
           className={!props.unstyled && dropdownstyles.dropdown}
           onClick={props.onClick}
           ref={props.ref}
-          {...props}
         >
           <ul className="list-unstyled">{props.children}</ul>
         </div>

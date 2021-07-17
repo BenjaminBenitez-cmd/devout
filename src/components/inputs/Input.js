@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import inputstyles from "../../assets/css/input.module.css";
 //css
 import FeatherIcons from "feather-icons-react";
+import { mapCategories } from "../../helpers/mappers";
 
 const Input = (props) => {
   return (
@@ -19,24 +20,23 @@ const TextArea = (props) => {
   return (
     <textarea
       {...props}
+      name={props.name}
       className={inputstyles.input}
       placeholder={props.placeholder}
       value={props.value}
-      row="10"
-    />
+      rows="10"
+    ></textarea>
   );
 };
 
-export default function CustomSelect() {
+export default function CustomSelect({ values, categories }) {
+  //drop down state
   const [isOpen, setIsOpen] = useState(false);
-  const [setValue] = useState(null);
 
-  const toggle = (e) => {
-    setValue(e.target.value);
-    setIsOpen(false);
+  //toggle open dropdown
+  const toggleOpen = (e) => {
+    setIsOpen(!isOpen);
   };
-
-  const toggleOpen = () => setIsOpen(!isOpen);
 
   return (
     <div className={inputstyles.dropdowncontainer}>
@@ -46,15 +46,16 @@ export default function CustomSelect() {
       {isOpen && (
         <div className={inputstyles.dropdownlistcontainer}>
           <ul className={inputstyles.dropdownlist}>
-            <li onClick={toggle} className={inputstyles.listitem}>
-              Mangoes
-            </li>
-            <li onClick={toggle} className={inputstyles.listitem}>
-              Apples
-            </li>
-            <li onClick={toggle} className={inputstyles.listitem}>
-              Oranges
-            </li>
+            {categories &&
+              mapCategories(categories, values).map((item) => (
+                <li
+                  values={item.id}
+                  className={inputstyles.listitem}
+                  key={item.name}
+                >
+                  {item.name} {item.isChecked && <FeatherIcons icon="check" />}
+                </li>
+              ))}
           </ul>
         </div>
       )}

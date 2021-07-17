@@ -1,26 +1,105 @@
-import React from "react";
+import axios from "axios";
+import React, { useState } from "react";
 import { Card } from "reactstrap";
+import FeatherIcons from "feather-icons-react";
 //css
 import inputstyles from "../../assets/css/inputimage.module.css";
+import ImageRequests from "../../api/image.requests";
 
-const InputImage = () => {
+/**
+ *
+ * we have to upload the image using form data
+ * then get the url and send it on submission
+ */
+
+const InputImage = ({ images, updateImages }) => {
+  //maintain track of the latest images
+  const [localImages, setLocalImages] = useState(images);
+
+  //upload an image on every file upload
+  const handleChange = async (e) => {
+    let file = e.target.files[0];
+    //prepare the form data
+    const data = new FormData();
+    data.append("myImage", file);
+    try {
+      const response = await ImageRequests.postOne(data);
+      //update our local images
+      setLocalImages((prev) => {
+        return [
+          ...prev,
+          {
+            imageurl: response.image.path,
+          },
+        ];
+      });
+      //use callback to keep track of the new image urls
+      updateImages(response.image.path);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  //handle updates and deletes
+  const handleDelete = async (url) => {
+    //find the url's id
+    const imageToDelete = localImages.find((image) => image.imageurl === url);
+    if (!imageToDelete) return;
+
+    //if the image is only local, filter it out
+    if (!("imageid" in imageToDelete)) {
+      setLocalImages((prev) => prev.filter((image) => image.imageurl !== url));
+      return;
+    }
+
+    //if it has an id then we will delete from database
+    try {
+      await ImageRequests.deleteOne(imageToDelete.imageid);
+      //remove the image from the state
+      setLocalImages((prev) =>
+        prev.filter((image) => image.imageid !== imageToDelete.imageid)
+      );
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   return (
     <div className={inputstyles.container}>
       {/**Create label for styling */}
       <div className={inputstyles.imagecontainer}>
-        <Card className={inputstyles.imagebox}>
-          <img
-            className="img-fluid"
-            src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80"
-            alt="red sneakers"
-          />
-        </Card>
+        {/**Show preview of the images if provided */}
+        {localImages &&
+          localImages.map((image, index) => {
+            return index < 5 ? (
+              <Card key={index} className={inputstyles.imagebox}>
+                <button
+                  onClick={() => handleDelete(image.imageurl)}
+                  type="button"
+                  className={inputstyles.closecircle}
+                >
+                  <FeatherIcons icon="x-circle" />
+                </button>
+                <img
+                  className="img-fluid"
+                  src={image.imageurl}
+                  alt="red sneakers"
+                />
+              </Card>
+            ) : null;
+          })}
       </div>
       <div>
         <label htmlFor="fileupload" className={inputstyles.customfileupload}>
           Add image
         </label>
-        <input id="fileupload" type="file" className={inputstyles.fileinput} />
+        <input
+          name="myImage"
+          id="fileupload"
+          type="file"
+          onChange={handleChange}
+          className={inputstyles.fileinput}
+        />
       </div>
     </div>
   );

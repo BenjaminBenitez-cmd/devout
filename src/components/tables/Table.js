@@ -10,13 +10,13 @@ import { generateObject } from "../../helpers/mappers";
 
 import PropTypes from "prop-types";
 
-const Table = ({ data }) => {
+const Table = ({ data, definition }) => {
   const columns = React.useMemo(
     () => [
       //avoid rerendering all data on re-render
-      ...generateObject(data, ActionButton),
+      ...definition,
     ],
-    [data]
+    [definition]
   );
 
   const tableInstance = useTable({ columns, data });

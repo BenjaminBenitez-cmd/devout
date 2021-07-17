@@ -37,3 +37,21 @@ export const mapProductsToCart = (cartdata, productsdata) => {
     };
   });
 };
+
+/**
+ *
+ * @param {array} categories an array of all categories
+ * @param {array} values an array of only the products categories
+ * @returns {array} Returns array including an isChecked parameters
+ */
+
+export const mapCategories = (categories, values) => {
+  return categories.map((item) => {
+    const isFound = values.find((value) => value.id === item.id);
+
+    return {
+      ...item,
+      isChecked: isFound !== null ? true : false,
+    };
+  });
+};
