@@ -1,4 +1,8 @@
-import { SUCCESS, SUCCESS_MODIFICATION } from "../../constants/statuscodes";
+import {
+  ERROR,
+  SUCCESS,
+  SUCCESS_MODIFICATION,
+} from "../../constants/statuscodes";
 import { ImageCRUD } from "../../database/crud";
 import { upload } from "../../utils/fileupload";
 
@@ -11,17 +15,12 @@ const uploadAnImage =
           res.status(ERROR).end("Unable to upload");
         } else {
           //get the details
-          const { productid, skuid } = req.body;
-          const url = `http://localhost:3000/uploads/${req.file.filename}`;
-
-          //add image to product
-          const image = await ImageCRUD.createOne(url, productid, skuid);
+          const url = `http://localhost:3005/uploads/${req.file.filename}`;
 
           res.status(SUCCESS).json({
             message: "Success",
             image: {
               path: url,
-              id: image.rows[0].id,
             },
           });
         }
@@ -33,7 +32,7 @@ const uploadAnImage =
 
 const deleteAnImage = async (request, response, next) => {
   try {
-    await ImageCRUD.deleteOne(request.params.id);
+    await ImageCRUD.deleteOne(request.params.imageid);
     response.status(SUCCESS_MODIFICATION).end();
   } catch (err) {
     next(err);
