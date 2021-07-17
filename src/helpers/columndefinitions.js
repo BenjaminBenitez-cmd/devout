@@ -1,9 +1,10 @@
 /**
- * @param {Component} Component accepts a component
  * @returns {array} table definition for the products table
  */
 
-export const productDefinition = (Component) => [
+import ActionButton from "../components/buttons/ActionButton";
+
+export const productDefinition = () => [
   {
     Header: "Name",
     accessor: "name", // accessor is the "key" in the data
@@ -19,16 +20,17 @@ export const productDefinition = (Component) => [
   {
     Header: "edit",
     accessor: "id",
-    Cell: ({ cell: { value } }) => <Component id={value} />,
+    Cell: ({ cell: { value } }) => (
+      <ActionButton id={value} redirectTo="products" />
+    ),
   },
 ];
 
 /**
- * @param {Component} Component accepts a component
  * @returns {array} table definition for orders table
  */
 
-export const orderDefinition = (Component) => [
+export const orderDefinition = () => [
   {
     Header: "Date",
     accessor: "date", // accessor is the "key" in the data
@@ -48,6 +50,6 @@ export const orderDefinition = (Component) => [
   {
     Header: "edit",
     accessor: "id",
-    Cell: ({ cell: { value } }) => <Component id={value} />,
+    Cell: ({ cell: { value } }) => <ActionButton id={value} />,
   },
 ];

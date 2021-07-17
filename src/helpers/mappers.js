@@ -47,11 +47,10 @@ export const mapProductsToCart = (cartdata, productsdata) => {
 
 export const mapCategories = (categories, values) => {
   return categories.map((item) => {
-    const isFound = values.find((value) => value.id === item.id);
-
+    const isFound = values.find((value) => value.categoryid === item.id);
     return {
       ...item,
-      isChecked: isFound !== null ? true : false,
+      isChecked: isFound ? true : false,
     };
   });
 };

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useQuery } from "react-query";
 import { useParams } from "react-router-dom";
 import { Col, Container, Form, FormGroup, Row } from "reactstrap";
 import ProductRequests from "../api/product.requests";
@@ -13,10 +14,9 @@ const AdminEditProducts = () => {
 
   //initial value state
   const [initialValues, setInitialValues] = useState(null);
-  //category state
-  const [allCateg, setAllCateg] = useState(null);
   //new images
   const [newImages, setNewImages] = useState([]);
+  //new categories
 
   //fetch products
   const fetchProduct = async (id) => {
@@ -28,20 +28,10 @@ const AdminEditProducts = () => {
     });
   };
 
-  //fetch the available options
-  const fetchOptions = async () => {
-    const response = await fetch("http://localhost:3005/api/v1/categories");
-    const data = await response.json();
-    setAllCateg(data.categories);
-  };
-
   //handle submit
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     if (!initialValues) return;
-    console.log("submitted -----");
-    console.log(newImages);
     //add new images to request body
     const values = {
       ...initialValues,
@@ -78,7 +68,6 @@ const AdminEditProducts = () => {
     if (productid == null) return;
 
     fetchProduct(productid);
-    fetchOptions();
   }, [productid]);
 
   return (
@@ -176,7 +165,7 @@ const AdminEditProducts = () => {
                     <h3 className="text-small">Categories</h3>
                     <Select
                       values={initialValues.categories}
-                      categories={allCateg}
+                      productid={productid}
                     />
                   </FormGroup>
                 </Col>

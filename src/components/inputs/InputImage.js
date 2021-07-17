@@ -14,14 +14,16 @@ import ImageRequests from "../../api/image.requests";
 
 const InputImage = ({ images, updateImages }) => {
   //maintain track of the latest images
-  const [localImages, setLocalImages] = useState(images);
+  const [localImages, setLocalImages] = useState(images || []);
 
   //upload an image on every file upload
   const handleChange = async (e) => {
     let file = e.target.files[0];
+
     //prepare the form data
     const data = new FormData();
     data.append("myImage", file);
+
     try {
       const response = await ImageRequests.postOne(data);
       //update our local images
@@ -46,7 +48,7 @@ const InputImage = ({ images, updateImages }) => {
     const imageToDelete = localImages.find((image) => image.imageurl === url);
     if (!imageToDelete) return;
 
-    //if the image is only local, filter it out
+    //if the image is local, filter it out
     if (!("imageid" in imageToDelete)) {
       setLocalImages((prev) => prev.filter((image) => image.imageurl !== url));
       return;

@@ -1,5 +1,6 @@
 import React from "react";
 import { Switch, Route } from "react-router-dom";
+import AdminAddProducts from "../pages/AdminAddProducts";
 //pages
 import AdminDashboard from "../pages/AdminDashboard";
 import AdminEditProducts from "../pages/AdminEditProducts";
@@ -17,7 +18,7 @@ const Admin = () => {
           path="/admin/products/edit/:productid"
           component={AdminEditProducts}
         />
-        <Route path="/admin/products/add/" component={AdminEditProducts} />
+        <Route path="/admin/products/add/" component={AdminAddProducts} />
         <Route exact path="/admin/products" component={AdminProducts} />
         <Route path="/admin/" component={AdminDashboard} />
       </Switch>

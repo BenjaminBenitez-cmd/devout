@@ -11,6 +11,24 @@ class ProductRequests {
     }
   };
 
+  static removeOne = async (id) => {
+    try {
+      const response = await instance.delete(`/products/${id}`);
+      return response.data;
+    } catch (err) {
+      throw err.response.message;
+    }
+  };
+
+  static addOne = async (values) => {
+    try {
+      const response = await instance.post("/products", values);
+      return response.data;
+    } catch (err) {
+      throw err;
+    }
+  };
+
   static getMany = async () => {
     try {
       const response = await instance.get("/products");
@@ -20,9 +38,22 @@ class ProductRequests {
     }
   };
 
-  static updateOne = async (values) => {
+  static addCategoryToProduct = async (productid, categoryid) => {
     try {
-      await instance.patch("/products", values);
+      const response = await instance.put(
+        `/products/${productid}/categories/${categoryid}`
+      );
+      return response.data;
+    } catch (err) {
+      throw err;
+    }
+  };
+  static removeCategoryFromProduct = async (productid, categoryid) => {
+    try {
+      const response = await instance.delete(
+        `/products/${productid}/categories/${categoryid}`
+      );
+      return response.data;
     } catch (err) {
       throw err;
     }

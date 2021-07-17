@@ -1,7 +1,6 @@
 import React from "react";
 import { useQuery } from "react-query";
 import ProductRequests from "../api/product.requests";
-import ActionButton from "../components/buttons/ActionButton";
 import Table from "../components/tables/Table";
 //fake data
 import { productDefinition } from "../helpers/columndefinitions";
@@ -19,10 +18,7 @@ const AdminProducts = () => {
       <LayoutAdminPage title="Products">
         {isLoading && <div>Loading products</div>}
         {data && (
-          <Table
-            data={data.products}
-            definition={productDefinition(ActionButton)}
-          />
+          <Table data={data.products} definition={productDefinition()} />
         )}
         {error && <div>{error}</div>}
       </LayoutAdminPage>
