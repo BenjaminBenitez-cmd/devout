@@ -61,7 +61,7 @@ const addAProduct = async (
         images.map(async (image) => {
           let imageResult = await ImageCRUD.createOne(
             image,
-            productid,
+            productInsert.rows[0].productid,
             skuInsert.rows[0].skuid
           );
           let { imageid, imageurl } = imageResult.rows[0];
@@ -221,8 +221,9 @@ const getAProduct = async (id) => {
       let categoriesQuery = await ProductCatCRUD.getMany(id);
 
       //rename the categories
+      let categories;
       if (categoriesQuery.rows.length > 0) {
-        categoriesQuery = categoriesQuery.rows.map((categories) => {
+        categories = categoriesQuery.rows.map((categories) => {
           return {
             categoryid: categories.categoryid,
             productid: id,
@@ -239,7 +240,7 @@ const getAProduct = async (id) => {
         shortdescription: productshortdesc,
         longdescription: productlongdesc,
         discountid: productdiscountid,
-        categories: categoriesQuery,
+        categories: categories,
         variants: mapvariants,
       });
     } catch (err) {
@@ -297,7 +298,7 @@ const updateAProduct = async (
       let imagesQuery;
 
       //Insert every image if urls were sent
-      if (images !== undefined && images.length > 0) {
+      if (images !== null && images.length > 0) {
         imagesQuery = await Promise.all(
           images.map(async (image) => {
             const imageQuery = await ImageCRUD.createOne(image, id, skuid);

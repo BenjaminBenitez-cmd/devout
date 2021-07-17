@@ -8,11 +8,10 @@ Product.createOne = (
   cartdescription,
   shortdescription,
   longdescription,
-  categoryID,
   discountID
 ) => {
   return db.query(
-    `INSERT INTO Products(ProductName, ProductPrice, ProductCartDesc, ProductShortDesc, ProductLongDesc, ProductCategoryID, ProductDiscountID) VALUES ($1, $2, $3, $4, $5, $6, $7) returning*
+    `INSERT INTO Products(ProductName, ProductPrice, ProductCartDesc, ProductShortDesc, ProductLongDesc, ProductDiscountID) VALUES ($1, $2, $3, $4, $5, $6) returning*
     `,
     [
       name,
@@ -20,7 +19,6 @@ Product.createOne = (
       cartdescription,
       shortdescription,
       longdescription,
-      categoryID,
       discountID,
     ]
   );
