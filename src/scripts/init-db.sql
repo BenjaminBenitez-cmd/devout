@@ -76,7 +76,7 @@ CREATE TABLE Products (
 
 CREATE TABLE ProductCategories (
    CategoryID INT NOT NULL REFERENCES Categories(CategoryID),
-   ProductID INT NOT NULL REFERENCES Products(ProductID),
+   ProductID INT NOT NULL REFERENCES Products(ProductID) ON DELETE CASCADE,
    PRIMARY KEY(CategoryID, ProductID)
 );
 
@@ -207,7 +207,7 @@ CREATE TABLE CartItem (
     FOREIGN KEY (ProductID, SKUID) REFERENCES ProductSKUS(ProductID, SKUID)
 );
 
-INSERT INTO CartItem (SessionID, ProductID, SKUID) VALUES (1, 1, 1, 3);
+INSERT INTO CartItem (SessionID, ProductID, SKUID, Quantity) VALUES (1, 1, 1, 3);
 
 CREATE TABLE AdminUsers (
     AdminID BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
@@ -218,5 +218,3 @@ CREATE TABLE AdminUsers (
 );
 
 INSERT INTO AdminUsers (AdminUserName, AdminPassword, AdminFirstName, AdminLastName) VALUES ('testadmin', 'password', 'John', 'Doe');
-
-

@@ -72,6 +72,13 @@ const addAProduct = async (
         })
       );
 
+      //insert categories
+      // if (categories !== null || categories.length > 0) {
+      //   categories.forEach(async (category) => {
+      //     await ProductCatCRUD.createOne(id, category.id);
+      //   });
+      // }
+
       resolve({
         id: productInsert.rows[0].productid,
         skuid: skuInsert.rows[0].skuid,
@@ -332,6 +339,18 @@ const updateAProduct = async (
           unlimited
         );
       }
+
+      // if (categories !== null || categories.length > 0) {
+      //   categories.forEach(async (category) => {
+      //     //if it is already it means we have to delete it
+      //     const checkQuery = await ProductCRUD.getOneByID(category.id);
+      //     if (checkQuery.rows.length > 0) {
+      //       await ProductCRUD.deleteAProduct(category.id);
+      //       return;
+      //     }
+      //     await ProductCatCRUD.createOne(id, category.id);
+      //   });
+      // }
 
       resolve({
         id: id,
