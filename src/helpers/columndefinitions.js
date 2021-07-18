@@ -2,6 +2,9 @@
  * @returns {array} table definition for the products table
  */
 
+import { Link } from "react-router-dom";
+import CategoryRequests from "../api/category.requests";
+import ProductRequests from "../api/product.requests";
 import ActionButton from "../components/buttons/ActionButton";
 
 export const productDefinition = () => [
@@ -21,7 +24,12 @@ export const productDefinition = () => [
     Header: "edit",
     accessor: "id",
     Cell: ({ cell: { value } }) => (
-      <ActionButton id={value} redirectTo="products" />
+      <ActionButton id={value}>
+        <li onClick={() => ProductRequests.removeOne(value)}>Delete</li>
+        <li>
+          <Link to={`/admin/products/${value}/edit/`}>Edit</Link>
+        </li>
+      </ActionButton>
     ),
   },
 ];
@@ -32,24 +40,50 @@ export const productDefinition = () => [
 
 export const orderDefinition = () => [
   {
-    Header: "Date",
-    accessor: "date", // accessor is the "key" in the data
+    Header: "Order #",
+    accessor: "paymentid", // accessor is the "key" in the data
   },
   {
     Header: "Status",
-    accessor: "Fullfilled",
-  },
-  {
-    Header: "Shipping",
-    accessor: "shipping", // accessor is the "key" in the data
+    accessor: "paymentstatus",
   },
   {
     Header: "Amount",
-    accessor: "amount", // accessor is the "key" in the data
+    accessor: "orderdetailtotal", // accessor is the "key" in the data
+  },
+  {
+    Header: "edit",
+    accessor: "orderdetailsid",
+    Cell: ({ cell: { value } }) => (
+      <ActionButton>
+        <li>
+          <Link to={`/admin/orders/${value}/edit`}></Link>Edit
+        </li>
+        <li>Delete</li>
+      </ActionButton>
+    ),
+  },
+];
+
+/**
+ * @returns {array} table definition for orders table
+ */
+
+export const categoriesDefinition = () => [
+  {
+    Header: "Name",
+    accessor: "name",
   },
   {
     Header: "edit",
     accessor: "id",
-    Cell: ({ cell: { value } }) => <ActionButton id={value} />,
+    Cell: ({ cell: { value } }) => (
+      <ActionButton>
+        <li>
+          <Link to={`/admin/orders/${value}/edit`}></Link>Edit
+        </li>
+        <li onClick={() => CategoryRequests.removeOne(value)}>Delete</li>
+      </ActionButton>
+    ),
   },
 ];

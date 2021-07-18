@@ -7,3 +7,7 @@
   align-items: center;
   border: none;
 }
+
+.button a:hover {
+  color: var(--main-color);
+}

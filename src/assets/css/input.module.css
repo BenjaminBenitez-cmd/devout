@@ -81,7 +81,6 @@
   background: rgba(255, 255, 255, 1);
   transition: background 250ms;
   border: 1px solid rgba(184, 194, 204, 1);
-  border-radius: 0.125rem;
 }
 
 .b_contain input[type="radio"] ~ .b_input {
@@ -93,7 +92,6 @@
   background: rgba(255, 255, 255, 1);
   transition: background 250ms;
   border: 1px solid rgba(184, 194, 204, 1);
-  border-radius: 2rem;
 }
 
 .b_contain input[type="checkbox"] ~ .b_input::after {
@@ -118,7 +116,6 @@
   top: 0.25rem;
   width: 0.75rem;
   height: 0.75rem;
-  border-radius: 2rem;
   background: rgba(255, 255, 255, 1);
   transition: background 250ms;
 }
@@ -180,7 +177,6 @@
   margin-left: -0.85rem;
   margin-top: -0.85rem;
   background: rgba(84, 86, 88, 1);
-  border-radius: 2rem;
   opacity: 0.6;
   z-index: 99999;
   transform: scale(0);

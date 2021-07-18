@@ -1,6 +1,8 @@
 import React from "react";
 import { Switch, Route } from "react-router-dom";
+import AdminAddCategory from "../pages/AdminAddCategory";
 import AdminAddProducts from "../pages/AdminAddProducts";
+import AdminCategories from "../pages/AdminCategory";
 //pages
 import AdminDashboard from "../pages/AdminDashboard";
 import AdminEditProducts from "../pages/AdminEditProducts";
@@ -14,8 +16,10 @@ const Admin = () => {
       <Switch>
         <Route path="/admin/signin" component={AdminSignin} />
         <Route path="/admin/orders" component={AdminOrders} />
+        <Route exact path="/admin/categories" component={AdminCategories} />
+        <Route path="/admin/categories/add" component={AdminAddCategory} />
         <Route
-          path="/admin/products/edit/:productid"
+          path="/admin/products/:productid/edit/"
           component={AdminEditProducts}
         />
         <Route path="/admin/products/add/" component={AdminAddProducts} />

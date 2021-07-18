@@ -1,4 +1,6 @@
 import React from "react";
+import { useQuery } from "react-query";
+import OrderRequests from "../api/order.requests";
 import ActionButton from "../components/buttons/ActionButton";
 import Table from "../components/tables/Table";
 
@@ -9,10 +11,14 @@ import LayoutAdmin from "../layouts/LayoutAdmin";
 import LayoutAdminPage from "../layouts/LayoutAdminPage";
 
 const AdminOrders = () => {
+  const { isLoading, error, data } = useQuery("orders", OrderRequests.getMany);
+
   return (
     <LayoutAdmin>
       <LayoutAdminPage title="Orders">
-        {/* <Table data={orderdata} definition={orderDefinition(ActionButton)} /> */}
+        {isLoading && <div>Loading ...</div>}
+        {error && <div>Error</div>}
+        {data && <Table data={data.orders} definition={orderDefinition()} />}
       </LayoutAdminPage>
     </LayoutAdmin>
   );

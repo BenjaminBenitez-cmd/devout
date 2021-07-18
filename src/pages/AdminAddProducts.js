@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useHistory } from "react-router-dom";
 import { Col, Container, Form, FormGroup, Row } from "reactstrap";
 import ProductRequests from "../api/product.requests";
 import PrimaryButton from "../components/buttons/PrimaryButton";
@@ -8,6 +9,7 @@ import LayoutAdmin from "../layouts/LayoutAdmin";
 import LayoutAdminPage from "../layouts/LayoutAdminPage";
 
 const AdminAddProducts = () => {
+  const history = useHistory();
   //initial value state
   const [initialValues, setInitialValues] = useState({
     skucode: "",
@@ -40,6 +42,7 @@ const AdminAddProducts = () => {
       //add products
       const response = await ProductRequests.addOne(values);
       setProductId(response.product.id);
+      history.push("/admin/products");
     } catch (err) {
       console.log(err);
     }
@@ -64,7 +67,7 @@ const AdminAddProducts = () => {
 
   return (
     <LayoutAdmin>
-      <LayoutAdminPage title="Edit">
+      <LayoutAdminPage title="Add">
         {initialValues && (
           <Form onSubmit={handleSubmit}>
             <Container fluid>

@@ -10,6 +10,24 @@ class CategoryRequests {
       throw err.response.message;
     }
   };
+
+  static addOne = async (values) => {
+    try {
+      const response = await instance.post(`/categories`, values);
+      return response.data;
+    } catch (err) {
+      throw err.response.message;
+    }
+  };
+
+  static removeOne = async (id) => {
+    try {
+      const response = await instance.delete(`/categories/${id}`);
+      return response.data;
+    } catch (err) {
+      throw err.response.message;
+    }
+  };
 }
 
 export default CategoryRequests;

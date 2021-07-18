@@ -7,7 +7,7 @@ class ProductRequests {
       const response = await instance.get(`/products/${id}`);
       return response.data;
     } catch (err) {
-      throw err.response.message;
+      throw err;
     }
   };
 
@@ -16,7 +16,7 @@ class ProductRequests {
       const response = await instance.delete(`/products/${id}`);
       return response.data;
     } catch (err) {
-      throw err.response.message;
+      throw err;
     }
   };
 
@@ -34,7 +34,16 @@ class ProductRequests {
       const response = await instance.get("/products");
       return response.data;
     } catch (err) {
-      throw err.response.message;
+      throw err;
+    }
+  };
+
+  static updateOne = async (values) => {
+    try {
+      const response = await instance.patch("/products", values);
+      return response.data;
+    } catch (err) {
+      throw err;
     }
   };
 

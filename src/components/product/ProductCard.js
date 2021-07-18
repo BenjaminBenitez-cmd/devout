@@ -8,7 +8,7 @@ const ProductCard = (props) => {
       <div className="mb-5">
         <div className={styles.imagecontainer}>
           <img
-            src={props.images[0].url}
+            src={props.images[0].imageurl}
             alt={props.images[0].alt}
             className="img-fluid"
           />

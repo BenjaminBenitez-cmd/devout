@@ -6,19 +6,21 @@ import LayoutStoreHome from "../layouts/LayoutStoreHome";
 import data from "../data/productdetails.json";
 import PrimaryButtonLink from "../components/buttons/PrimaryButtonLink";
 import ProductCorousel from "../components/product/ProductCorousel";
+import ProductRequests from "../api/product.requests";
 
 const StoreProductDetails = (props) => {
   const { id } = useParams();
   const [product, setProduct] = useState(null);
 
   //find product by id
-  const getProductDetails = (id) => {
-    return data.find((product) => product.id.toString() === id);
+  const fetchProduct = async () => {
+    const response = await ProductRequests.getOne(id);
+    setProduct(response.product);
   };
 
   //perform find on refresh
   useEffect(() => {
-    setProduct(getProductDetails(id));
+    fetchProduct();
   }, [id]);
 
   return (
@@ -32,20 +34,20 @@ const StoreProductDetails = (props) => {
                   {/**First image */}
                   <Col sm={12} md={12} className="mb-3">
                     <img
-                      src={product.images[0].url}
-                      alt={product.images[0].alt}
+                      src={product.variants[0].images[0].imageurl}
+                      alt={product.variants[0].images[0].alt}
                       className="img-fluid"
                     />
                   </Col>
 
                   {/**Small Images */}
-                  {product.images.map(
+                  {product.variants[0].images.map(
                     (image, index) =>
                       index >= 1 && (
                         <Col sm={12} md={6} className="mb-3">
                           <img
                             key={index}
-                            src={image.url}
+                            src={image.imageurl}
                             alt={image.alt}
                             className="img-fluid"
                           />
@@ -76,11 +78,11 @@ const StoreProductDetails = (props) => {
               </div>
               <div className="my-5">
                 <h5 className="text-small text-bold">Color</h5>
-                <p>White / Black</p>
+                <p>{product.shortdescription}</p>
               </div>
               <div className="my-5">
                 <h5 className="text-small text-bold">Shipping</h5>
-                <p>Free deliveries on orders over $180</p>
+                <p>{product.cartdescription}</p>
               </div>
             </Col>
           </Row>

@@ -29,6 +29,14 @@ const AdminSidebar = () => {
               Orders <FeatherIcon icon="chevron-right" />
             </li>
           </NavLink>
+          <NavLink to="/admin/categories">
+            <li className={sidebar.li}>
+              Categories <FeatherIcon icon="chevron-right" />
+            </li>
+          </NavLink>
+          <NavLink to="/admin/categories/add">
+            <span className={sidebar.subitem}>Add</span>
+          </NavLink>
         </ul>
       </div>
     </div>

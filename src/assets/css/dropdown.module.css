@@ -18,6 +18,9 @@
   cursor: pointer;
 }
 
-.dropdown ul li:hover {
+.dropdown ul li:hover,
+.dropdown ul li a:hover {
+  color: var(--main-color);
   background-color: var(--light-gray);
+  text-decoration: none;
 }

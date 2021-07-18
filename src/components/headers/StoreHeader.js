@@ -1,12 +1,15 @@
 import React from "react";
-import FeatherIcon from "feather-icons-react";
 //info
 import headerdata from "../../data/header.json";
 //css
 import headerstyles from "../../assets/css/header.module.css";
 import { NavLink } from "react-router-dom";
+import { useContext } from "react";
+import { AuthContext } from "../../context/AuthContext";
 
 const StoreHeader = () => {
+  //global auth state
+  const { authenticated } = useContext(AuthContext);
   //hook for the dropdown
   return (
     <nav className={headerstyles.container}>
@@ -16,15 +19,13 @@ const StoreHeader = () => {
           <li className="me-4">
             <NavLink to="/shop">SHOP</NavLink>
           </li>
-          <li className="me-4">
-            <NavLink to="/">
-              <FeatherIcon icon="user" />
-            </NavLink>
-          </li>
+          {authenticated && (
+            <li className="me-4">
+              <NavLink to="/account">Account</NavLink>
+            </li>
+          )}
           <li>
-            <NavLink to="/">
-              <FeatherIcon icon="shopping-cart" />
-            </NavLink>
+            <NavLink to="/cart">CART</NavLink>
           </li>
         </ul>
       </div>
