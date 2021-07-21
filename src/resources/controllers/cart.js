@@ -1,10 +1,12 @@
-import { CartCRUD } from "../../database/crud";
+import { CartCRUD, CartItemCRUD } from "../../database/crud";
 import { ErrorHandler } from "../../utils/errors";
 import {
   SUCCESS,
   ERROR,
   SUCCESS_MODIFICATION,
+  NOT_FOUND,
 } from "../../constants/statuscodes";
+import { checkResults } from "../../utils/validate";
 
 const addACart = async (request, response, next) => {
   const { id } = request.user;
@@ -50,8 +52,7 @@ const getACart = async (request, response, next) => {
       cart = cartQuery.rows[0];
     }
 
-    let cartItems;
-
+    let cartItems = null;
     if (cartQuery.rows.length > 0) {
       const cartItemsQuery = await CartItemCRUD.getManyBySessionID(
         cartQuery.rows[0].sessionid
@@ -71,7 +72,7 @@ const getACart = async (request, response, next) => {
     response.status(SUCCESS).json({
       message: "Success",
       cart: {
-        id: cart.sessionid || cartQuery.rows[0].sessionid,
+        id: cartQuery.rows[0].sessionid || cart.sessionid,
         items: cartItems,
       },
     });
@@ -86,7 +87,8 @@ const deleteACart = async (request, response, next) => {
   const { cartid } = request.params;
 
   try {
-    await CartCRUD.removeOne(cartid, id);
+    const removequery = await CartCRUD.removeOne(cartid, id);
+    checkResults(removequery, NOT_FOUND, "Could not find cart");
     response.status(SUCCESS_MODIFICATION).end();
   } catch (err) {
     next(err);

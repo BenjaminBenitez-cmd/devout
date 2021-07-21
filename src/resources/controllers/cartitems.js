@@ -7,6 +7,7 @@ import {
   NOT_FOUND,
   SUCCESS,
 } from "../../constants/statuscodes";
+import db from "../../database/connection";
 
 const getAllItems = async (request, response, next) => {
   const { cartid } = request.params;
@@ -108,14 +109,15 @@ const addACartItem = async (request, response, next) => {
 };
 
 const deleteCartItem = async (request, response, next) => {
-  const { cartid, itemid } = request.params;
+  const { cartid, skuid } = request.params;
   /**
    * get items in cart
    */
   try {
+    console.log(await db.query("SELECT * FROM CartItem WHERE CartID = 2"));
     /** remove one from cart */
-    await CartItemCRUD.removeOne(cartid, itemid);
-
+    const removeQuery = await CartItemCRUD.removeOne(cartid, skuid);
+    checkResults(removeQuery, NOT_FOUND, "Could not find cart item");
     response.status(SUCCESS_MODIFICATION).end();
   } catch (err) {
     next(err);

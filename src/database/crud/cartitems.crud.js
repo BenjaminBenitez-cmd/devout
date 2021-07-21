@@ -27,11 +27,11 @@ CartItem.updateQuantity = (cartid, itemid, quantity) => {
   );
 };
 
-CartItem.removeOne = (cartid, itemid) => {
-  return db.query(`DELETE FROM CartItem WHERE CartID = $1 AND SessionID = $2`, [
-    itemid,
-    cartid,
-  ]);
+CartItem.removeOne = (sessionid, skuid) => {
+  return db.query(
+    `DELETE FROM CartItem WHERE SessionID = $1 AND SKUID = $2 returning*`,
+    [sessionid, skuid]
+  );
 };
 
 export const CartItemCRUD = CartItem;

@@ -21,7 +21,7 @@ router
   .post(CartItemController.addACartItem);
 
 router
-  .route("/:cartid/items/:itemid")
+  .route("/:cartid/items/:skuid")
   .put(AuthControllers.protectUser, CartItemController.updateCartItem)
   .delete(AuthControllers.protectUser, CartItemController.deleteCartItem);
 
