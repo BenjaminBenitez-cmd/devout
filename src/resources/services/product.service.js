@@ -243,12 +243,18 @@ const getAProduct = async (id) => {
         id: productid,
         name: productname,
         price: productprice,
+        skuid: mapvariants[0].skuid,
+        skucode: mapvariants[0].skucode,
+        images: mapvariants[0].images,
+        quantity: mapvariants[0].quantity,
         cartdescription: productcartdesc,
         shortdescription: productshortdesc,
         longdescription: productlongdesc,
         discountid: productdiscountid,
         categories: categories,
-        variants: mapvariants,
+        variants: mapvariants.map((variant, index) => {
+          if (index !== 0) return variant;
+        }),
       });
     } catch (err) {
       console.log();
