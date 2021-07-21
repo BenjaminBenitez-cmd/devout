@@ -43,21 +43,19 @@ const getACart = async (request, response, next) => {
 
   try {
     const cartQuery = await CartCRUD.getOneByUserID(id);
-    console.log(cartQuery.rows);
     //if cart is empty return empty
+    let cart;
     if (cartQuery.rows.length === 0) {
-      return response
-        .status(SUCCESS)
-        .json({ message: "Success", cart: {} })
-        .end();
+      const cartQuery = await CartCRUD.createOne(id, 0);
+      cart = cartQuery.rows[0];
     }
 
     let cartItems;
 
-    const { sessionid } = cartQuery.rows[0];
-
     if (cartQuery.rows.length > 0) {
-      const cartItemsQuery = await CartItemCRUD.getManyBySessionID(sessionid);
+      const cartItemsQuery = await CartItemCRUD.getManyBySessionID(
+        cartQuery.rows[0].sessionid
+      );
       cartItems =
         cartItemsQuery.rows.length > 0 &&
         cartItemsQuery.rows.map((item) => {
@@ -72,7 +70,10 @@ const getACart = async (request, response, next) => {
 
     response.status(SUCCESS).json({
       message: "Success",
-      cart: sessionid && { id: sessionid, items: cartItems },
+      cart: {
+        id: cart.sessionid || cartQuery.rows[0].sessionid,
+        items: cartItems,
+      },
     });
   } catch (err) {
     console.log(err);

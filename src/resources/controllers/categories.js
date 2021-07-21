@@ -10,7 +10,7 @@ import {
 const addACategory = async (request, response, next) => {
   const { name } = request.body;
   try {
-    const categoryQuery = await CategoriesCRUD(name);
+    const categoryQuery = await CategoriesCRUD.createOne(name);
     checkResults(categoryQuery, ERROR, "Unable to create");
 
     const { categoryname, categoryid } = categoryQuery.rows[0];

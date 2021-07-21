@@ -7,7 +7,8 @@ import {
   ERROR,
   SUCCESS_MODIFICATION,
 } from "../../constants/statuscodes";
-import { AdminCRUD, UserCRUD } from "../../database/crud/admin.crud";
+import { AdminCRUD } from "../../database/crud/admin.crud";
+import { UsersCRUD } from "../../database/crud/user.crud";
 import { checkResults } from "../../utils/validate";
 import Tokens from "../../utils/tokens";
 import encrypt from "../../utils/encrypt";
@@ -126,6 +127,10 @@ const signInAUser = async (request, response, next) => {
     const userQuery = await UsersCRUD.getOneByEmail(email);
     checkResults(userQuery, NOT_FOUND, "No User with that name was found");
 
+    if (userQuery.rows[0].isverified === false) {
+      throw new ErrorHandler(NOT_AUTHORIZED, "Unverified, please try again");
+    }
+
     const hashedPassword = userQuery.rows[0].userpassword;
 
     //compare two passwords
@@ -181,7 +186,11 @@ const createAUser = async (request, response, next) => {
     const token = await Tokens.newToken({ id: userid });
 
     //send email with verification token
-    await emailService.authMailer(email, "Your verification link", token);
+    await emailService.authMailer(
+      email,
+      "Your verification link",
+      `${process.env.CLIENT_URL}/verification/${token}`
+    );
 
     //add token to user account
     await UsersCRUD.updateVerificationStatus(userid, false, token);

@@ -7,7 +7,10 @@ Users.getOneByID = (id) => {
 };
 
 Users.getOneByEmail = (email) => {
-  return db.query("SELECT * FROM Users WHERE UserEmail = $1", [email]);
+  return db.query(
+    "SELECT * FROM Users WHERE UserEmail = $1 AND UserPassword IS NOT NULL",
+    [email]
+  );
 };
 
 Users.createOne = (email, firstname, lastname, password) => {

@@ -1,7 +1,7 @@
 import express from "express";
 import AuthControllers from "../controllers/authorization";
 import CartControllers from "../controllers/cart";
-import CartItemController from "../controllers/carttems";
+import CartItemController from "../controllers/cartitems";
 
 const router = express.Router();
 

@@ -13,10 +13,6 @@ Orders.details.getManyByUserID = (userid) => {
   return db.query("SELECT * FROM OrderDetails WHERE UserID = $1", [userid]);
 };
 
-Orders.details.getMany = () => {
-  return db.query("SELECT * FROM OrderDetails WHERE OrderDetailsID = $1");
-};
-
 Orders.details.removeOne = (orderdetailsid) => {
   return db.query("DELETE FROM OrderDetails WHERE OrderDetailsID = $1", [
     orderdetailsid,
@@ -32,6 +28,10 @@ Orders.items.createOne = (detailsid, productid, skuid) => {
 
 Orders.items.getManyByProductID = (id) => {
   return db.query("SELECT * FROM OrderItems WHERE ProductID = $1", [id]);
+};
+
+Orders.items.getManyByOrderDetailsID = (id) => {
+  return db.query("SELECT * FROM OrderItems WHERE OrderDetailsID = $1", [id]);
 };
 
 Orders.items.getSalesByProductID = (id) => {
