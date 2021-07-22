@@ -27,9 +27,9 @@ export function generateObject(data, Component) {
  * @returns {array} cart items with respective product values
  */
 export const mapProductsToCart = (cartdata, productsdata) => {
-  return cartdata.products.map((item) => {
+  return cartdata.items.map((item) => {
     const cartsproduct = productsdata.find(
-      (product) => product.id === item.productid
+      (product) => product.id.toString() === item.productid.toString()
     );
     return {
       ...cartsproduct,

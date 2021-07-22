@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import { Col, Container, Form, FormGroup, Row } from "reactstrap";
 import ProductRequests from "../api/product.requests";

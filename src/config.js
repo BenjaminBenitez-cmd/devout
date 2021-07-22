@@ -9,6 +9,7 @@ const config = (environment) => {
     case "development":
       return {
         API_URL: process.env.REACT_APP_LOCAL_API,
+        STRIPE_KEY: process.env.REACT_APP_STRIPE_KEY,
       };
     default:
       break;

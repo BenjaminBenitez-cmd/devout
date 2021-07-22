@@ -3,10 +3,7 @@ import { useQuery } from "react-query";
 import CategoryRequests from "../api/category.requests";
 import Table from "../components/tables/Table";
 //fake data
-import {
-  categoriesDefinition,
-  productDefinition,
-} from "../helpers/columndefinitions";
+import { categoriesDefinition } from "../helpers/columndefinitions";
 import LayoutAdmin from "../layouts/LayoutAdmin";
 import LayoutAdminPage from "../layouts/LayoutAdminPage";
 

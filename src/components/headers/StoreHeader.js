@@ -4,13 +4,15 @@ import headerdata from "../../data/header.json";
 //css
 import headerstyles from "../../assets/css/header.module.css";
 import { NavLink } from "react-router-dom";
-import { useContext } from "react";
-import { AuthContext } from "../../context/AuthContext";
+import useAuth from "../../hooks/useAuth";
+import useCart from "../../hooks/useCart";
 
 const StoreHeader = () => {
   //global auth state
-  const { authenticated } = useContext(AuthContext);
+  const { authenticated, logOut } = useAuth();
   //hook for the dropdown
+  const { cartItems } = useCart();
+
   return (
     <nav className={headerstyles.container}>
       <span className="text-medium">{headerdata.logo}</span>
@@ -19,14 +21,20 @@ const StoreHeader = () => {
           <li className="me-4">
             <NavLink to="/shop">SHOP</NavLink>
           </li>
-          {authenticated && (
-            <li className="me-4">
-              <NavLink to="/account">Account</NavLink>
+          <li className="me-4">
+            <NavLink to="/cart">CART {cartItems.length}</NavLink>
+          </li>
+          {authenticated ? (
+            <li>
+              <NavLink to="/account" onClick={logOut}>
+                Account
+              </NavLink>
+            </li>
+          ) : (
+            <li>
+              <NavLink to="/signin">SIGN IN</NavLink>
             </li>
           )}
-          <li>
-            <NavLink to="/cart">CART</NavLink>
-          </li>
         </ul>
       </div>
     </nav>

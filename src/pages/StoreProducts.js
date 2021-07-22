@@ -6,8 +6,10 @@ import LayoutStoreHome from "../layouts/LayoutStoreHome";
 import productdata from "../data/productdetails.json";
 import ProductCard from "../components/product/ProductCard";
 import StoreFilter from "../components/sidebar/StoreFilter";
+import useProducts from "../hooks/useProducts";
 
 const StoreProducts = () => {
+  const { getProductsQuery } = useProducts();
   return (
     <LayoutStoreHome>
       {/**Collection bar */}
@@ -34,9 +36,9 @@ const StoreProducts = () => {
           <Container fluid>
             <Row>
               {/**Products */}
-              {productdata.map((product) => (
+              {getProductsQuery.data?.products.map((product, index) => (
                 <Col md={4}>
-                  <ProductCard key={product.id} {...product} />
+                  <ProductCard key={index} {...product} />
                 </Col>
               ))}
             </Row>

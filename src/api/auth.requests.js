@@ -19,6 +19,15 @@ class AuthRequests {
       throw err;
     }
   };
+
+  static signupverify = async (values) => {
+    try {
+      const response = await instance.post(`/users/validate`, values);
+      return response;
+    } catch (err) {
+      throw err;
+    }
+  };
 }
 
 export default AuthRequests;

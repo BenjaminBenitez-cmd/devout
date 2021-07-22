@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import ProductCard from "./ProductCard";
 //product data
-import productdata from "../../data/productdetails.json";
 import ItemsCarousel from "react-items-carousel";
 import { useQuery } from "react-query";
 import ProductRequests from "../../api/product.requests";

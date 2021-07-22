@@ -1,84 +1,55 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Col, Container, Row } from "reactstrap";
 import LayoutStoreHome from "../layouts/LayoutStoreHome";
-//data
-import cartdata from "../data/cart.json";
-import productsdata from "../data/productdetails.json";
+
 import PrimaryButtonLink from "../components/buttons/PrimaryButtonLink";
 import PrimaryButton from "../components/buttons/PrimaryButton";
 //mappers
-import { mapProductsToCart } from "../helpers/mappers";
 import SummaryItem from "../components/other/SummaryItem";
 import OptionItem from "../components/other/OptionItem";
+import { NavLink } from "react-router-dom";
+import {
+  calculateSubTotal,
+  calculateTax,
+  calculateTotal,
+} from "../helpers/calculators";
+import useCart from "../hooks/useCart";
+import StoreCartItem from "../components/sections/StoreCartItem";
+import StoreTotalSummary from "../components/sections/StoreTotalSummary";
 
 const StoreCart = () => {
-  const [cartItems, setCartItems] = useState(null);
-
-  useEffect(() => {
-    setCartItems(mapProductsToCart(cartdata, productsdata));
-  }, []);
-
+  const { cartItems, removeAnItem } = useCart();
   return (
     <LayoutStoreHome>
-      <Row className="section">
-        <Col sm={12} md={8}>
-          <Container fluid className="px-0">
-            {cartItems &&
-              cartItems.map((item) => (
-                <Row className="mb-3" key={item.id}>
-                  <Col xs={4} md={3}>
-                    <img
-                      className="img-fluid"
-                      src={item.images[0].url}
-                      alt={item.images[0].alt}
-                    />
-                  </Col>
-                  <Col xs={5} md={7}>
-                    <div>
-                      <h5 className="text-small text-bold">{item.name}</h5>
-                    </div>
-                    <div>
-                      <Container fluid className="p-0">
-                        <Row>
-                          <OptionItem title="Color" value="red" />
-                          <OptionItem title="Size" value="large" />
-                        </Row>
-                      </Container>
-                    </div>
-                  </Col>
-                  <Col xs={3} md={2}>
-                    <div className="price">
-                      <p>${item.price}</p>
-                    </div>
-                    <div>
-                      <PrimaryButton
-                        bold="true"
-                        bgcolor="secondary"
-                        text="Remove"
-                      />
-                    </div>
-                  </Col>
-                </Row>
-              ))}
-          </Container>
-        </Col>
-        <Col sm={12} md={4} className="mt-5 mt-lg-0">
-          <h2 className="text-small">Apply promo code</h2>
-          <div>
-            <SummaryItem title="Subtotal" value="400.00" />
-            <SummaryItem title="Shipping And Handling" value="20.00" />
-            <SummaryItem title="Taxes" value="10.00" />
-            <SummaryItem title="Total" value="500.00" />
-            <div className="my-3">
-              <PrimaryButtonLink
-                width="100%"
-                to="/checkout"
-                text="Proceed to checkout"
-              />
-            </div>
-          </div>
-        </Col>
-      </Row>
+      {cartItems.length === 0 && (
+        <div className="section text-center text-extrasmall text-uppercase">
+          <p>
+            NO ITEMS IN CART ADD{" "}
+            <NavLink className="text-bold" to="/shop">
+              Some
+            </NavLink>
+          </p>
+        </div>
+      )}
+      {cartItems.length > 0 && (
+        <Row className="section">
+          <Col sm={12} md={8}>
+            <Container fluid className="px-0">
+              {cartItems &&
+                cartItems.map((item, index) => (
+                  <StoreCartItem
+                    key={item}
+                    item={item}
+                    handleRemove={removeAnItem}
+                  />
+                ))}
+            </Container>
+          </Col>
+          <Col sm={12} md={4} className="mt-5 mt-lg-0">
+            <StoreTotalSummary cartItems={cartItems} />
+          </Col>
+        </Row>
+      )}
     </LayoutStoreHome>
   );
 };

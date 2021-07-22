@@ -1,27 +1,28 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Col, Container, Row } from "reactstrap";
 import LayoutStoreHome from "../layouts/LayoutStoreHome";
 //data
-import data from "../data/productdetails.json";
-import PrimaryButtonLink from "../components/buttons/PrimaryButtonLink";
 import ProductCorousel from "../components/product/ProductCorousel";
 import ProductRequests from "../api/product.requests";
+import PrimaryButton from "../components/buttons/PrimaryButton";
+import useCart from "../hooks/useCart";
 
 const StoreProductDetails = (props) => {
   const { id } = useParams();
   const [product, setProduct] = useState(null);
+  const { addAnItem } = useCart();
 
   //find product by id
-  const fetchProduct = async () => {
+  const fetchProduct = useCallback(async () => {
     const response = await ProductRequests.getOne(id);
     setProduct(response.product);
-  };
+  }, [id]);
 
   //perform find on refresh
   useEffect(() => {
     fetchProduct();
-  }, [id]);
+  }, [fetchProduct]);
 
   return (
     <LayoutStoreHome>
@@ -34,14 +35,14 @@ const StoreProductDetails = (props) => {
                   {/**First image */}
                   <Col sm={12} md={12} className="mb-3">
                     <img
-                      src={product.variants[0].images[0].imageurl}
-                      alt={product.variants[0].images[0].alt}
+                      src={product.images[0].imageurl}
+                      alt={product.images[0].alt}
                       className="img-fluid"
                     />
                   </Col>
 
                   {/**Small Images */}
-                  {product.variants[0].images.map(
+                  {product.images.map(
                     (image, index) =>
                       index >= 1 && (
                         <Col sm={12} md={6} className="mb-3">
@@ -66,9 +67,9 @@ const StoreProductDetails = (props) => {
                 <h3 className="text-medium">${product.price}</h3>
               </div>
               <div className="my-5">
-                <PrimaryButtonLink
-                  to="/cart"
-                  text="Proceed to Checkout"
+                <PrimaryButton
+                  onClick={() => addAnItem(product)}
+                  text="Add to Cart"
                   width="100%"
                 />
               </div>

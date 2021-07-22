@@ -3,10 +3,6 @@ import React from "react";
 import { useTable } from "react-table";
 //table css
 import tablestyles from "../../assets/css/table.module.css";
-import ActionButton from "../buttons/ActionButton";
-
-//generates our react-table keys
-import { generateObject } from "../../helpers/mappers";
 
 import PropTypes from "prop-types";
 

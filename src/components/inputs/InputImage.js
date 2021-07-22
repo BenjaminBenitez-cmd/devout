@@ -1,4 +1,3 @@
-import axios from "axios";
 import React, { useState } from "react";
 import { Card } from "reactstrap";
 import FeatherIcons from "feather-icons-react";

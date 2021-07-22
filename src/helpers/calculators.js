@@ -4,7 +4,9 @@
  * @returns {float} the total cost of the items
  */
 export const calculateSubTotal = (cartitems) => {
-  return cartitems.reduce((sum, i) => sum + i.price * i.quantity).toFixed(2);
+  //check for single value
+  if (cartitems.length === 1) return cartitems[0].price * cartitems[0].quantity;
+  return cartitems.reduce((sum, i) => sum + i.price * i.quantity, 0);
 };
 
 /**
@@ -20,10 +22,11 @@ export const calculateTax = (total, tax) => {
 
 /**
  *
- * @param {float} subtotal
- * @param {float} tax
- * @returns
+ * @param {array} cartItems an array of cart items
+ * @param {float} tax tax percentage
+ * @returns {float} total
  */
-export const total = (subtotal, tax) => {
-  return subtotal + tax;
+export const calculateTotal = (cartItems, tax) => {
+  const total = calculateSubTotal(cartItems);
+  return total + calculateTax(total, tax);
 };

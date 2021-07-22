@@ -1,9 +1,15 @@
 import axios from "axios";
 import config from "../config";
+import { getUserFromLocalStorage } from "../helpers/localstorage";
 
 const instance = axios.create({
   baseURL: config.API_URL,
-  timeout: 1000,
+});
+
+instance.interceptors.request.use(function (config) {
+  const user = getUserFromLocalStorage();
+  config.headers.Authorization = user ? `Bearer ${user.token}` : "";
+  return config;
 });
 
 export default instance;
