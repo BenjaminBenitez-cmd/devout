@@ -8,6 +8,7 @@ const PrimaryButtonLink = (props) => {
       to={props.to}
       className={buttonstyles.primary}
       style={{ width: props.width }}
+      {...props}
     >
       {props.text}
     </NavLink>
