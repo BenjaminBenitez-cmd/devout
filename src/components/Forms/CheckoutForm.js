@@ -7,16 +7,18 @@ import { useStripe, useElements } from "@stripe/react-stripe-js";
 import axios from "axios";
 import * as Yup from "yup";
 import useCart from "../../hooks/useCart";
+import useAuth from "../../hooks/useAuth";
+import AddressRequests from "../../api/address.requests";
 
 const CheckoutForm = () => {
   const { cartItems } = useCart();
+  const { authenticated } = useAuth();
   const [succeeded, setSucceeded] = useState(false);
   const [error, setError] = useState(null);
   const [processing, setProcessing] = useState("");
   const [disabled, setDisabled] = useState(true);
   const [clientSecret, setClientSecret] = useState("");
   const stripe = useStripe();
-  const elements = useElements();
   const validationSchema = Yup.object().shape({
     city: Yup.string().required("Required field"),
     state: Yup.string().required("Requied field"),
@@ -24,14 +26,17 @@ const CheckoutForm = () => {
     country: Yup.string().required("Required field"),
     address1: Yup.string().required("Required field"),
   });
-  const initialValues = {
+  const [initialValues, setInitialValues] = useState({
     city: "",
     state: "",
     phone: "",
     country: "",
     address1: "",
     address2: "",
-  };
+  });
+  console.log(initialValues);
+
+  const [paymentMethod, setPaymentMethod] = useState(null);
 
   const handleChange = async (event) => {
     // Listen for changes in the CardElement
@@ -42,23 +47,34 @@ const CheckoutForm = () => {
 
   //handle the submission logic
   const onSubmit = async (values) => {
-    // setProcessing(true);
-    // const payload = await stripe.confirmCardPayment(clientSecret, {
-    //   payment_method: {
-    //     card: elements.getElement(CardElement),
-    //   },
-    // });
-    // if (payload.error) {
-    //   setError(`Payment failed ${payload.error.message}`);
-    //   setProcessing(false);
-    // } else {
-    //   setError(null);
-    //   setProcessing(false);
-    //   setSucceeded(true);
-    // }
+    if (!paymentMethod) return;
+    setProcessing(true);
+    const payload = await stripe.confirmCardPayment(clientSecret, {
+      payment_method: {
+        card: paymentMethod,
+        billing_details: {
+          address: {
+            city: values.city,
+            country: values.country,
+            line1: values.address1,
+            line2: values.address2,
+            state: values.state,
+          },
+          phone: values.phone,
+        },
+      },
+    });
+
+    if (payload.error) {
+      setError(`Payment failed ${payload.error.message}`);
+      setProcessing(false);
+    } else {
+      setError(null);
+      setProcessing(false);
+      setSucceeded(true);
+    }
     alert(JSON.stringify(values));
   };
-  console.log(initialValues);
   //get
   useEffect(() => {
     const fetchPaymentToken = async () => {
@@ -72,6 +88,30 @@ const CheckoutForm = () => {
     };
     fetchPaymentToken();
   }, []);
+
+  useEffect(() => {
+    if (!authenticated) return;
+    //get address if authenticated
+    const fetchAddress = async () => {
+      try {
+        const response = await AddressRequests.getOne();
+        if (!response.data.address) {
+          return;
+        } else {
+          setInitialValues((prev) => {
+            return {
+              ...prev,
+              ...initialValues,
+            };
+          });
+        }
+      } catch (err) {
+        console.error(err);
+      }
+    };
+
+    fetchAddress();
+  }, [authenticated]);
 
   return (
     <Formik
@@ -95,6 +135,7 @@ const CheckoutForm = () => {
                 handleChange={handleChange}
                 disabled={disabled}
                 setClientSecret={setClientSecret}
+                setPaymentMethod={setPaymentMethod}
               />
             )}
           />

@@ -5,6 +5,13 @@
   height: 40px;
   color: var(--main-color);
   padding-left: 10px;
+  vertical-align: middle;
+  line-height: 40px;
+}
+
+.label {
+  margin-bottom: 6px;
+  font-weight: 700;
 }
 
 .textarea {
@@ -45,6 +52,8 @@
 .listitem:hover {
   background-color: var(--light-gray);
 }
+
+/* CUSTOM CHECKBOX */
 
 .b_contain *,
 .b_contain *::before,

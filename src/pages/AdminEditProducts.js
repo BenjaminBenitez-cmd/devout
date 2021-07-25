@@ -3,7 +3,8 @@ import { useParams } from "react-router-dom";
 import { Col, Container, Form, FormGroup, Row } from "reactstrap";
 import ProductRequests from "../api/product.requests";
 import PrimaryButton from "../components/buttons/PrimaryButton";
-import Select, { Input, TextArea } from "../components/inputs/Input";
+import { Input, TextArea } from "../components/inputs/Input";
+import InputCategories from "../components/inputs/InputCategories";
 import InputImage from "../components/inputs/InputImage";
 import LayoutAdmin from "../layouts/LayoutAdmin";
 import LayoutAdminPage from "../layouts/LayoutAdminPage";
@@ -162,7 +163,7 @@ const AdminEditProducts = () => {
                   />
                   <FormGroup className="mt-5">
                     <h3 className="text-small">Categories</h3>
-                    <Select
+                    <InputCategories
                       values={initialValues.categories}
                       productid={productid}
                     />

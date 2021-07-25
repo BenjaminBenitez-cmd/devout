@@ -1,10 +1,8 @@
-import axios from "axios";
-import React, { useEffect } from "react";
+import React from "react";
 import { Col, FormGroup, Row } from "reactstrap";
-import { CardElement } from "@stripe/react-stripe-js";
+import { CardElement, useElements } from "@stripe/react-stripe-js";
 import PrimaryButton from "../components/buttons/PrimaryButton";
 import useCart from "../hooks/useCart";
-import checkoutHeader from "../components/headers/CheckoutSteps";
 import CheckoutSteps from "../components/headers/CheckoutSteps";
 
 const options = {
@@ -15,20 +13,21 @@ const options = {
     border: "1px solid black",
   },
 };
+
 const StorePayment = ({
-  setClientSecret,
   handleChange,
   processing,
   disabled,
   succeeded,
   error,
+  setPaymentMethod,
 }) => {
   const { cartItems } = useCart();
-  console.log(cartItems);
+  const elements = useElements();
   return (
     <Row>
       <Col sm={12}>
-        <CheckoutSteps step1 />
+        <CheckoutSteps step2 />
       </Col>
       <Col sm={12} md={4}>
         <FormGroup>
@@ -58,17 +57,9 @@ const StorePayment = ({
       </Col>
       <Col md={{ offset: 4, size: 4 }}>
         {/**submit button */}
-        {/* <button disabled={processing || disabled || succeeded} id="submit">
-          <span id="button-text">
-            {processing ? (
-              <div className="spinner" id="spinner"></div>
-            ) : (
-              "Pay now"
-            )}
-          </span>
-        </button> */}
         <PrimaryButton
           type="submit"
+          onClick={() => setPaymentMethod(elements.getElement(CardElement))}
           disabled={processing || disabled || succeeded}
           id="submit"
         >

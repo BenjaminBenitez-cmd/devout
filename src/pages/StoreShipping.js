@@ -1,9 +1,10 @@
-import { Field, useFormikContext } from "formik";
+import { useFormikContext } from "formik";
 import React from "react";
 import { Col, FormGroup, Row } from "reactstrap";
 import PrimaryButtonLink from "../components/buttons/PrimaryButtonLink";
-import inputStyles from "../assets/css/input.module.css";
 import CheckoutSteps from "../components/headers/CheckoutSteps";
+import { MySelect, MyTextField } from "../components/inputs/CustomInputs";
+import settings from "../data/settings.json";
 
 const StoreShipping = () => {
   const { isValid } = useFormikContext();
@@ -12,57 +13,56 @@ const StoreShipping = () => {
       <Col sm={12}>
         <CheckoutSteps step1 />
       </Col>
-      <Col sm={12} md={8}>
+      <Col sm={12} md={4}>
         <FormGroup className="my-3">
-          <Field
+          <MyTextField
+            label="City"
             type="text"
             name="city"
             placeholder="city"
-            className={inputStyles.input}
           />
         </FormGroup>
         <FormGroup className="my-3">
-          <Field
+          <MyTextField
+            label="State"
             type="text"
             name="state"
             placeholder="state"
-            className={inputStyles.input}
           />
         </FormGroup>
         <FormGroup className="my-3">
-          <Field
+          <MyTextField
+            label="Phone"
             type="text"
             name="phone"
             placeholder="phone"
-            className={inputStyles.input}
           />
         </FormGroup>
         <FormGroup className="my-3">
-          <Field
-            type="text"
+          <MySelect
             name="country"
-            placeholder="country"
-            className={inputStyles.input}
+            label="Country"
+            options={settings.countries}
           />
         </FormGroup>
         <FormGroup className="my-3">
-          <Field
+          <MyTextField
+            label="Address 1"
             type="text"
             name="address1"
             placeholder="address 1"
-            className={inputStyles.input}
           />
         </FormGroup>
         <FormGroup className="my-3">
-          <Field
+          <MyTextField
+            label="Address 2"
             type="text"
             name="address2"
             placeholder="address 2"
-            className={inputStyles.input}
           />
         </FormGroup>
       </Col>
-      <Col sm={4}>
+      <Col sm={4} md={{ span: 4, offset: 4 }}>
         <PrimaryButtonLink
           style={{
             backgroundColor: !isValid ? "gray" : "var(--main-color)",

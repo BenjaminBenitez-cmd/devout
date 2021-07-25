@@ -1,5 +1,6 @@
 {
     "currency": "USD",
     "tax": 13.5,
-    "language": "en"
+    "language": "en",
+    "countries": ["US", "EU"]
 }

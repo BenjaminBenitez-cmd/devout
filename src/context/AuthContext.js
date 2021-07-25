@@ -46,7 +46,6 @@ const AuthProvider = ({ children }) => {
     logOut,
     signIn,
   };
-  console.log(authenticated);
 
   return (
     <AuthContext.Provider value={defaultContext}>
