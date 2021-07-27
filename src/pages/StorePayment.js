@@ -1,16 +1,20 @@
 import React from "react";
-import { Col, FormGroup, Row } from "reactstrap";
+import { Col, Form, FormGroup, Row } from "reactstrap";
 import { CardElement, useElements } from "@stripe/react-stripe-js";
 import PrimaryButton from "../components/buttons/PrimaryButton";
 import useCart from "../hooks/useCart";
 import CheckoutSteps from "../components/headers/CheckoutSteps";
+import { MyTextField } from "../components/inputs/CustomInputs";
+import { getUserFromLocalStorage } from "../helpers/localstorage";
 
 const options = {
   style: {
-    color: "red",
-    fontSize: "12px",
-    fontFamily: "Open Sans",
-    border: "1px solid black",
+    base: {
+      color: "#000000",
+      fontSize: "12px",
+      fontFamily: "Open Sans",
+      border: "1px solid #000000",
+    },
   },
 };
 
@@ -22,7 +26,7 @@ const StorePayment = ({
   error,
   setPaymentMethod,
 }) => {
-  const { cartItems } = useCart();
+  const { email } = getUserFromLocalStorage();
   const elements = useElements();
   return (
     <Row>
@@ -30,30 +34,45 @@ const StorePayment = ({
         <CheckoutSteps step2 />
       </Col>
       <Col sm={12} md={4}>
-        <FormGroup>
-          <CardElement
-            id="card-element"
-            options={options}
-            onChange={handleChange}
-          />
-        </FormGroup>
-        {/*Show any error that happens when processing the payment */}
-        {error && (
-          <div className="card-error" role="alert">
-            {error}
+        <div style={{ width: "500px", marginBottom: "100px" }}>
+          <FormGroup>
+            {email ? (
+              <>
+                <label className="text-extrasmall">Email</label>
+                <p>{email}</p>
+              </>
+            ) : (
+              <MyTextField name="email" label="Email" type="email" />
+            )}
+          </FormGroup>
+          <div style={{ borderBottom: "2px solid black" }}></div>
+          <div className="my-3">
+            <label className="text-extrasmall">Credit Card Details</label>
+            <CardElement
+              id="card-element"
+              options={options}
+              onChange={handleChange}
+            />
           </div>
-        )}
-        {/**Show a success message upon completition */}
-        {succeeded && (
-          <p className={succeeded ? "result-message" : "result-message-hidden"}>
-            Payment succeeded, see the result in your
-            <a href={`https://dashboard.stripe.com/test/payments`}>
-              {" "}
-              Stripe dashboard.
-            </a>{" "}
-            Refresh the page to pay again
-          </p>
-        )}
+          <FormGroup>
+            {/*Show any error that happens when processing the payment */}
+            {error && (
+              <div className="card-error" role="alert">
+                {error}
+              </div>
+            )}
+            {/**Show a success message upon completition */}
+            {succeeded && (
+              <p
+                className={
+                  succeeded ? "result-message" : "result-message-hidden"
+                }
+              >
+                Payment succeeded, thank you for your purchase!
+              </p>
+            )}
+          </FormGroup>
+        </div>
       </Col>
       <Col md={{ offset: 4, size: 4 }}>
         {/**submit button */}

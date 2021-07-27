@@ -3,12 +3,13 @@ import { Redirect, Route, Switch } from "react-router-dom";
 import StoreShipping from "../../pages/StoreShipping";
 import StorePayment from "../../pages/StorePayment";
 import { Formik, Form } from "formik";
-import { useStripe, useElements } from "@stripe/react-stripe-js";
-import axios from "axios";
+import { useStripe } from "@stripe/react-stripe-js";
 import * as Yup from "yup";
 import useCart from "../../hooks/useCart";
 import useAuth from "../../hooks/useAuth";
 import AddressRequests from "../../api/address.requests";
+import PaymentRequests from "../../api/payment.requests";
+import StoreCheckoutAuth from "../../pages/StoreCheckoutAuth";
 
 const CheckoutForm = () => {
   const { cartItems } = useCart();
@@ -18,7 +19,9 @@ const CheckoutForm = () => {
   const [processing, setProcessing] = useState("");
   const [disabled, setDisabled] = useState(true);
   const [clientSecret, setClientSecret] = useState("");
+  const [paymentMethod, setPaymentMethod] = useState(null);
   const stripe = useStripe();
+  //our form validation
   const validationSchema = Yup.object().shape({
     city: Yup.string().required("Required field"),
     state: Yup.string().required("Requied field"),
@@ -34,9 +37,6 @@ const CheckoutForm = () => {
     address1: "",
     address2: "",
   });
-  console.log(initialValues);
-
-  const [paymentMethod, setPaymentMethod] = useState(null);
 
   const handleChange = async (event) => {
     // Listen for changes in the CardElement
@@ -51,7 +51,7 @@ const CheckoutForm = () => {
     setProcessing(true);
     const payload = await stripe.confirmCardPayment(clientSecret, {
       payment_method: {
-        card: paymentMethod,
+        card: paymentMethod, //set with callback function
         billing_details: {
           address: {
             city: values.city,
@@ -75,35 +75,29 @@ const CheckoutForm = () => {
     }
     alert(JSON.stringify(values));
   };
-  //get
+
+  //get the payment token
   useEffect(() => {
     const fetchPaymentToken = async () => {
-      const response = await axios.post(
-        "http://localhost:3005/api/v1/users/orders/create-payment-intent",
-        {
-          items: [{ id: "xl-tshirt" }],
-        }
-      );
-      setClientSecret(response.data.clientSecret);
+      const response = await PaymentRequests.getInitializationToken({
+        items: cartItems,
+      });
+      setClientSecret(response.clientSecret);
     };
     fetchPaymentToken();
   }, []);
 
+  //fetch our address
   useEffect(() => {
     if (!authenticated) return;
     //get address if authenticated
     const fetchAddress = async () => {
       try {
         const response = await AddressRequests.getOne();
-        if (!response.data.address) {
+        if (!response.address) {
           return;
         } else {
-          setInitialValues((prev) => {
-            return {
-              ...prev,
-              ...initialValues,
-            };
-          });
+          setInitialValues(response.address);
         }
       } catch (err) {
         console.error(err);
@@ -112,7 +106,6 @@ const CheckoutForm = () => {
 
     fetchAddress();
   }, [authenticated]);
-
   return (
     <Formik
       initialValues={initialValues}
@@ -122,8 +115,7 @@ const CheckoutForm = () => {
       <Form id="payment-form">
         <Switch>
           {/**If cart is empty redirect to the checkout page */}
-          {/* {cartItems.length <= 0 && <Redirect to="/cart" />} */}
-          <Redirect from="/checkout" exact to="/checkout/shipping" />
+          {cartItems.length <= 0 && <Redirect to="/cart" />}
           <Route path="/checkout/shipping" component={StoreShipping} />
           <Route
             path="/checkout/payment"
@@ -139,6 +131,7 @@ const CheckoutForm = () => {
               />
             )}
           />
+          <Redirect exact from="/checkout" to="/checkout/shipping" />
         </Switch>
       </Form>
     </Formik>

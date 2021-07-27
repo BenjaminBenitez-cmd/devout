@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import inputstyles from "../../assets/css/input.module.css";
 //css
 

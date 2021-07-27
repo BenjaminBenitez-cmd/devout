@@ -13,7 +13,6 @@ const useCart = () => {
   const { authenticated } = useAuth();
   const { cartItems, removeItem, addItem, setCartItems } =
     useContext(CartContext);
-
   //get cart items either locally or from api
   const getCartItems = useCallback(async () => {
     const { products } = await ProductRequests.getMany();
@@ -35,7 +34,7 @@ const useCart = () => {
     } catch (err) {
       console.error(err);
     }
-  }, [authenticated]);
+  }, [authenticated, setCartItems]);
 
   /**
    *

@@ -26,7 +26,6 @@ const StoreMain = () => {
 
       {/** Brands you love */}
       <StoreBrands />
-
       {/**The latest */}
       <Row className="section">
         <Col sm={12}>

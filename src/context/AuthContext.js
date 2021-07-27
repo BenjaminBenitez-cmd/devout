@@ -10,7 +10,6 @@ export const AuthContext = React.createContext();
 
 const AuthProvider = ({ children }) => {
   const userToken = getUserFromLocalStorage();
-
   const [authenticated, setAuthenticated] = useState(false);
 
   //logout function

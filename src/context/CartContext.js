@@ -6,8 +6,10 @@ const CartProvider = ({ children }) => {
   const [cartItems, setCartItems] = useState([]);
 
   const addItem = (item) => setCartItems((prev) => [...prev, item]);
+
   const removeItem = (id) =>
     setCartItems((prev) => prev.filter((item) => item.skuid !== id));
+
   const defaultContext = {
     addItem,
     removeItem,

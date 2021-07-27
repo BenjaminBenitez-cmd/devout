@@ -1,9 +1,6 @@
 import React from "react";
 import { useField } from "formik";
 import styles from "../../assets/css/input.module.css";
-import dropdownstyles from "../../assets/css/dropdown.module.css";
-
-import { Input } from "reactstrap";
 import useDropdown from "../../hooks/useDropdown";
 import Dropdown from "../buttons/Dropdown";
 
@@ -11,7 +8,7 @@ const MyTextField = ({ label, ...props }) => {
   const [field, meta] = useField(props);
   return (
     <>
-      <label className={styles.label}>{label}</label>
+      <label className="text-extrasmall">{label}</label>
       <input {...field} {...props} className={styles.input} />
       {meta.touched && meta.error ? (
         <div className="text-extrasmall">{meta.error}</div>
@@ -24,7 +21,7 @@ const MyTextArea = ({ label, ...props }) => {
   const [field, meta] = useField(props);
   return (
     <>
-      <label className={styles.label}>
+      <label className="text-extrasmall">
         {label}
         <textarea {...field} {...props} className={styles.input} />
       </label>
@@ -48,7 +45,6 @@ function MySelect({ options, ...props }) {
 
   const { value } = meta;
   const { setValue } = helpers;
-
   const isSelected = (v) => (v === value ? "selected" : "");
 
   const handleListClick = (option) => {
@@ -58,10 +54,10 @@ function MySelect({ options, ...props }) {
 
   return (
     <>
-      <p className={styles.label}>{props.label}</p>
+      <p className="text-extrasmall">{props.label}</p>
       <div className="position-relative">
         <div className={styles.input} onClick={toggleOpen}>
-          {value || props.placeholders}
+          {value || props.placeholder}
         </div>
         <Dropdown
           isOpen={isOpen}

@@ -5,7 +5,6 @@ import StoreHome from "../pages/StoreHome";
 import StoreProducts from "../pages/StoreProducts";
 import StoreProductDetails from "../pages/StoreProductDetails";
 import StoreCart from "../pages/StoreCart";
-import StoreCheckoutAuth from "../pages/StoreCheckoutAuth";
 import StoreSignin from "../pages/StoreSignin";
 import StoreSignup from "../pages/StoreSignup";
 import StoreVerify from "../pages/StoreVerify";
@@ -17,7 +16,6 @@ const Store = () => {
     <CartProvider>
       <Switch>
         <Route path="/checkout/" component={StoreCheckout} />
-        <Route path="/checkout/auth" component={StoreCheckoutAuth} />
         <Route path="/cart" component={StoreCart} />
         <Route path="/shop" component={StoreMain} />
         <Route path="/products" component={StoreProducts} />

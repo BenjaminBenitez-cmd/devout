@@ -1,21 +1,11 @@
 import React from "react";
 import { Col, Container, Row } from "reactstrap";
 import LayoutStoreHome from "../layouts/LayoutStoreHome";
-
-import PrimaryButtonLink from "../components/buttons/PrimaryButtonLink";
-import PrimaryButton from "../components/buttons/PrimaryButton";
-//mappers
-import SummaryItem from "../components/other/SummaryItem";
-import OptionItem from "../components/other/OptionItem";
 import { NavLink } from "react-router-dom";
-import {
-  calculateSubTotal,
-  calculateTax,
-  calculateTotal,
-} from "../helpers/calculators";
 import useCart from "../hooks/useCart";
 import StoreCartItem from "../components/sections/StoreCartItem";
 import StoreTotalSummary from "../components/sections/StoreTotalSummary";
+import Signin from "../components/Forms/Signin";
 
 const StoreCart = () => {
   const { cartItems, removeAnItem } = useCart();
@@ -38,7 +28,7 @@ const StoreCart = () => {
               {cartItems &&
                 cartItems.map((item, index) => (
                   <StoreCartItem
-                    key={item}
+                    key={index}
                     item={item}
                     handleRemove={removeAnItem}
                   />
