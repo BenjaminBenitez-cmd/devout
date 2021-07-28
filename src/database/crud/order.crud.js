@@ -13,16 +13,22 @@ Orders.details.getManyByUserID = (userid) => {
   return db.query("SELECT * FROM OrderDetails WHERE UserID = $1", [userid]);
 };
 
+Orders.details.getOne = (orderdetailsid) => {
+  return db.query("SELECT * FROM OrderDetails WHERE OrderDetailsID = $1", [
+    orderdetailsid,
+  ]);
+};
+
 Orders.details.removeOne = (orderdetailsid) => {
   return db.query("DELETE FROM OrderDetails WHERE OrderDetailsID = $1", [
     orderdetailsid,
   ]);
 };
 
-Orders.items.createOne = (detailsid, productid, skuid) => {
+Orders.items.createOne = (detailsid, productid, skuid, quantity) => {
   return db.query(
-    "INSERT INTO OrderItems (OrderDetailsID, ProductID, SKUID) VALUES ($1, $2, $3) returning*",
-    [detailsid, productid, skuid]
+    "INSERT INTO OrderItems (OrderDetailsID, ProductID, SKUID, OrderQuantity) VALUES ($1, $2, $3, $4) returning*",
+    [detailsid, productid, skuid, quantity]
   );
 };
 

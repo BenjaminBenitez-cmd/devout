@@ -1,5 +1,10 @@
 import { NOT_FOUND } from "../../constants/statuscodes";
-import { OrderCRUD, InventoryCRUD, PaymentCRUD } from "../../database/crud";
+import {
+  OrderCRUD,
+  InventoryCRUD,
+  PaymentCRUD,
+  SKUCRUD,
+} from "../../database/crud";
 import { checkResults, checkIfAvailable } from "../../utils/validate";
 import { ErrorHandler } from "../../utils/errors";
 
@@ -78,7 +83,8 @@ const createNewOrder = async (userid, items) => {
         await OrderCRUD.items.createOne(
           orderDetailQuery.rows[0].orderdetailsid,
           item.productid,
-          item.skuid
+          item.skuid,
+          item.quantity
         );
       });
 
@@ -89,9 +95,67 @@ const createNewOrder = async (userid, items) => {
   });
 };
 
+/**
+ *
+ * @param {Integer} orderid
+ * @returns resolved promise
+ */
+const acceptOrder = (orderid) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const orderQuery = await OrderCRUD.details.getOne(orderid);
+      //toggle the payed status on our server
+      await PaymentCRUD.updateStatus(
+        orderQuery.rows[0].orderdetailpaymentid,
+        "Fullfilled"
+      );
+      const orderItems = await OrderCRUD.items.getManyByOrderDetailsID(
+        orderQuery.rows[0].orderdetailsid
+      );
+      //update the inventory numbers for all the products
+      orderItems.rows.forEach(async (item) => {
+        const skuQuery = await SKUCRUD.getOneBySKUID(item.skuid);
+        const inventoryQuery = await InventoryCRUD.getOne(
+          skuQuery.rows[0].productinventoryid
+        );
+        const newQuantity =
+          inventoryQuery.rows[0].inventoryquantity - item.orderquantity;
+        const isLive = newQuantity === 0 && false;
+        await InventoryCRUD.updateOne(
+          inventoryQuery.rows[0].inventoryid,
+          newQuantity,
+          isLive
+        );
+      });
+      resolve(true);
+    } catch (err) {
+      reject(err);
+    }
+  });
+};
+
+const declineOrder = (orderid) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const orderDetailQuery = await OrderCRUD.details.getManyByOrderDetailsID(
+        orderid
+      );
+      await PaymentCRUD.updateStatus(
+        orderDetailQuery.rows[0].orderdetailpaymentid,
+        "Canceled"
+      );
+      resolve(true);
+    } catch (err) {
+      reject(err);
+    }
+  });
+};
+
 const checkoutService = {
   validateItems,
   createNewOrder,
+  declineOrder,
+  acceptOrder,
 };
 
 export default checkoutService;

@@ -14,7 +14,15 @@ const addAAddress = async (request, response, next) => {
     const alreadyHasAddress = await AddressCRUD.getOneByUserID(id);
     checkResults(alreadyHasAddress, NOT_FOUND, "user already has an address");
 
-    const addressQuery = await AddressCRUD.createOne(id, ...request.body);
+    const addressQuery = await AddressCRUD.createOne(
+      id,
+      city,
+      state,
+      phone,
+      country,
+      address1,
+      address2
+    );
     response.status(SUCCESS).json({
       message: "Success",
       address: { id: addressQuery.rows[0].addressid },
@@ -50,20 +58,20 @@ const getAddress = async (request, response, next) => {
   try {
     const addressQuery = await AddressCRUD.getOneByUserID(id);
 
-    let address = [];
-    if (addressQuery.rows.length > 0) {
-      address.map((node) => {
-        return {
-          id: node.addressid,
-          city: node.addresscity,
-          state: node.addressstate,
-          phone: node.addressphone,
-          country: node.addresscountry,
-          address1: node.address1,
-          address2: node.address2,
-        };
-      });
+    let address = {};
+    //reassign address values if available
+    if (addressQuery.rows[0]) {
+      address = {
+        id: addressQuery.rows[0].addressid,
+        city: addressQuery.rows[0].addresscity,
+        state: addressQuery.rows[0].addressstate,
+        phone: addressQuery.rows[0].addressphone,
+        country: addressQuery.rows[0].addresscountry,
+        address1: addressQuery.rows[0].address1,
+        address2: addressQuery.rows[0].address2,
+      };
     }
+
     response.status(SUCCESS).json({ message: "success", address });
   } catch (err) {
     next(err);

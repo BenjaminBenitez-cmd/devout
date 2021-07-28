@@ -125,7 +125,6 @@ const createPublicOrder = async (request, response, next) => {
 
 const createOrder = async (request, response, next) => {
   const { id } = request.user;
-
   /**
    *check if if items in cart are available
    *check if user has address
@@ -143,7 +142,11 @@ const createOrder = async (request, response, next) => {
     const cartItemsQuery = await CartItemCRUD.getManyBySessionID(
       cartQuery.rows[0].sessionid
     );
-    checkResults(cartItemsQuery, NOT_FOUND, "No items found");
+    checkResults(
+      cartItemsQuery,
+      NOT_FOUND,
+      "Cannot create order without items in cart"
+    );
 
     const isValid = await checkoutService.validateItems(cartItemsQuery.rows);
 

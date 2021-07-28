@@ -24,6 +24,19 @@ Payment.updateOne = (id, amount, provider, status) => {
   );
 };
 
+Payment.updateStatus = (id, status) => {
+  return db.query(
+    `
+    UPDATE PaymentDetails 
+    SET 
+    PaymentStatus = $1
+    WHERE PaymentID = $2
+    returning*
+    `,
+    [status, id]
+  );
+};
+
 Payment.deleteOne = (id) => {
   return db.query(
     `

@@ -252,9 +252,7 @@ const getAProduct = async (id) => {
         longdescription: productlongdesc,
         discountid: productdiscountid,
         categories: categories,
-        variants: mapvariants.map((variant, index) => {
-          if (index !== 0) return variant;
-        }),
+        variants: mapvariants.filter((_, index) => index !== 0),
       });
     } catch (err) {
       console.log();

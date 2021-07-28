@@ -16,6 +16,7 @@ import AuthControllers from "./resources/controllers/authorization";
 import { ImageRouter } from "./resources/routes/image.route";
 import db from "./database/connection";
 import cors from "cors";
+import { paymentRouter } from "./resources/routes/payment.route";
 
 const app = express();
 
@@ -25,9 +26,8 @@ app.use(cors());
 
 app.use(express.static(__dirname + "/public"));
 
-app.get("/api/", async (req, res) => {
-  const response = await db.query("SELECT * FROM ProductSKUValues");
-  res.status(200).json(response.rows);
+app.get("/", (request, response) => {
+  response.send("Welcome to Devout :)");
 });
 
 app.use("/api/v1/products", productRouter);
@@ -35,6 +35,7 @@ app.use("/api/v1/categories", categoryRouter);
 app.use("/api/v1/orders", orderRouter);
 
 //routes for handling user requests
+app.use("/api/v1/users/payments", paymentRouter);
 app.use("/api/v1/users/address", addressRouter);
 app.use("/api/v1/users/cart", cartRouter);
 app.use("/api/v1/users/orders", userOrderRouter);
@@ -43,9 +44,6 @@ app.use("/api/v1/users", userRouter);
 //admin routes
 app.post("/api/v1/admin/signin", AuthControllers.signInAnAdmin);
 app.post("/api/v1/admin/signup", AuthControllers.createAnAdmin);
-
-//guest routes
-// app.post("/api/v1/guest/order");
 
 app.use("/api/v1/images", ImageRouter);
 

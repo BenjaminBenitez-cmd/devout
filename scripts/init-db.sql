@@ -184,11 +184,12 @@ CREATE TABLE OrderItems (
     OrderDetailsID INT NOT NULL REFERENCES OrderDetails(OrderDetailsID),
     ProductID INT NOT NULL,
     SKUID INT NOT NULL,
+    OrderQuantity INT NOT NULL,
     FOREIGN KEY (ProductID, SKUID) REFERENCES ProductSKUS(ProductID, SKUID)
 );
 
-INSERT INTO OrderItems (OrderDetailsID, ProductID, SKUID)
-VALUES (1, 1, 1);
+INSERT INTO OrderItems (OrderDetailsID, ProductID, SKUID, OrderQuantity)
+VALUES (1, 1, 1, 2);
 
 CREATE TABLE ShoppingSession (
     SessionID BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,

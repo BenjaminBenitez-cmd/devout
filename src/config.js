@@ -1,4 +1,5 @@
-require("dotenv").config();
+import dotenv from "dotenv";
+dotenv.config();
 
 const state = process.env.NODE_ENV;
 
@@ -12,18 +13,18 @@ const config = (state) => {
         PGPASSWORD: process.env.PGPASSWORD,
         JWT_EXPIRY: process.env.JWT_EXPIRY,
         JWT_SECRET: process.env.JWT_SECRET,
+        STRIPE_KEY: process.env.STRIPE_KEY,
       };
     case "production":
       return {
         PGCONNECTION: process.env.DATABASE_URL,
         JWT_EXPIRY: process.env.JWT_EXPIRY,
         JWT_SECRET: process.env.JWT_SECRET,
+        STRIPE_KEY: process.env.STRIPE_KEY,
       };
     default:
-      break;
+      return;
   }
 };
 
-config(state);
-
-module.exports = config(state);
+export default config(state);
