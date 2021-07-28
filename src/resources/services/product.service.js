@@ -192,6 +192,8 @@ const getAProduct = async (id) => {
       //This is the result from fetching variants
       const { rows } = skuvariantsQuery;
 
+      const allVariants = await SKUCRUD.values.getManyByProductID(id);
+
       /**if there is only one variant it means we dont have to
        * map the inventory to each row  */
 
@@ -225,6 +227,14 @@ const getAProduct = async (id) => {
         })
       );
 
+      //find our non variant
+      const nonVariant = mapvariants.find(
+        (sku) =>
+          !allVariants.rows.some(
+            (vari) => vari.skuid.toString() === sku.skuid.toString()
+          )
+      );
+
       let categoriesQuery = await ProductCatCRUD.getMany(id);
 
       //rename the categories
@@ -243,16 +253,18 @@ const getAProduct = async (id) => {
         id: productid,
         name: productname,
         price: productprice,
-        skuid: mapvariants[0].skuid,
-        skucode: mapvariants[0].skucode,
-        images: mapvariants[0].images,
-        quantity: mapvariants[0].quantity,
+        skuid: nonVariant.skuid,
+        skucode: nonVariant.skuname,
+        images: nonVariant.images,
+        quantity: nonVariant.quantity,
         cartdescription: productcartdesc,
         shortdescription: productshortdesc,
         longdescription: productlongdesc,
         discountid: productdiscountid,
         categories: categories,
-        variants: mapvariants.filter((_, index) => index !== 0),
+        variants: mapvariants.filter(
+          (variant) => variant.skuid.toString() !== nonVariant.skuid
+        ),
       });
     } catch (err) {
       console.log();

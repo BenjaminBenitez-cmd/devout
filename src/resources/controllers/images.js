@@ -5,6 +5,7 @@ import {
 } from "../../constants/statuscodes";
 import { ImageCRUD } from "../../database/crud";
 import { upload } from "../../utils/fileupload";
+import { uploadToCloudinary } from "../services/image.service";
 
 const uploadAnImage =
   ("/api/v1/upload",
@@ -16,11 +17,12 @@ const uploadAnImage =
         } else {
           //get the details
           const url = `http://localhost:3005/uploads/${req.file.filename}`;
+          const response = await uploadToCloudinary(req.file.path);
 
           res.status(SUCCESS).json({
             message: "Success",
             image: {
-              path: url,
+              path: response,
             },
           });
         }
