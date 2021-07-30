@@ -1,78 +1,147 @@
-import { useFormikContext } from "formik";
-import React from "react";
-import { Col, FormGroup, Row } from "reactstrap";
-import PrimaryButtonLink from "../components/buttons/PrimaryButtonLink";
+import { Formik, Form } from "formik";
+import React, { useEffect, useState } from "react";
+import { Col, Container, FormGroup, Row } from "reactstrap";
 import CheckoutSteps from "../components/headers/CheckoutSteps";
 import { MySelect, MyTextField } from "../components/inputs/CustomInputs";
-import settings from "../data/settings.json";
+import AddressRequests from "../api/address.requests";
 
-const StoreShipping = () => {
-  const { isValid } = useFormikContext();
+import settings from "../data/settings.json";
+import useAuth from "../hooks/useAuth";
+import * as Yup from "yup";
+import PrimaryButton from "../components/buttons/PrimaryButton";
+import { useHistory } from "react-router-dom";
+import useCart from "../hooks/useCart";
+import StoreCheckoutSummaryTotal from "../components/sections/StoreCheckoutSummaryTotal";
+
+const StoreShipping = ({ setAddress }) => {
+  const { authenticated } = useAuth();
+  const { cartItems } = useCart();
+  console.log(cartItems);
+  const history = useHistory();
+  //our formik initial state
+  const [initialValues, setInitialValues] = useState({
+    city: "",
+    state: "",
+    phone: "",
+    country: "",
+    address1: "",
+    address2: "",
+  });
+
+  //our form validation
+  const validationSchema = Yup.object().shape({
+    city: Yup.string().required("Required field"),
+    state: Yup.string().required("Requied field"),
+    phone: Yup.string().required("Required field"),
+    country: Yup.string().required("Required field"),
+    address1: Yup.string().required("Required field"),
+  });
+
+  //fetch our address
+  useEffect(() => {
+    if (!authenticated) return;
+    //get address if authenticated
+    const fetchAddress = async () => {
+      try {
+        const response = await AddressRequests.getOne();
+        if (!response.address) {
+          return;
+        } else {
+          setInitialValues(response.address);
+        }
+      } catch (err) {
+        console.error(err);
+      }
+    };
+
+    fetchAddress();
+  }, [authenticated]);
+
+  //handle the submission logic
+  const onSubmit = (values) => {
+    setAddress(values);
+    history.push("/checkout/payment");
+  };
+
   return (
-    <Row>
-      <Col sm={12}>
-        <CheckoutSteps step1 />
-      </Col>
-      <Col sm={12} md={4}>
-        <FormGroup className="my-3">
-          <MyTextField
-            label="City"
-            type="text"
-            name="city"
-            placeholder="city"
-          />
-        </FormGroup>
-        <FormGroup className="my-3">
-          <MyTextField
-            label="State"
-            type="text"
-            name="state"
-            placeholder="state"
-          />
-        </FormGroup>
-        <FormGroup className="my-3">
-          <MyTextField
-            label="Phone"
-            type="text"
-            name="phone"
-            placeholder="phone"
-          />
-        </FormGroup>
-        <FormGroup className="my-3">
-          <MySelect
-            name="country"
-            label="Country"
-            options={settings.countries}
-          />
-        </FormGroup>
-        <FormGroup className="my-3">
-          <MyTextField
-            label="Address 1"
-            type="text"
-            name="address1"
-            placeholder="address 1"
-          />
-        </FormGroup>
-        <FormGroup className="my-3">
-          <MyTextField
-            label="Address 2"
-            type="text"
-            name="address2"
-            placeholder="address 2"
-          />
-        </FormGroup>
-      </Col>
-      <Col sm={4} md={{ span: 4, offset: 4 }}>
-        <PrimaryButtonLink
-          style={{
-            backgroundColor: !isValid ? "gray" : "var(--main-color)",
-            pointerEvents: !isValid ? "none" : "auto",
-          }}
-          to="/checkout/payment"
-          text="Continue"
-        />
-      </Col>
-    </Row>
+    <Formik
+      initialValues={initialValues}
+      validationSchema={validationSchema}
+      onSubmit={onSubmit}
+    >
+      {(props) => (
+        <Form>
+          <Row>
+            <Col sm={12}>
+              <CheckoutSteps step1 />
+            </Col>
+            <Col sm={12} md={4}>
+              <FormGroup className="my-3">
+                <MyTextField
+                  label="City"
+                  type="text"
+                  name="city"
+                  placeholder="City"
+                />
+              </FormGroup>
+              <FormGroup className="my-3">
+                <MyTextField
+                  label="State"
+                  type="text"
+                  name="state"
+                  placeholder="State"
+                />
+              </FormGroup>
+              <FormGroup className="my-3">
+                <MyTextField
+                  label="Phone"
+                  type="text"
+                  name="phone"
+                  placeholder="Phone"
+                />
+              </FormGroup>
+              <FormGroup className="my-3">
+                <MySelect
+                  name="country"
+                  label="Country"
+                  options={settings.countries}
+                />
+              </FormGroup>
+              <FormGroup className="my-3">
+                <MyTextField
+                  label="Address 1"
+                  type="text"
+                  name="address1"
+                  placeholder="Address 1"
+                />
+              </FormGroup>
+              <FormGroup className="my-3">
+                <MyTextField
+                  label="Address 2"
+                  type="text"
+                  name="address2"
+                  placeholder="Address 2"
+                />
+              </FormGroup>
+            </Col>
+            <Col sm={12} md={{ offset: 5, size: 3 }}>
+              <StoreCheckoutSummaryTotal />
+              <PrimaryButton
+                type="submit"
+                style={{
+                  width: "100%",
+                  backgroundColor: !props.isValid
+                    ? "gray"
+                    : "var(--main-color)",
+                  pointerEvents: !props.isValid ? "none" : "auto",
+                }}
+                text="Continue"
+              />
+            </Col>
+          </Row>
+        </Form>
+      )}
+    </Formik>
   );
 };
 

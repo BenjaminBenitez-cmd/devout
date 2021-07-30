@@ -1,26 +1,33 @@
 import { Form, Formik } from "formik";
 import React, { useState } from "react";
-import { Redirect, useHistory } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { Col, FormGroup, Row } from "reactstrap";
 import PrimaryButton from "../components/buttons/PrimaryButton";
 import AdminFooter from "../components/footers/AdminFooter";
 import { MyTextField } from "../components/inputs/CustomInputs";
 import * as Yup from "yup";
 import AuthRequests from "../api/auth.requests";
-import useAuth from "../hooks/useAuth";
 
-const AdminSignin = () => {
+const AdminSignup = () => {
   //history for redirect
   const [message, setMessage] = useState();
-  const { adminAuthenticated, signInAdmin } = useAuth();
+  const [success, setSuccess] = useState(true);
 
   const initialValues = {
     username: "",
+    firstname: "",
+    lastname: "",
     password: "",
   };
 
   const validationSchema = Yup.object().shape({
     username: Yup.string().required("Required"),
+    firstname: Yup.string()
+      .max(12, "Please use a shorter name")
+      .required("Required"),
+    lastname: Yup.string()
+      .max(12, "Please use a shorter name")
+      .required("Required"),
     password: Yup.string()
       .min(8, "Password must be atleast 8 characters")
       .required("Required"),
@@ -28,8 +35,9 @@ const AdminSignin = () => {
 
   const onSubmit = async (values) => {
     try {
-      const response = await AuthRequests.signinAdmin(values);
-      signInAdmin(response);
+      await AuthRequests.signupAdmin(values);
+      setMessage("Successfully created admin");
+      setSuccess(true);
     } catch (err) {
       setMessage(err.response.data.message || "Something went wrong");
     }
@@ -42,7 +50,6 @@ const AdminSignin = () => {
       initialValues={initialValues}
     >
       <div className="container">
-        {adminAuthenticated && <Redirect to="/admin/dashboard" />}
         <Row>
           <Col
             sm={12}
@@ -50,13 +57,29 @@ const AdminSignin = () => {
           >
             <div>
               <Form>
-                <h1 className="text-medium">Signin</h1>
+                <h1 className="text-medium">Signup</h1>
                 <FormGroup>
                   <MyTextField
                     label="Username"
                     type="text"
                     placeholder="Username"
                     name="username"
+                  />
+                </FormGroup>
+                <FormGroup>
+                  <MyTextField
+                    label="Firstname"
+                    type="text"
+                    placeholder="Firstname"
+                    name="firstname"
+                  />
+                </FormGroup>
+                <FormGroup>
+                  <MyTextField
+                    label="Lastname"
+                    type="text"
+                    placeholder="Lastname"
+                    name="lastname"
                   />
                 </FormGroup>
                 <FormGroup className="mt-2">
@@ -66,7 +89,17 @@ const AdminSignin = () => {
                     name="password"
                   />
                 </FormGroup>
-                <p className="mt-3">{message}</p>
+                <p className="mt-3">
+                  {message}
+                  {success && (
+                    <NavLink
+                      className="text-extrasmall text-bold"
+                      to="/admin/signin"
+                    >
+                      Signin
+                    </NavLink>
+                  )}
+                </p>
 
                 <FormGroup className="mt-3">
                   <PrimaryButton text="submit" type="submit" />
@@ -81,4 +114,4 @@ const AdminSignin = () => {
   );
 };
 
-export default AdminSignin;
+export default AdminSignup;

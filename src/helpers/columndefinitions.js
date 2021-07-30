@@ -25,10 +25,10 @@ export const productDefinition = () => [
     accessor: "id",
     Cell: ({ cell: { value } }) => (
       <ActionButton id={value}>
-        <li onClick={() => ProductRequests.removeOne(value)}>Delete</li>
         <li>
           <Link to={`/admin/products/${value}/edit/`}>Edit</Link>
         </li>
+        <li onClick={() => ProductRequests.removeOne(value)}>Delete</li>
       </ActionButton>
     ),
   },
@@ -57,7 +57,7 @@ export const orderDefinition = () => [
     Cell: ({ cell: { value } }) => (
       <ActionButton>
         <li>
-          <Link to={`/admin/orders/${value}/edit`}></Link>Edit
+          <Link to={`/admin/orders/${value}/edit`}>Edit</Link>
         </li>
         <li>Delete</li>
       </ActionButton>

@@ -54,7 +54,7 @@ function MySelect({ options, ...props }) {
 
   return (
     <>
-      <p className="text-extrasmall">{props.label}</p>
+      <span className="text-extrasmall">{props.label}</span>
       <div className="position-relative">
         <div className={styles.input} onClick={toggleOpen}>
           {value || props.placeholder}
@@ -64,8 +64,9 @@ function MySelect({ options, ...props }) {
           style={{ transform: "none", width: "100%", cursor: "pointer" }}
         >
           <ul className="list-unstyled">
-            {options.map((option) => (
+            {options.map((option, index) => (
               <li
+                key={index}
                 onClick={() => handleListClick(option)}
                 className={isSelected(5)}
               >

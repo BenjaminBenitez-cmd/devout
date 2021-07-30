@@ -11,6 +11,15 @@ class OrderRequests {
     }
   };
 
+  static getOne = async (id) => {
+    try {
+      const response = await instance.get(`/orders/${id}`);
+      return response.data;
+    } catch (err) {
+      throw err.response.message;
+    }
+  };
+
   static deleteOne = async (id) => {
     try {
       const response = await instance.delete(`/orders/${id}`);

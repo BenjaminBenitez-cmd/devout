@@ -3,6 +3,7 @@ import React from "react";
 import AdminSidebar from "../components/sidebar/AdminSidebar";
 import AdminHeader from "../components/headers/AdminHeader";
 import AdminFooter from "../components/footers/AdminFooter";
+import Notifications from "../components/other/Notification";
 
 const LayoutAdmin = (props) => {
   return (
@@ -19,6 +20,7 @@ const LayoutAdmin = (props) => {
           {props.children}
           {/**Footer */}
           <AdminFooter />
+          <Notifications />
         </div>
       </div>
     </div>

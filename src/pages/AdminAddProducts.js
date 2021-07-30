@@ -6,11 +6,13 @@ import PrimaryButton from "../components/buttons/PrimaryButton";
 import { Input, TextArea } from "../components/inputs/Input";
 import InputCategories from "../components/inputs/InputCategories";
 import InputImage from "../components/inputs/InputImage";
+import useNotifications from "../hooks/useNotifications";
 import LayoutAdmin from "../layouts/LayoutAdmin";
 import LayoutAdminPage from "../layouts/LayoutAdminPage";
 
 const AdminAddProducts = () => {
   const history = useHistory();
+  const { addNotification } = useNotifications();
   //initial value state
   const [initialValues, setInitialValues] = useState({
     skucode: "",
@@ -43,9 +45,11 @@ const AdminAddProducts = () => {
       //add products
       const response = await ProductRequests.addOne(values);
       setProductId(response.product.id);
+      addNotification("Added Product");
       history.push("/admin/products");
     } catch (err) {
       console.log(err);
+      addNotification("Unable to Add Product");
     }
   };
 

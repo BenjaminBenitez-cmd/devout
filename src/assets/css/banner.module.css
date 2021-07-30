@@ -1,0 +1,11 @@
+.banner {
+  background-color: var(--main-color);
+  color: var(--secondary-color);
+  width: 100%;
+  text-align: center;
+  padding: 5px;
+}
+
+.banner p {
+  margin-bottom: 0;
+}

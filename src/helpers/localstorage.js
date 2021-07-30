@@ -24,3 +24,15 @@ export const getCartFromLocalStorage = () => {
   const cart = localStorage.getItem("cart");
   return JSON.parse(cart);
 };
+
+export const saveAdminToLocalStorage = (values) =>
+  localStorage.setItem("Admin", JSON.stringify(values));
+
+/**
+ *
+ * @returns {object} admin saved to local storage
+ */
+export const getAdminFromLocalStorage = () => {
+  const user = localStorage.getItem("Admin");
+  return JSON.parse(user);
+};

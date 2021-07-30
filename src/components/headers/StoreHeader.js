@@ -3,7 +3,7 @@ import React from "react";
 import headerdata from "../../data/header.json";
 //css
 import headerstyles from "../../assets/css/header.module.css";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
 import useCart from "../../hooks/useCart";
 
@@ -15,7 +15,9 @@ const StoreHeader = () => {
 
   return (
     <nav className={headerstyles.container}>
-      <span className="text-medium">{headerdata.logo}</span>
+      <Link to="/">
+        <span className="text-medium">{headerdata.logo}</span>
+      </Link>
       <div>
         <ul className="list-unstyled mb-0 d-flex align-content-end">
           <li className="me-4">

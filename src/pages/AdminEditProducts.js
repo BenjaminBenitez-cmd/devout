@@ -6,12 +6,13 @@ import PrimaryButton from "../components/buttons/PrimaryButton";
 import { Input, TextArea } from "../components/inputs/Input";
 import InputCategories from "../components/inputs/InputCategories";
 import InputImage from "../components/inputs/InputImage";
+import useNotifications from "../hooks/useNotifications";
 import LayoutAdmin from "../layouts/LayoutAdmin";
 import LayoutAdminPage from "../layouts/LayoutAdminPage";
 
 const AdminEditProducts = () => {
   const { productid } = useParams();
-
+  const { addNotification } = useNotifications();
   //initial value state
   const [initialValues, setInitialValues] = useState(null);
   //new images
@@ -24,7 +25,6 @@ const AdminEditProducts = () => {
     const data = await response.json();
     setInitialValues({
       ...data.product,
-      skuid: data.product.variants[0].skuid,
     });
   };
 
@@ -41,8 +41,10 @@ const AdminEditProducts = () => {
     try {
       //update products
       await ProductRequests.updateOne(values);
+      addNotification("Successfully Updated Product");
     } catch (err) {
       console.log(err);
+      addNotification("Unable to Update Product");
     }
   };
 
@@ -94,8 +96,8 @@ const AdminEditProducts = () => {
                       <Col className="my-3 pr-0 ps-0" sm={6}>
                         <Input
                           type="text"
-                          placeholder={initialValues.variants[0].skuname}
-                          value={initialValues.variants[0].skuname}
+                          placeholder={initialValues.skucode}
+                          value={initialValues.skucode}
                           name="skucode"
                           onChange={handleChange}
                         />
@@ -103,8 +105,8 @@ const AdminEditProducts = () => {
                       <Col sm={6} className="my-3 p-0">
                         <Input
                           type="text"
-                          placeholder={initialValues.variants[0].quantity}
-                          value={initialValues.variants[0].quantity}
+                          placeholder={initialValues.quantity}
+                          value={initialValues.quantity}
                           name="amount"
                           onChange={handleChange}
                         />
@@ -146,7 +148,7 @@ const AdminEditProducts = () => {
                       <h3 className="text-small ps-0">Image Gallery</h3>
                       <Col sm={12} className="my-3 px-0">
                         <InputImage
-                          images={initialValues.variants[0].images}
+                          images={initialValues.images}
                           updateImages={updateImages}
                         />
                       </Col>

@@ -11,9 +11,27 @@ class AuthRequests {
     }
   };
 
+  static signinAdmin = async (values) => {
+    try {
+      const response = await instance.post(`/admin/signin`, values);
+      return response.data;
+    } catch (err) {
+      throw err;
+    }
+  };
+
   static signup = async (values) => {
     try {
       const response = await instance.post(`/users/signup`, values);
+      return response.data;
+    } catch (err) {
+      throw err;
+    }
+  };
+
+  static signupAdmin = async (values) => {
+    try {
+      const response = await instance.post(`/admin/signup`, values);
       return response.data;
     } catch (err) {
       throw err;

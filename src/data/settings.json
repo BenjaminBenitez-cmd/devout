@@ -2,5 +2,6 @@
     "currency": "USD",
     "tax": 13.5,
     "language": "en",
-    "countries": ["US", "EU"]
+    "countries": ["US", "EU"],
+    "banner": "Free shipping only this weekend"
 }

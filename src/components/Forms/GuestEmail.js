@@ -1,15 +1,16 @@
-import React, { useState } from "react";
+import React from "react";
 import { FormGroup } from "reactstrap";
 import PrimaryButton from "../buttons/PrimaryButton";
 import { Form, Formik } from "formik";
 import { MyTextField } from "../inputs/CustomInputs";
 import * as Yup from "yup";
 import { CustomRadio } from "../inputs/Input";
+import { useHistory } from "react-router-dom";
+import useAuth from "../../hooks/useAuth";
 
 const GuestEmail = () => {
-  //state for message
-  const [message, setMessage] = useState("");
-
+  const { setEmail } = useAuth();
+  const history = useHistory();
   //validation schema
   const validationSchema = Yup.object().shape({
     email: Yup.string().email("Invalid Email").required("Required Field"),
@@ -20,8 +21,8 @@ const GuestEmail = () => {
   };
 
   const onSubmit = async (values) => {
-    setMessage("");
-    alert(JSON.stringify(values));
+    setEmail(values.email);
+    history.push("/checkout/shipping");
   };
 
   return (
@@ -30,7 +31,7 @@ const GuestEmail = () => {
       onSubmit={onSubmit}
       validationSchema={validationSchema}
     >
-      <div style={{ width: "500px" }}>
+      <div style={{ maxWidth: "500px" }}>
         <Form>
           <h1 className="text-medium">Guest</h1>
           <FormGroup className="mt-3">
@@ -39,7 +40,6 @@ const GuestEmail = () => {
           <FormGroup className="mt-2">
             <CustomRadio label="Sign me up for the latest updates" />
           </FormGroup>
-          <p className="mt-3">{message}</p>
           <FormGroup className="mt-3">
             <PrimaryButton text="submit" type="submit" />
           </FormGroup>

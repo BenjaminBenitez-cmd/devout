@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Col, Container, Row } from "reactstrap";
 import StoreCollection from "../components/sections/StoreCollection";
 import LayoutStoreHome from "../layouts/LayoutStoreHome";
@@ -7,9 +7,16 @@ import productdata from "../data/productdetails.json";
 import ProductCard from "../components/product/ProductCard";
 import StoreFilter from "../components/sidebar/StoreFilter";
 import useProducts from "../hooks/useProducts";
+import { filterByOption } from "../helpers/filters";
 
 const StoreProducts = () => {
   const { getProductsQuery } = useProducts();
+  const [filter, setFilter] = useState("addidas");
+  console.log(filter);
+  const toggleFilter = (option) => {
+    setFilter(option);
+  };
+
   return (
     <LayoutStoreHome>
       {/**Collection bar */}
@@ -30,7 +37,7 @@ const StoreProducts = () => {
       </Row>
       <Row>
         <Col md={2}>
-          <StoreFilter />
+          <StoreFilter toggleFilter={toggleFilter} />
         </Col>
         <Col md={{ size: 9, offset: 1 }}>
           <Container fluid>

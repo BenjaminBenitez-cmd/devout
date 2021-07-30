@@ -1,0 +1,4 @@
+.underline {
+  border-bottom: 2px solid var(--main-color);
+  padding: 8px 0;
+}

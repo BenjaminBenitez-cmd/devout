@@ -32,7 +32,7 @@ const Signin = ({ redirect }) => {
     try {
       const response = await AuthRequests.signin(values);
       signIn(response.user);
-      history.push(redirect);
+      if (redirect) return history.push(redirect);
     } catch (err) {
       console.error(err);
       setMessage(err.response.data.message || "Something went wrong");
@@ -45,7 +45,7 @@ const Signin = ({ redirect }) => {
       validationSchema={validationSchema}
       onSubmit={onSubmit}
     >
-      <div style={{ width: "500px" }}>
+      <div style={{ maxWidth: "500px" }}>
         <Form>
           <h1 className="text-medium">Signin</h1>
           <FormGroup className="mt-3">

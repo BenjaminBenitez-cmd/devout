@@ -11,7 +11,7 @@ import useAuth from "./useAuth";
 
 const useCart = () => {
   const { authenticated } = useAuth();
-  const { cartItems, removeItem, addItem, setCartItems } =
+  const { cartItems, removeItem, addItem, setCartItems, clearCart } =
     useContext(CartContext);
   //get cart items either locally or from api
   const getCartItems = useCallback(async () => {
@@ -98,7 +98,7 @@ const useCart = () => {
     getCartItems();
   }, [getCartItems]);
 
-  return { cartItems, addAnItem, removeAnItem };
+  return { cartItems, addAnItem, removeAnItem, clearCart };
 };
 
 export default useCart;

@@ -24,13 +24,13 @@ const StoreSidebarOption = ({ value }) => {
         <Dropdown isOpen={isOpen} unstyled>
           <FormGroup tag="fieldset">
             <FormGroup>
-              <CustomRadio label="Blue" />
+              <CustomRadio label="Addidas" />
             </FormGroup>
             <FormGroup>
-              <CustomRadio label="Blue" />
+              <CustomRadio label="Nike" />
             </FormGroup>
             <FormGroup>
-              <CustomRadio label="Blue" />
+              <CustomRadio label="Fear of God" />
             </FormGroup>
           </FormGroup>
         </Dropdown>

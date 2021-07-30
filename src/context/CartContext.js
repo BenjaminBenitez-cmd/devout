@@ -10,7 +10,10 @@ const CartProvider = ({ children }) => {
   const removeItem = (id) =>
     setCartItems((prev) => prev.filter((item) => item.skuid !== id));
 
+  const clearCart = () => setCartItems([]);
+
   const defaultContext = {
+    clearCart,
     addItem,
     removeItem,
     cartItems,

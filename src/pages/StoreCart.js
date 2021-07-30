@@ -5,7 +5,6 @@ import { NavLink } from "react-router-dom";
 import useCart from "../hooks/useCart";
 import StoreCartItem from "../components/sections/StoreCartItem";
 import StoreTotalSummary from "../components/sections/StoreTotalSummary";
-import Signin from "../components/Forms/Signin";
 
 const StoreCart = () => {
   const { cartItems, removeAnItem } = useCart();

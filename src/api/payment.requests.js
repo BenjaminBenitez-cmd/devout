@@ -4,10 +4,7 @@ import instance from "./axios.custom";
 class PaymentRequests {
   static getInitializationToken = async (values) => {
     try {
-      const response = await instance.post(
-        `/users/orders/create-payment-intent`,
-        values
-      );
+      const response = await instance.post(`/users/payments/intents`, values);
       return response.data;
     } catch (err) {
       throw err;

@@ -30,3 +30,20 @@ export const calculateTotal = (cartItems, tax) => {
   const total = calculateSubTotal(cartItems);
   return total + calculateTax(total, tax);
 };
+
+/**
+ *
+ * @param {array} cartItems
+ * @param {float} taxpercentage
+ * @returns {object} with subtotal, tax and total
+ */
+export const calculateAll = (cartItems, taxpercentage) => {
+  const subtotal = calculateSubTotal(cartItems);
+  const tax = calculateTax(subtotal, taxpercentage);
+  const total = calculateTotal(cartItems, taxpercentage);
+  return {
+    subtotal,
+    tax,
+    total,
+  };
+};
