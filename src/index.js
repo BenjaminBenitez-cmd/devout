@@ -13,8 +13,7 @@ import { addressRouter } from "./resources/routes/address.route";
 //Status codes
 import { handleError } from "./utils/errors";
 import AuthControllers from "./resources/controllers/authorization";
-import { ImageRouter } from "./resources/routes/image.route";
-import db from "./database/connection";
+import { imageRouter } from "./resources/routes/image.route";
 import cors from "cors";
 import { paymentRouter } from "./resources/routes/payment.route";
 
@@ -33,6 +32,7 @@ app.get("/", (request, response) => {
 app.use("/api/v1/products", productRouter);
 app.use("/api/v1/categories", categoryRouter);
 app.use("/api/v1/orders", orderRouter);
+app.use("/api/v1/images", imageRouter);
 
 //routes for handling user requests
 app.use("/api/v1/users/payments", paymentRouter);
@@ -44,8 +44,6 @@ app.use("/api/v1/users", userRouter);
 //admin routes
 app.post("/api/v1/admin/signin", AuthControllers.signInAnAdmin);
 app.post("/api/v1/admin/signup", AuthControllers.createAnAdmin);
-
-app.use("/api/v1/images", ImageRouter);
 
 const port = process.env.PORT || 3005;
 

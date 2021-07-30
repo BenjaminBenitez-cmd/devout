@@ -6,32 +6,29 @@ import {
 import { ImageCRUD } from "../../database/crud";
 import { upload } from "../../utils/fileupload";
 import { uploadToCloudinary } from "../services/image.service";
+import fs from "fs";
 
-const uploadAnImage =
-  ("/api/v1/upload",
-  (req, res, next) => {
-    try {
-      upload(req, res, async (err) => {
-        if (err) {
-          res.status(ERROR).end("Unable to upload");
-        } else {
-          //get the details
-          const url = `http://localhost:3005/uploads/${req.file.filename}`;
-          const response = await uploadToCloudinary(req.file.path);
-
-          res.status(SUCCESS).json({
-            message: "Success",
-            image: {
-              path: response,
-            },
-          });
-        }
-      });
-    } catch (err) {
-      console.log(err);
-      next(err);
-    }
-  });
+const uploadAnImage = (req, res, next) => {
+  try {
+    upload(req, res, async (err) => {
+      if (err) {
+        res.status(ERROR).end("Unable to upload");
+      } else {
+        const response = await uploadToCloudinary(req.file.path);
+        fs.unlinkSync(req.file.path);
+        res.status(SUCCESS).json({
+          message: "Success",
+          image: {
+            path: response,
+          },
+        });
+      }
+    });
+  } catch (err) {
+    console.log(err);
+    next(err);
+  }
+};
 
 const deleteAnImage = async (request, response, next) => {
   try {

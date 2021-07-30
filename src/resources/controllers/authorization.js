@@ -16,7 +16,7 @@ import emailService from "../services/Mail";
 
 const signInAnAdmin = async (request, response, next) => {
   const { username, password } = request.body;
-
+  console.log(request.body);
   if (!username || !password) {
     return next(new ErrorHandler(NOT_AUTHORIZED, "Missing parameters"));
   }

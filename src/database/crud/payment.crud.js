@@ -2,6 +2,12 @@ import db from "../connection";
 
 const Payment = {};
 
+Payment.getOneByID = (paymentid) => {
+  return db.query("SELECT * FROM PaymentDetails WHERE PaymentID = $1", [
+    paymentid,
+  ]);
+};
+
 Payment.createOne = (amount, provider, status) => {
   return db.query(
     "INSERT INTO PaymentDetails(PaymentAmount, PaymentProvider, PaymentStatus) VALUES ($1, $2, $3) returning*",

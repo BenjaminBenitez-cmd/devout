@@ -127,6 +127,7 @@ const getAllProducts = async () => {
           const orderQuery = await OrderCRUD.items.getManyByProductID(
             productid
           );
+
           const skuQuery = await SKUCRUD.getManyByProductID(productid);
 
           const { skuid } = skuQuery.rows[0];

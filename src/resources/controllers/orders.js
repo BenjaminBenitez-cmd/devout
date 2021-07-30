@@ -5,6 +5,8 @@ import {
   CartCRUD,
   CartItemCRUD,
   InventoryCRUD,
+  PaymentCRUD,
+  UsersCRUD,
 } from "../../database/crud";
 import { checkResults } from "../../utils/validate";
 import { checkoutService } from "../services/checkout.service";
@@ -175,7 +177,52 @@ const createOrder = async (request, response, next) => {
   }
 };
 
+const getAnOrder = async (request, response, next) => {
+  const { orderid } = request.params;
+  try {
+    //get order items
+    const orderItems = await OrderCRUD.items.getManyByOrderDetailsID(orderid);
+    //get payment info
+    const orderInfo = await OrderCRUD.details.getOne(orderid);
+    const paymentInfo = await PaymentCRUD.getOneByID(
+      orderInfo.rows[0].orderdetailpaymentid
+    );
+    const customerInfo = await UsersCRUD.getOneByID(orderInfo.rows[0].userid);
+
+    const itemsAndProducts = await Promise.all(
+      orderItems.rows.map(async (item) => {
+        const productQuery = await ProductCRUD.getOneByID(item.productid);
+        return {
+          id: item.orderitemsid,
+          name: productQuery.rows[0].productname,
+          quantity: item.orderquantity,
+          total: item.orderquantity * productQuery.rows[0].productprice,
+        };
+      })
+    );
+
+    response.status(200).json({
+      message: "Success",
+      order: {
+        id: orderid,
+        paymentinfo: {
+          id: paymentInfo.rows[0].paymentid,
+          amount: paymentInfo.rows[0].paymentamount,
+          status: paymentInfo.rows[0].paymentstatus,
+        },
+        items: itemsAndProducts,
+        customer: {
+          email: customerInfo.rows[0].useremail,
+        },
+      },
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
 const OrderControllers = {
+  getAnOrder,
   getAllOrders,
   getAllUserOrders,
   createOrder,

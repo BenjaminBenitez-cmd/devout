@@ -5,4 +5,4 @@ const router = Router();
 router.route("/").post(ImageControllers.uploadAnImage);
 router.route("/:imageid").delete(ImageControllers.deleteAnImage);
 
-export const ImageRouter = router;
+export const imageRouter = router;
