@@ -6,6 +6,19 @@ Categories.getMany = () => {
   return db.query("SELECT * FROM Categories");
 };
 
+Categories.getManyForProduct = (productid) => {
+  return db.query(
+    `SELECT * 
+                  FROM ProductCategories AS PC
+                  INNER JOIN Categories AS C
+                  ON C.CategoryID = PC.CategoryID
+                  WHERE PC.ProductID = $1
+                    
+  `,
+    [productid]
+  );
+};
+
 Categories.getOne = (id) => {
   return db.query(`SELECT * FROM ProductCategories WHERE ProductID = $1`, [id]);
 };

@@ -12,6 +12,7 @@ import {
   ImageCRUD,
   OrderCRUD,
   ProductCatCRUD,
+  CategoriesCRUD,
 } from "../../database/crud";
 import { ErrorHandler } from "../../utils/errors";
 import { checkResults } from "../../utils/validate";
@@ -137,6 +138,17 @@ const getAllProducts = async () => {
             skuid
           );
 
+          const categoriesQuery = await CategoriesCRUD.getManyForProduct(
+            productid
+          );
+
+          const mappedCategories = categoriesQuery.rows.map((cat) => {
+            return {
+              id: cat.categoryid,
+              name: cat.categoryname,
+            };
+          });
+
           return {
             id: productid,
             name: productname,
@@ -144,6 +156,7 @@ const getAllProducts = async () => {
             cartdescription: productcartdesc,
             shortdescription: productshortdesc,
             longdescription: productlongdesc,
+            categories: mappedCategories,
             discountid: productdiscountid,
             sales: saleQuery.rows.length,
             orders: orderQuery.rows.length,
