@@ -12,9 +12,8 @@ import { filterByOption } from "../helpers/filters";
 const StoreProducts = () => {
   const { getProductsQuery } = useProducts();
   const [filter, setFilter] = useState("addidas");
-  console.log(filter);
-  const toggleFilter = (option) => {
-    setFilter(option);
+  const toggleFilter = (e) => {
+    setFilter(e.target.value);
   };
 
   return (
@@ -43,11 +42,14 @@ const StoreProducts = () => {
           <Container fluid>
             <Row>
               {/**Products */}
-              {getProductsQuery.data?.products.map((product, index) => (
-                <Col md={4}>
-                  <ProductCard key={index} {...product} />
-                </Col>
-              ))}
+              {getProductsQuery.data &&
+                filterByOption(getProductsQuery.data.products, filter).map(
+                  (product, index) => (
+                    <Col md={4}>
+                      <ProductCard key={index} {...product} />
+                    </Col>
+                  )
+                )}
             </Row>
           </Container>
         </Col>

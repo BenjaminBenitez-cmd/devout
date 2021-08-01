@@ -7,13 +7,13 @@ import useDropdown from "../../hooks/useDropdown";
 //css
 import styles from "../../assets/css/filter.module.css";
 
-const StoreSidebarOption = ({ value }) => {
+const StoreSidebarOption = ({ name, children }) => {
   const { isOpen, toggleOpen } = useDropdown();
 
   return (
     <div className="my-3">
       <span className={styles.item} onClick={toggleOpen}>
-        {value}
+        {name}
         {isOpen ? (
           <FeatherIcons icon="chevron-up" />
         ) : (
@@ -22,17 +22,7 @@ const StoreSidebarOption = ({ value }) => {
       </span>
       <div className="mt-3">
         <Dropdown isOpen={isOpen} unstyled>
-          <FormGroup tag="fieldset">
-            <FormGroup>
-              <CustomRadio label="Addidas" />
-            </FormGroup>
-            <FormGroup>
-              <CustomRadio label="Nike" />
-            </FormGroup>
-            <FormGroup>
-              <CustomRadio label="Fear of God" />
-            </FormGroup>
-          </FormGroup>
+          {children}
         </Dropdown>
       </div>
     </div>

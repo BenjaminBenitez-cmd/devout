@@ -17,7 +17,7 @@ const StoreVerify = () => {
 
   return (
     <LayoutStoreHome>
-      <div className="d-flex vh-100 justify-content-center align-items-center">
+      <div className="d-flex section justify-content-center align-items-center">
         {!token && <p>Paste the link in the url bar</p>}
         {isLoading && <p>Hold on ...</p>}
         {data && (

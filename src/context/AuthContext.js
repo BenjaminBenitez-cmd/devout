@@ -32,7 +32,7 @@ const AuthProvider = ({ children }) => {
 
   const signInAdmin = (admin) => {
     saveAdminToLocalStorage(admin);
-    setAdminAuthenticated(true);
+    setAdminAuthenticated((prev) => (prev = true));
   };
 
   useEffect(() => {
@@ -49,7 +49,8 @@ const AuthProvider = ({ children }) => {
       return setAuthenticated(false);
     }
     setAuthenticated(true);
-  }, [userToken]);
+  }, []);
+
   useEffect(() => {
     if (!adminToken) {
       return setAdminAuthenticated(false);
@@ -61,11 +62,10 @@ const AuthProvider = ({ children }) => {
 
     if (decoded.exp < currentTime) {
       clearLocalStorage();
-      return setAuthenticated(false);
+      return setAdminAuthenticated(false);
     }
     setAdminAuthenticated(true);
   }, [adminToken]);
-
   const defaultContext = {
     signInAdmin,
     adminAuthenticated,

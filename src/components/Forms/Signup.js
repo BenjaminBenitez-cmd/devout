@@ -10,6 +10,7 @@ import * as Yup from "yup";
 const Signup = () => {
   //state for message
   const [message, setMessage] = useState("");
+  const [loading, setLoading] = useState(false);
 
   //validation schema
   const validationSchema = Yup.object().shape({
@@ -26,11 +27,14 @@ const Signup = () => {
 
   const onSubmit = async (values, { setSubmitting }) => {
     setMessage("");
+    setLoading(true);
     try {
       await AuthRequests.signup(values);
+      setLoading(false);
       setMessage("Successfully signed up, verify your email");
     } catch (err) {
       setMessage(err.response.data.message || "Something went wrong");
+      setLoading(false);
     }
     setSubmitting(false);
   };
@@ -57,7 +61,7 @@ const Signup = () => {
           </FormGroup>
           <p className="mt-3">{message}</p>
           <FormGroup className="mt-3">
-            <PrimaryButton text="submit" type="submit" />
+            <PrimaryButton disable={loading} text="submit" type="submit" />
           </FormGroup>
           <FormGroup className="mt-3">
             <p className="text-extrasmall">

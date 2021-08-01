@@ -15,6 +15,7 @@ import { loadStripe } from "@stripe/stripe-js";
 import config from "../config";
 import useAuth from "../hooks/useAuth";
 import StoreCheckoutSummaryTotal from "../components/sections/StoreCheckoutSummaryTotal";
+import { NavLink } from "react-router-dom";
 
 const options = {
   style: {
@@ -32,7 +33,7 @@ const promise = loadStripe(config.STRIPE_KEY);
 const PaymentForm = ({ address }) => {
   const user = getUserFromLocalStorage();
   // const userEmail = user.email || email;
-  const { cartItems } = useCart();
+  const { cartItems, clearCart } = useCart();
   const { email } = useAuth();
   const userEmail = email || user.email;
   const elements = useElements();
@@ -74,14 +75,17 @@ const PaymentForm = ({ address }) => {
       setError(`Payment failed ${payload.error.message}`);
       setProcessing(false);
     } else {
+      debugger;
       setError(null);
       setProcessing(false);
       setSucceeded(true);
+      clearCart();
     }
   };
 
   //get the payment token
   useEffect(() => {
+    if (!email || !cartItems) return;
     const fetchPaymentToken = async () => {
       const response = await PaymentRequests.getInitializationToken({
         items: cartItems,
@@ -90,70 +94,84 @@ const PaymentForm = ({ address }) => {
       setClientSecret(response.clientSecret);
     };
     fetchPaymentToken();
-  }, []);
+  }, [cartItems, email]);
 
   return (
     <div>
-      <form id="payment-form" onSubmit={onSubmit}>
-        <Row>
-          <Col sm={12}>
-            <CheckoutSteps step2 />
-          </Col>
-          <Col sm={12} md={4}>
-            <div style={{ maxWidth: "500px", marginBottom: "100px" }}>
-              <FormGroup>
-                <label className="text-extrasmall">Email</label>
-                <p>{userEmail}</p>
-              </FormGroup>
-              <div style={{ borderBottom: "2px solid black" }}></div>
-              <div className="my-3">
-                <label className="text-extrasmall">Credit Card Details</label>
-                <CardElement
-                  id="card-element"
-                  options={options}
-                  onChange={handleChange}
-                />
+      {succeeded && (
+        <div className="section">
+          <h1 className="text-medium text-lowercase">
+            You are awesome, thank you for your purchase!
+          </h1>
+          <p>
+            A receipt has been sent to your email{" "}
+            <NavLink className="text-lowercase text-bold" to="/products">
+              Continue Shopping
+            </NavLink>
+          </p>
+        </div>
+      )}
+      {!succeeded && (
+        <form id="payment-form" onSubmit={onSubmit}>
+          <Row>
+            <Col sm={12}>
+              <CheckoutSteps step2 />
+            </Col>
+            <Col sm={12} md={4}>
+              <div style={{ maxWidth: "500px", marginBottom: "100px" }}>
+                <FormGroup>
+                  <label className="text-extrasmall">Email</label>
+                  <p>{userEmail}</p>
+                </FormGroup>
+                <div style={{ borderBottom: "2px solid black" }}></div>
+                <div className="my-3">
+                  <label className="text-extrasmall">Credit Card Details</label>
+                  <CardElement
+                    id="card-element"
+                    options={options}
+                    onChange={handleChange}
+                  />
+                </div>
+                <FormGroup>
+                  {/*Show any error that happens when processing the payment */}
+                  {error && (
+                    <div className="card-error" role="alert">
+                      {error}
+                    </div>
+                  )}
+                  {/**Show a success message upon completition */}
+                  {succeeded && (
+                    <p
+                      className={
+                        succeeded ? "result-message" : "result-message-hidden"
+                      }
+                    >
+                      Payment succeeded, thank you for your purchase!
+                    </p>
+                  )}
+                </FormGroup>
               </div>
-              <FormGroup>
-                {/*Show any error that happens when processing the payment */}
-                {error && (
-                  <div className="card-error" role="alert">
-                    {error}
+            </Col>
+            <Col md={{ offset: 5, size: 3 }}>
+              <StoreCheckoutSummaryTotal />
+              {/**submit button */}
+              <PrimaryButton
+                width="100%"
+                type="submit"
+                disabled={processing || disabled || succeeded}
+                id="submit"
+              >
+                {processing && (
+                  <div className="spinner-border text-light" role="status">
+                    <span className="visually-hidden">Loading...</span>
                   </div>
                 )}
-                {/**Show a success message upon completition */}
-                {succeeded && (
-                  <p
-                    className={
-                      succeeded ? "result-message" : "result-message-hidden"
-                    }
-                  >
-                    Payment succeeded, thank you for your purchase!
-                  </p>
-                )}
-              </FormGroup>
-            </div>
-          </Col>
-          <Col md={{ offset: 5, size: 3 }}>
-            <StoreCheckoutSummaryTotal />
-            {/**submit button */}
-            <PrimaryButton
-              width="100%"
-              type="submit"
-              disabled={processing || disabled || succeeded}
-              id="submit"
-            >
-              <span id="button-text">
-                {processing ? (
-                  <div className="spinner" id="spinner"></div>
-                ) : (
-                  "Pay now"
-                )}
-              </span>
-            </PrimaryButton>
-          </Col>
-        </Row>
-      </form>
+                Pay Now
+              </PrimaryButton>
+            </Col>
+          </Row>
+        </form>
+      )}
     </div>
   );
 };

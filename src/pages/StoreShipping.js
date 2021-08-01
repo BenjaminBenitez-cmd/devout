@@ -10,14 +10,12 @@ import useAuth from "../hooks/useAuth";
 import * as Yup from "yup";
 import PrimaryButton from "../components/buttons/PrimaryButton";
 import { useHistory } from "react-router-dom";
-import useCart from "../hooks/useCart";
 import StoreCheckoutSummaryTotal from "../components/sections/StoreCheckoutSummaryTotal";
 
 const StoreShipping = ({ setAddress }) => {
   const { authenticated } = useAuth();
-  const { cartItems } = useCart();
-  console.log(cartItems);
   const history = useHistory();
+  const [userAddress, setUserAddress] = useState(false);
   //our formik initial state
   const [initialValues, setInitialValues] = useState({
     city: "",
@@ -36,7 +34,6 @@ const StoreShipping = ({ setAddress }) => {
     country: Yup.string().required("Required field"),
     address1: Yup.string().required("Required field"),
   });
-
   //fetch our address
   useEffect(() => {
     if (!authenticated) return;
@@ -45,9 +42,10 @@ const StoreShipping = ({ setAddress }) => {
       try {
         const response = await AddressRequests.getOne();
         if (!response.address) {
-          return;
+          return setUserAddress(false);
         } else {
           setInitialValues(response.address);
+          setUserAddress(true);
         }
       } catch (err) {
         console.error(err);
@@ -58,8 +56,15 @@ const StoreShipping = ({ setAddress }) => {
   }, [authenticated]);
 
   //handle the submission logic
-  const onSubmit = (values) => {
+  const onSubmit = async (values) => {
     setAddress(values);
+    if (!userAddress) {
+      try {
+        await AddressRequests.addOne(values);
+      } catch (error) {
+        console.error(error);
+      }
+    }
     history.push("/checkout/payment");
   };
 

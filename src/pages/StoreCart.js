@@ -8,6 +8,7 @@ import StoreTotalSummary from "../components/sections/StoreTotalSummary";
 
 const StoreCart = () => {
   const { cartItems, removeAnItem } = useCart();
+  console.log(cartItems);
   return (
     <LayoutStoreHome>
       {cartItems.length === 0 && (

@@ -14,9 +14,10 @@ const useCart = () => {
   const { cartItems, removeItem, addItem, setCartItems, clearCart } =
     useContext(CartContext);
   //get cart items either locally or from api
-  const getCartItems = useCallback(async () => {
-    const { products } = await ProductRequests.getMany();
 
+  const getCartItems = async () => {
+    const { products } = await ProductRequests.getMany();
+    console.log("is authenticated", authenticated);
     if (!authenticated) {
       const cart = getCartFromLocalStorage(); //get cart from localstorage
       if (!cart) {
@@ -34,7 +35,7 @@ const useCart = () => {
     } catch (err) {
       console.error(err);
     }
-  }, [authenticated, setCartItems]);
+  };
 
   /**
    *
@@ -96,7 +97,7 @@ const useCart = () => {
 
   useEffect(() => {
     getCartItems();
-  }, [getCartItems]);
+  }, []);
 
   return { cartItems, addAnItem, removeAnItem, clearCart };
 };

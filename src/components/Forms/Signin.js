@@ -31,6 +31,7 @@ const Signin = ({ redirect }) => {
     setMessage("");
     try {
       const response = await AuthRequests.signin(values);
+      debugger;
       signIn(response.user);
       if (redirect) return history.push(redirect);
     } catch (err) {

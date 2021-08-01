@@ -34,6 +34,7 @@ export const mapProductsToCart = (cartdata, productsdata) => {
     return {
       ...cartsproduct,
       ...item,
+      quantity: 1,
     };
   });
 };

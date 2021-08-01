@@ -1,12 +1,13 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
+import { Card } from "reactstrap";
 import styles from "../../assets/css/product.module.css";
 
 const ProductCard = (props) => {
   return (
-    <NavLink to={`/product/${props.id}`}>
-      <div className="mb-5">
-        <div className={styles.imagecontainer}>
+    <Card className={styles.card}>
+      <NavLink to={`/product/${props.id}`}>
+        <div>
           <img
             src={props.images[0].imageurl}
             alt={props.images[0].alt}
@@ -21,8 +22,8 @@ const ProductCard = (props) => {
             <p className="text-small">BZD ${props.price}</p>
           </div>
         </div>
-      </div>
-    </NavLink>
+      </NavLink>
+    </Card>
   );
 };
 

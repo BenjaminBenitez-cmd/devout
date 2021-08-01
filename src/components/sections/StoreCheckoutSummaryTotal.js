@@ -20,8 +20,8 @@ const StoreCheckoutSummaryTotal = () => {
           </h5>
         </div>
         {cartItems &&
-          cartItems.map((item) => (
-            <Row className="my-4">
+          cartItems.map((item, index) => (
+            <Row key={index} className="my-4">
               <Col sm={3}>
                 <div>
                   <img
