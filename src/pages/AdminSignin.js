@@ -1,6 +1,6 @@
 import { Form, Formik } from "formik";
 import React, { useState } from "react";
-import { Redirect, useHistory } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 import { Col, FormGroup, Row } from "reactstrap";
 import PrimaryButton from "../components/buttons/PrimaryButton";
 import AdminFooter from "../components/footers/AdminFooter";

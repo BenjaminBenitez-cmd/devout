@@ -26,8 +26,9 @@ export function generateObject(data, Component) {
  * @param {array} receives product array
  * @returns {array} cart items with respective product values
  */
-export const mapProductsToCart = (cartdata, productsdata) => {
-  return cartdata.items.map((item) => {
+export const mapProductsToCart = (items, productsdata) => {
+  if (items.length <= 0) return [];
+  return items.map((item) => {
     const cartsproduct = productsdata.find(
       (product) => product.id.toString() === item.productid.toString()
     );

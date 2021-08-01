@@ -15,27 +15,24 @@ const useCart = () => {
     useContext(CartContext);
   //get cart items either locally or from api
 
-  const getCartItems = async () => {
+  const getCartItems = useCallback(async () => {
     const { products } = await ProductRequests.getMany();
-    console.log("is authenticated", authenticated);
     if (!authenticated) {
       const cart = getCartFromLocalStorage(); //get cart from localstorage
       if (!cart) {
         return;
       }
-      return setCartItems(mapProductsToCart(cart, products));
+      return setCartItems(mapProductsToCart(cart.items, products));
     }
 
     try {
       const { cart } = await CartRequests.getOne();
-      if (!cart) {
-        return;
-      }
-      setCartItems(mapProductsToCart(cart, products));
+      const productsAndCart = mapProductsToCart(cart.items, products);
+      setCartItems(productsAndCart);
     } catch (err) {
       console.error(err);
     }
-  };
+  }, []);
 
   /**
    *
@@ -96,8 +93,9 @@ const useCart = () => {
   };
 
   useEffect(() => {
+    // if (cartItems.length > 0) return;
     getCartItems();
-  }, []);
+  }, [getCartItems]);
 
   return { cartItems, addAnItem, removeAnItem, clearCart };
 };

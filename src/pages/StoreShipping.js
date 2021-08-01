@@ -1,6 +1,6 @@
 import { Formik, Form } from "formik";
 import React, { useEffect, useState } from "react";
-import { Col, Container, FormGroup, Row } from "reactstrap";
+import { Col, FormGroup, Row } from "reactstrap";
 import CheckoutSteps from "../components/headers/CheckoutSteps";
 import { MySelect, MyTextField } from "../components/inputs/CustomInputs";
 import AddressRequests from "../api/address.requests";
@@ -44,7 +44,7 @@ const StoreShipping = ({ setAddress }) => {
         if (!response.address) {
           return setUserAddress(false);
         } else {
-          setInitialValues(response.address);
+          // setInitialValues(response.address);
           setUserAddress(true);
         }
       } catch (err) {

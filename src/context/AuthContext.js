@@ -49,7 +49,7 @@ const AuthProvider = ({ children }) => {
       return setAuthenticated(false);
     }
     setAuthenticated(true);
-  }, []);
+  }, [userToken]);
 
   useEffect(() => {
     if (!adminToken) {
@@ -66,6 +66,7 @@ const AuthProvider = ({ children }) => {
     }
     setAdminAuthenticated(true);
   }, [adminToken]);
+
   const defaultContext = {
     signInAdmin,
     adminAuthenticated,

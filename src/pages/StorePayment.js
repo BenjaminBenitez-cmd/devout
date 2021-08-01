@@ -161,12 +161,13 @@ const PaymentForm = ({ address }) => {
                 disabled={processing || disabled || succeeded}
                 id="submit"
               >
-                {processing && (
+                {processing ? (
                   <div className="spinner-border text-light" role="status">
                     <span className="visually-hidden">Loading...</span>
                   </div>
+                ) : (
+                  "Pay Now"
                 )}
-                Pay Now
               </PrimaryButton>
             </Col>
           </Row>

@@ -28,7 +28,7 @@ export const calculateTax = (total, tax) => {
  */
 export const calculateTotal = (cartItems, tax) => {
   const total = calculateSubTotal(cartItems);
-  return total + calculateTax(total, tax);
+  return Math.round(total + calculateTax(total, tax)); //round to nearest integer
 };
 
 /**

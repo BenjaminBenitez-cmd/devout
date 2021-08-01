@@ -8,11 +8,13 @@ import useCart from "../../hooks/useCart";
 
 const CheckoutForm = () => {
   const [address, setAddress] = useState(null);
+  console.log("a");
+  debugger;
   const { cartItems } = useCart();
   return (
     <Switch>
       {/**If cart is empty redirect to the checkout page */}
-      {cartItems.length <= 0 && <Redirect to="/cart/" />}
+      {/* {cartItems.length <= 0 && <Redirect to="/cart/" />} */}
       <Route path="/checkout/auth" render={() => <StoreCheckoutAuth />} />
       {/**If user does not provide email or authentication then redirect here */}
       {/**Route to shipping */}
@@ -25,7 +27,6 @@ const CheckoutForm = () => {
         path="/checkout/payment"
         render={() => <StorePayment address={address} />}
       />
-      <Redirect exact from="/checkout" to="/checkout/shipping" />
     </Switch>
   );
 };
