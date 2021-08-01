@@ -46,7 +46,7 @@ const ProductCorousel = () => {
     ],
   };
   return (
-    <div style={{ padding: `0 ${chevronWidth}px`, marginTop: "24px" }}>
+    <div style={{ marginTop: "24px" }}>
       {isLoading && <div>Loading Products</div>}
       {data && (
         <Slider {...settings}>

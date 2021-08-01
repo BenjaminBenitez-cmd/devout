@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useParams } from "react-router-dom";
 import { Col, Row } from "reactstrap";
 import OrderRequests from "../api/order.requests";
@@ -10,7 +10,7 @@ import { calculateTax } from "../helpers/calculators";
 
 const AdminEditOrders = () => {
   const { orderid } = useParams();
-  const { isLoading, error, data } = useQuery(
+  const { isLoading, data } = useQuery(
     ["orders", orderid],
     () => OrderRequests.getOne(orderid),
     { enabled: orderid ? true : false }

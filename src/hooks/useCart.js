@@ -1,38 +1,39 @@
-import { useCallback, useContext, useEffect } from "react";
+import { useEffect } from "react";
 import CartRequests from "../api/cart.requests";
 import ProductRequests from "../api/product.requests";
-import { CartContext } from "../context/CartContext";
 import {
   getCartFromLocalStorage,
   saveCartToLocalStorage,
 } from "../helpers/localstorage";
 import { mapProductsToCart } from "../helpers/mappers";
 import useAuth from "./useAuth";
+import useCount from "./useCount";
 
 const useCart = () => {
   const { authenticated } = useAuth();
-  const { cartItems, removeItem, addItem, setCartItems, clearCart } =
-    useContext(CartContext);
+  const { addItem, removeItem, clearCart, cartItems, setCartItems } =
+    useCount();
   //get cart items either locally or from api
 
-  const getCartItems = useCallback(async () => {
+  const getCartItems = async () => {
     const { products } = await ProductRequests.getMany();
     if (!authenticated) {
       const cart = getCartFromLocalStorage(); //get cart from localstorage
-      if (!cart) {
+      if (!cart?.items) {
         return;
       }
-      return setCartItems(mapProductsToCart(cart.items, products));
+      const mappedProducts = mapProductsToCart(cart.items, products);
+      return setCartItems((prev) => [...prev, ...mappedProducts]);
     }
-
+    //if user is authenticated fetch
     try {
-      const { cart } = await CartRequests.getOne();
-      const productsAndCart = mapProductsToCart(cart.items, products);
-      setCartItems(productsAndCart);
+      const response = await CartRequests.getOne();
+      const productsAndCart = mapProductsToCart(response.cart.items, products);
+      setCartItems((prev) => [...prev, ...productsAndCart]);
     } catch (err) {
       console.error(err);
     }
-  }, []);
+  };
 
   /**
    *
@@ -45,6 +46,7 @@ const useCart = () => {
       skuid: product.skuid,
       quantity: 1,
     };
+
     if (!authenticated) {
       let cart = getCartFromLocalStorage();
       if (!cart) {
@@ -64,6 +66,7 @@ const useCart = () => {
 
     //if user is authenticated
     let { cart } = await CartRequests.getOne();
+
     await CartRequests.addOneToCart(cart.id, item);
 
     return addItem({ ...item, ...product });
@@ -79,6 +82,7 @@ const useCart = () => {
       const cart = getCartFromLocalStorage();
       const newItems = cart.items.filter((item) => item.skuid !== skuid);
       saveCartToLocalStorage({ items: newItems });
+
       //remove from state
       return removeItem(skuid);
     }
@@ -95,7 +99,7 @@ const useCart = () => {
   useEffect(() => {
     // if (cartItems.length > 0) return;
     getCartItems();
-  }, [getCartItems]);
+  }, []);
 
   return { cartItems, addAnItem, removeAnItem, clearCart };
 };

@@ -4,7 +4,6 @@ import PrimaryButton from "../buttons/PrimaryButton";
 import OptionItem from "../other/OptionItem";
 
 export const StoreCartItem = ({ item, handleRemove }) => {
-  console.log(item);
   return (
     <Row className="mb-3" key={item.id}>
       <Col xs={4} md={3}>

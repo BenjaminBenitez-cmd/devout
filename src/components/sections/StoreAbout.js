@@ -1,7 +1,5 @@
 import React from "react";
 import { Col, Container, Row } from "reactstrap";
-//css
-import styles from "../../assets/css/about.module.css";
 //data
 import pagedata from "../../data/home.json";
 

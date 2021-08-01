@@ -75,7 +75,6 @@ const PaymentForm = ({ address }) => {
       setError(`Payment failed ${payload.error.message}`);
       setProcessing(false);
     } else {
-      debugger;
       setError(null);
       setProcessing(false);
       setSucceeded(true);

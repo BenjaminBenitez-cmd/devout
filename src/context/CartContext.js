@@ -13,9 +13,9 @@ const CartProvider = ({ children }) => {
   const clearCart = () => setCartItems([]);
 
   const defaultContext = {
-    clearCart,
     addItem,
     removeItem,
+    clearCart,
     cartItems,
     setCartItems,
   };

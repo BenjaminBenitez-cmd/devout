@@ -31,7 +31,6 @@ const Signin = ({ redirect }) => {
     setMessage("");
     try {
       const response = await AuthRequests.signin(values);
-      debugger;
       signIn(response.user);
       if (redirect) return history.push(redirect);
     } catch (err) {
@@ -60,7 +59,7 @@ const Signin = ({ redirect }) => {
           <FormGroup className="mt-3">
             <PrimaryButton text="submit" type="submit" />
           </FormGroup>
-          <div className="mt-3">
+          <div className="mt-4">
             <p className="text-extrasmall">
               Dont have an account?{" "}
               <NavLink className="text-extrasmall text-bold" to="/signup">

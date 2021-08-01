@@ -44,7 +44,7 @@ const StoreShipping = ({ setAddress }) => {
         if (!response.address) {
           return setUserAddress(false);
         } else {
-          // setInitialValues(response.address);
+          setInitialValues(response.address);
           setUserAddress(true);
         }
       } catch (err) {

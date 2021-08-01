@@ -1,8 +1,6 @@
 import React from "react";
-import { FormGroup } from "reactstrap";
 import FeatherIcons from "feather-icons-react";
 import Dropdown from "../buttons/Dropdown";
-import { CustomRadio } from "../inputs/Input";
 import useDropdown from "../../hooks/useDropdown";
 //css
 import styles from "../../assets/css/filter.module.css";

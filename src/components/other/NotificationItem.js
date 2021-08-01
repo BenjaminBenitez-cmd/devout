@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import styles from "../../assets/css/notification.module.css";
 import useNotifications from "../../hooks/useNotifications";
 
@@ -6,18 +6,18 @@ const NotificationItem = ({ message, id }) => {
   const { removeNotification } = useNotifications();
   const [show, setShow] = useState(true);
 
-  const timeOut = () => {
+  const timeOut = useCallback(() => {
     setTimeout(() => {
       setShow(false);
       removeNotification(id);
     }, 3000);
-  };
+  }, [id, removeNotification]);
 
   const style = show ? { display: "flex" } : { display: "none" };
 
   useEffect(() => {
     timeOut();
-  }, []);
+  }, [timeOut]);
 
   return (
     <div className={styles.item} style={style}>

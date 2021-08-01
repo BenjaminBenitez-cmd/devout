@@ -5,13 +5,13 @@ import headerdata from "../../data/header.json";
 import headerstyles from "../../assets/css/header.module.css";
 import { Link, NavLink } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
-import useCart from "../../hooks/useCart";
+import useCount from "../../hooks/useCount";
 
 const StoreHeader = () => {
   //global auth state
   const { authenticated, logOut } = useAuth();
   //hook for the dropdown
-  const { cartItems } = useCart();
+  const { cartItems } = useCount();
 
   return (
     <nav className={headerstyles.container}>
