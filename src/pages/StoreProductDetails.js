@@ -12,11 +12,14 @@ import {
 } from "../helpers/localstorage";
 import CartRequests from "../api/cart.requests";
 import useAuth from "../hooks/useAuth";
+import useCart from "../hooks/useCart";
+import { ADD_ITEM } from "../hooks/cart.constants";
 
 const StoreProductDetails = (props) => {
   const { id } = useParams();
   const { authenticated } = useAuth();
   const [product, setProduct] = useState(null);
+  const { dispatch } = useCart();
   //find product by id
   const fetchProduct = useCallback(async () => {
     const response = await ProductRequests.getOne(id);
@@ -26,18 +29,20 @@ const StoreProductDetails = (props) => {
   const addItem = async () => {
     if (!product) return;
 
+    let newItem = {
+      productid: product.id,
+      skuid: product.skuid,
+      images: product.images,
+      name: product.name,
+      price: product.price,
+      quantity: 1,
+    };
+
     if (!authenticated) {
-      let newItem = {
-        productid: product.id,
-        skuid: product.skuid,
-        images: product.images,
-        name: product.name,
-        price: product.price,
-        quantity: 1,
-      };
       const localCart = getCartFromLocalStorage();
       if (!localCart) return saveCartToLocalStorage([newItem]);
       saveCartToLocalStorage([...localCart, newItem]);
+      dispatch({ type: ADD_ITEM, payload: newItem });
     } else {
       try {
         const cartResponse = await CartRequests.getOne();
@@ -46,6 +51,7 @@ const StoreProductDetails = (props) => {
           productid: product.id,
           quantity: 1,
         });
+        dispatch({ type: ADD_ITEM, payload: newItem });
       } catch (err) {
         console.error(err);
       }

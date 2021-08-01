@@ -11,7 +11,7 @@ import {
 } from "../helpers/localstorage";
 import CartRequests from "../api/cart.requests";
 import useCart from "../hooks/useCart";
-import { FETCH_ITEMS } from "../hooks/cart.constants";
+import { FETCH_ITEMS, REMOVE_ITEM } from "../hooks/cart.constants";
 
 const StoreCart = () => {
   const { dispatch } = useCart();
@@ -32,6 +32,7 @@ const StoreCart = () => {
       }
     }
     setCartItems((prev) => prev.filter((item) => item.skuid !== skuid));
+    dispatch({ type: REMOVE_ITEM, payment: skuid });
   };
 
   useEffect(() => {
@@ -43,6 +44,7 @@ const StoreCart = () => {
     } else {
       CartRequests.getOne().then((response) => {
         setCartItems(response.cart.items);
+        dispatch({ type: FETCH_ITEMS, payload: response.cart.items });
       });
     }
   }, [authenticated]);
