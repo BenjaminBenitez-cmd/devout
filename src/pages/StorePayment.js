@@ -33,7 +33,7 @@ const promise = loadStripe(config.STRIPE_KEY);
 const PaymentForm = ({ address }) => {
   const user = getUserFromLocalStorage();
   // const userEmail = user.email || email;
-  const { cartItems, clearCart } = useCart();
+  const { state } = useCart();
   const { email } = useAuth();
   const userEmail = email || user.email;
   const elements = useElements();
@@ -78,22 +78,21 @@ const PaymentForm = ({ address }) => {
       setError(null);
       setProcessing(false);
       setSucceeded(true);
-      clearCart();
     }
   };
 
   //get the payment token
   useEffect(() => {
-    if (!email || !cartItems) return;
+    if (!email || !state) return;
     const fetchPaymentToken = async () => {
       const response = await PaymentRequests.getInitializationToken({
-        items: cartItems,
+        items: state,
         email: email,
       });
       setClientSecret(response.clientSecret);
     };
     fetchPaymentToken();
-  }, [cartItems, email]);
+  }, [state, email]);
 
   return (
     <div>

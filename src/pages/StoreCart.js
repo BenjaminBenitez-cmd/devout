@@ -10,8 +10,11 @@ import {
   saveCartToLocalStorage,
 } from "../helpers/localstorage";
 import CartRequests from "../api/cart.requests";
+import useCart from "../hooks/useCart";
+import { FETCH_ITEMS } from "../hooks/cart.constants";
 
 const StoreCart = () => {
+  const { dispatch } = useCart();
   const [cartItems, setCartItems] = useState([]);
   const { authenticated } = useAuth();
 
@@ -36,6 +39,7 @@ const StoreCart = () => {
       const items = getCartFromLocalStorage();
       if (!items) return;
       setCartItems(items);
+      dispatch({ type: FETCH_ITEMS, payload: items });
     } else {
       CartRequests.getOne().then((response) => {
         setCartItems(response.cart.items);

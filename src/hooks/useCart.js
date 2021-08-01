@@ -1,7 +1,9 @@
-const useCart = () => {
-  const { addItem, clearCart, cartItems, removeItem } = useCart();
+import { useContext } from "react";
+import { CartContext } from "../context/CartContext";
 
-  return { cartItems, addItem, removeItem, clearCart };
+const useCart = () => {
+  const { state, dispatch } = useContext(CartContext);
+  return { state, dispatch };
 };
 
 export default useCart;
