@@ -5,6 +5,7 @@
  */
 export const calculateSubTotal = (cartitems) => {
   //check for single value
+  debugger;
   if (cartitems.length === 1) return cartitems[0].price * cartitems[0].quantity;
   return cartitems.reduce((sum, i) => sum + i.price * i.quantity, 0);
 };
@@ -17,7 +18,7 @@ export const calculateSubTotal = (cartitems) => {
  */
 
 export const calculateTax = (total, tax) => {
-  return (total * tax) / 100;
+  return Math.round((total * tax) / 100);
 };
 
 /**

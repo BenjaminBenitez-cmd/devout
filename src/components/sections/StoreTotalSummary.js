@@ -14,7 +14,7 @@ export const StoreTotalSummary = ({ cartItems }) => {
       <h2 className="text-small">Apply promo code</h2>
       <div>
         <SummaryItem title="Subtotal" value={calculateSubTotal(cartItems)} />
-        <SummaryItem title="Shipping And Handling" value="20.00" />
+        <SummaryItem title="Shipping And Handling" value="0" />
         <SummaryItem
           title="Taxes"
           value={calculateTax(calculateSubTotal(cartItems), settingsdata.tax)}

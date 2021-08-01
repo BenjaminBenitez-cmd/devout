@@ -29,13 +29,15 @@ export function generateObject(data, Component) {
 export const mapProductsToCart = (items, productsdata) => {
   if (items.length <= 0) return [];
   return items.map((item) => {
-    const cartsproduct = productsdata.find(
+    const product = productsdata.find(
       (product) => product.id.toString() === item.productid.toString()
     );
     return {
-      ...cartsproduct,
-      ...item,
-      quantity: 1,
+      productid: product.id,
+      skuid: product.skuid,
+      images: product.images,
+      quantity: item.quantity, //default quantity is 1
+      price: product.price,
     };
   });
 };

@@ -10,7 +10,6 @@ import "slick-carousel/slick/slick-theme.css";
 const ProductCorousel = () => {
   const { isLoading, data } = useQuery("products", ProductRequests.getMany);
 
-  const chevronWidth = 40;
   const settings = {
     dots: false,
     infinite: false,

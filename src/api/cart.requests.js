@@ -11,6 +11,15 @@ class CartRequests {
     }
   };
 
+  static getAll = async () => {
+    try {
+      const response = await instance.get(`/users/cart`);
+      return response.data;
+    } catch (err) {
+      throw err;
+    }
+  };
+
   static addOne = async (values) => {
     try {
       const response = await instance.post(`/users/cart`, values);

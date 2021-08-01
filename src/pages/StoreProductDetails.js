@@ -6,18 +6,51 @@ import LayoutStoreHome from "../layouts/LayoutStoreHome";
 import ProductCorousel from "../components/product/ProductCorousel";
 import ProductRequests from "../api/product.requests";
 import PrimaryButton from "../components/buttons/PrimaryButton";
-import useCart from "../hooks/useCart";
+import {
+  getCartFromLocalStorage,
+  saveCartToLocalStorage,
+} from "../helpers/localstorage";
+import CartRequests from "../api/cart.requests";
+import useAuth from "../hooks/useAuth";
 
 const StoreProductDetails = (props) => {
   const { id } = useParams();
+  const { authenticated } = useAuth();
   const [product, setProduct] = useState(null);
-  const { addAnItem } = useCart();
-
   //find product by id
   const fetchProduct = useCallback(async () => {
     const response = await ProductRequests.getOne(id);
     setProduct(response.product);
   }, [id]);
+
+  const addItem = async () => {
+    if (!product) return;
+
+    if (!authenticated) {
+      let newItem = {
+        productid: product.id,
+        skuid: product.skuid,
+        images: product.images,
+        name: product.name,
+        price: product.price,
+        quantity: 1,
+      };
+      const localCart = getCartFromLocalStorage();
+      if (!localCart) return saveCartToLocalStorage([newItem]);
+      saveCartToLocalStorage([...localCart, newItem]);
+    } else {
+      try {
+        const cartResponse = await CartRequests.getOne();
+        await CartRequests.addOneToCart(cartResponse.cart.id, {
+          skuid: product.skuid,
+          productid: product.id,
+          quantity: 1,
+        });
+      } catch (err) {
+        console.error(err);
+      }
+    }
+  };
 
   //perform find on refresh
   useEffect(() => {
@@ -68,10 +101,12 @@ const StoreProductDetails = (props) => {
               </div>
               <div className="my-5">
                 <PrimaryButton
-                  onClick={() => addAnItem(product)}
-                  text="Add to Cart"
+                  disabled={!product.live}
+                  onClick={addItem}
                   width="100%"
-                />
+                >
+                  {!product.live ? "Unavailable" : "Add to Cart"}
+                </PrimaryButton>
               </div>
               <div className="my-5">
                 <h5 className="text-small text-bold">Editor's Note</h5>

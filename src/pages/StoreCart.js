@@ -1,17 +1,51 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Col, Container, Row } from "reactstrap";
 import LayoutStoreHome from "../layouts/LayoutStoreHome";
 import { NavLink } from "react-router-dom";
-import useCart from "../hooks/useCart";
 import StoreCartItem from "../components/sections/StoreCartItem";
 import StoreTotalSummary from "../components/sections/StoreTotalSummary";
+import useAuth from "../hooks/useAuth";
+import {
+  getCartFromLocalStorage,
+  saveCartToLocalStorage,
+} from "../helpers/localstorage";
+import CartRequests from "../api/cart.requests";
 
 const StoreCart = () => {
-  const { cartItems, removeAnItem } = useCart();
-  console.log(cartItems);
+  const [cartItems, setCartItems] = useState([]);
+  const { authenticated } = useAuth();
+
+  const removeItem = async (skuid) => {
+    if (!authenticated) {
+      const localCart = getCartFromLocalStorage();
+      if (!localCart) return;
+      saveCartToLocalStorage(localCart.filter((item) => item.skuid !== skuid));
+    } else {
+      try {
+        const cart = await CartRequests.getOne();
+        await CartRequests.removeOneFromCart(cart.cart.id, skuid);
+      } catch (err) {
+        console.error(err);
+      }
+    }
+    setCartItems((prev) => prev.filter((item) => item.skuid !== skuid));
+  };
+
+  useEffect(() => {
+    if (!authenticated) {
+      const items = getCartFromLocalStorage();
+      if (!items) return;
+      setCartItems(items);
+    } else {
+      CartRequests.getOne().then((response) => {
+        setCartItems(response.cart.items);
+      });
+    }
+  }, [authenticated]);
+
   return (
     <LayoutStoreHome>
-      {cartItems.length === 0 && (
+      {cartItems && cartItems.length === 0 && (
         <div className="section text-center text-extrasmall text-uppercase">
           <p>
             NO ITEMS IN CART ADD{" "}
@@ -21,7 +55,7 @@ const StoreCart = () => {
           </p>
         </div>
       )}
-      {cartItems.length > 0 && (
+      {cartItems && cartItems.length > 0 && (
         <Row className="section">
           <Col sm={12} md={8}>
             <Container fluid className="px-0">
@@ -30,7 +64,7 @@ const StoreCart = () => {
                   <StoreCartItem
                     key={index}
                     item={item}
-                    handleRemove={removeAnItem}
+                    handleRemove={() => removeItem(item.skuid)}
                   />
                 ))}
             </Container>
