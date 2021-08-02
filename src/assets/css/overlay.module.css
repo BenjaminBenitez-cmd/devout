@@ -1,0 +1,11 @@
+.overlay {
+  height: 300px;
+  background-color: rgba(0, 0, 0, 0.45);
+  background: "url(data:;base64,iVBORw0KGgoAAAANSUhEUgAAAAIAAAACCAYAAABytg0kAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAABl0RVh0U29mdHdhcmUAUGFpbnQuTkVUIHYzLjUuNUmK/OAAAAATSURBVBhXY2RgYNgHxGAAYuwDAA78AjwwRoQYAAAAAElFTkSuQmCC) repeat scroll transparent9";
+  z-index: 999;
+  color: white;
+  padding-left: 1rem;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}

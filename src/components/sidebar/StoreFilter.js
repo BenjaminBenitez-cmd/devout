@@ -14,8 +14,8 @@ const StoreFilter = ({ toggleFilter }) => {
           {isLoading && <div>Loading...</div>}
           <StoreSidebarOption name="Categories">
             {data &&
-              data.categories.map((cat) => (
-                <FormGroup>
+              data.categories.map((cat, index) => (
+                <FormGroup key={index}>
                   <CustomRadio
                     value={cat.name}
                     label={cat.name}

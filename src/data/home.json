@@ -1,17 +1,19 @@
 {
     "hero": {
         "image": {
-            "url": "https://images.unsplash.com/photo-1615064779799-df1bfcc66ed0?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1900&q=80",
+            "url": "https://images.unsplash.com/photo-1519482816300-1490fdf2c2bd?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80",
             "alt": "Smoke and addidas sweather"
         },
-        "title": "Addidas' has released once more"
+        "title": "The Latest Release is here",
+        "link": "/shop"
     },
     "featured": [
         {   
             "id": 1,
             "title": "Summer Collection",
-            "url":"https://images.unsplash.com/photo-1588499894193-2c4dd05b0f09?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=400&q=80" ,
-            "alt": "Addidas sneaker",
+            "url":"https://images.unsplash.com/photo-1542674684-fba3fa06625b?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=334&q=80" ,
+            "alt": "Adidas sneaker",
+            "description": "Just in time for summer",
             "products": [ 1, 2, 3]
         },
         {   
@@ -19,6 +21,7 @@
             "title": "Nike Essentials",
             "url": "https://images.unsplash.com/photo-1556906781-9a412961c28c?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=334&q=80",
             "alt": "Nike collection",
+            "description": "The newest Nike collection is here, have a look",
             "products": [ 1, 2, 3]  
         },
         {
@@ -26,6 +29,7 @@
             "title": "Addidas Collection",
             "url": "https://images.unsplash.com/photo-1546274498-e9bde117a82c?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=325&q=80",
             "alt": "Addidas collection",
+            "description": "The newest Adidas Merchendise",
             "products": [ 1, 2, 3]  
         }
     ],
@@ -34,7 +38,8 @@
         "products": [1, 4, 5, 3, 5]
     },
     "about": {
-        "title": "Looking your best with minimum effort",
+        "title": "Look your best",
+        "description": "Look your best without even leaving your door, we ship straight to your home",
         "images": [
             {
                 "id": 1,

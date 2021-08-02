@@ -29,10 +29,10 @@ const TextArea = (props) => {
 
 const CustomRadio = ({ label, ...props }) => {
   return (
-    <label class={inputstyles.b_contain}>
+    <label className={inputstyles.b_contain}>
       <input type="checkbox" {...props} />
       <span>{label}</span>
-      <div class={inputstyles.b_input}></div>
+      <div className={inputstyles.b_input}></div>
     </label>
   );
 };

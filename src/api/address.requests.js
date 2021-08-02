@@ -4,7 +4,7 @@ import instance from "./axios.custom";
 class AddressRequests {
   static getOne = async () => {
     try {
-      const response = await instance.get(`/users/addresses`);
+      const response = await instance.get(`/users/address`);
       return response.data;
     } catch (err) {
       throw err;
@@ -13,7 +13,7 @@ class AddressRequests {
 
   static addOne = async (values) => {
     try {
-      const response = await instance.post("/users/addresses", values);
+      const response = await instance.post("/users/address", values);
       return response.data;
     } catch (err) {
       throw err;

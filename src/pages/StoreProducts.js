@@ -8,10 +8,13 @@ import ProductCard from "../components/product/ProductCard";
 import StoreFilter from "../components/sidebar/StoreFilter";
 import useProducts from "../hooks/useProducts";
 import { filterByOption } from "../helpers/filters";
+import { useParams } from "react-router-dom";
 
 const StoreProducts = () => {
+  const { collection } = useParams();
   const { getProductsQuery } = useProducts();
   const [filter, setFilter] = useState("addidas");
+
   const toggleFilter = (e) => {
     setFilter(e.target.value);
   };
@@ -23,7 +26,9 @@ const StoreProducts = () => {
       <Row className="justify-content-between my-5">
         {/**Product info */}
         <Col sm={3}>
-          <h2 className="text-medium text-bold d-inline">Summer Collection</h2>
+          <h2 className="text-medium text-bold d-inline">
+            {collection || "ALL"}
+          </h2>
         </Col>
         <Col md={{ size: 2, offset: 6 }}>
           <span className="text-small text-uppercase ml-2">Hide Filters</span>
@@ -45,8 +50,8 @@ const StoreProducts = () => {
               {getProductsQuery.data &&
                 filterByOption(getProductsQuery.data.products, filter).map(
                   (product, index) => (
-                    <Col md={4}>
-                      <ProductCard key={index} {...product} />
+                    <Col md={4} key={index}>
+                      <ProductCard {...product} />
                     </Col>
                   )
                 )}

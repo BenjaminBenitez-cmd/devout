@@ -15,10 +15,11 @@ const StoreAbout = () => {
       </Col>
       <Col sm={6} className="d-flex">
         <Container fluid>
-          <Row>
+          <Row className="mt-5">
             <div>
-              <p className="text-medium-large text-bold">.4</p>
-              <h2>{pagedata.about.title}</h2>
+              <span className="text-medium-large text-bold">.5</span>
+              <h3 className="text-extra-large">At Your Best</h3>
+              <p className="w-50 mt-3">{pagedata.about.description}</p>
             </div>
           </Row>
         </Container>

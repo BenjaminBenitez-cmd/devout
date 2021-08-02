@@ -19,7 +19,7 @@ const StoreSidebarOption = ({ name, children }) => {
         )}
       </span>
       <div className="mt-3">
-        <Dropdown isOpen={isOpen} unstyled>
+        <Dropdown isOpen={isOpen} unstyled={true}>
           {children}
         </Dropdown>
       </div>

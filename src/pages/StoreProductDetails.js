@@ -6,57 +6,17 @@ import LayoutStoreHome from "../layouts/LayoutStoreHome";
 import ProductCorousel from "../components/product/ProductCorousel";
 import ProductRequests from "../api/product.requests";
 import PrimaryButton from "../components/buttons/PrimaryButton";
-import {
-  getCartFromLocalStorage,
-  saveCartToLocalStorage,
-} from "../helpers/localstorage";
-import CartRequests from "../api/cart.requests";
-import useAuth from "../hooks/useAuth";
 import useCart from "../hooks/useCart";
-import { ADD_ITEM } from "../hooks/cart.constants";
 
 const StoreProductDetails = (props) => {
   const { id } = useParams();
-  const { authenticated } = useAuth();
   const [product, setProduct] = useState(null);
-  const { dispatch } = useCart();
+  const { addItem } = useCart();
   //find product by id
   const fetchProduct = useCallback(async () => {
     const response = await ProductRequests.getOne(id);
     setProduct(response.product);
   }, [id]);
-
-  const addItem = async () => {
-    if (!product) return;
-
-    let newItem = {
-      productid: product.id,
-      skuid: product.skuid,
-      images: product.images,
-      name: product.name,
-      price: product.price,
-      quantity: 1,
-    };
-
-    if (!authenticated) {
-      const localCart = getCartFromLocalStorage();
-      if (!localCart) return saveCartToLocalStorage([newItem]);
-      saveCartToLocalStorage([...localCart, newItem]);
-      dispatch({ type: ADD_ITEM, payload: newItem });
-    } else {
-      try {
-        const cartResponse = await CartRequests.getOne();
-        await CartRequests.addOneToCart(cartResponse.cart.id, {
-          skuid: product.skuid,
-          productid: product.id,
-          quantity: 1,
-        });
-        dispatch({ type: ADD_ITEM, payload: newItem });
-      } catch (err) {
-        console.error(err);
-      }
-    }
-  };
 
   //perform find on refresh
   useEffect(() => {
@@ -108,7 +68,7 @@ const StoreProductDetails = (props) => {
               <div className="my-5">
                 <PrimaryButton
                   disabled={!product.live}
-                  onClick={addItem}
+                  onClick={() => addItem(product)}
                   width="100%"
                 >
                   {!product.live ? "Unavailable" : "Add to Cart"}

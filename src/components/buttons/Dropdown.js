@@ -8,9 +8,9 @@ const Dropdown = (props) => {
     <>
       {props.isOpen && (
         <div
-          className={!props.unstyled && dropdownstyles.dropdown}
+          className={!props.unstyled ? dropdownstyles.dropdown : ""}
           onClick={props.onClick}
-          {...props}
+          style={props.style}
         >
           <ul className="list-unstyled">{props.children}</ul>
         </div>

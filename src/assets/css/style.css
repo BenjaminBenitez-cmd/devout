@@ -1,15 +1,16 @@
-* {
-  font-size: 16px;
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
 :root {
   --font-main: "Open Sans";
   --main-color: #000000;
   --secondary-color: #ffffff;
   --light-gray: #c4c4c4;
+}
+
+* {
+  font-size: 16px;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: var(--font-main);
 }
 
 .text-dark {

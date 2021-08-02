@@ -44,7 +44,7 @@ const StoreShipping = ({ setAddress }) => {
         if (!response.address) {
           return setUserAddress(false);
         } else {
-          setInitialValues(response.address);
+          setInitialValues({ ...response.address });
           setUserAddress(true);
         }
       } catch (err) {
@@ -58,7 +58,7 @@ const StoreShipping = ({ setAddress }) => {
   //handle the submission logic
   const onSubmit = async (values) => {
     setAddress(values);
-    if (!userAddress) {
+    if (!userAddress && authenticated) {
       try {
         await AddressRequests.addOne(values);
       } catch (error) {
@@ -70,6 +70,7 @@ const StoreShipping = ({ setAddress }) => {
 
   return (
     <Formik
+      enableReinitialize
       initialValues={initialValues}
       validationSchema={validationSchema}
       onSubmit={onSubmit}

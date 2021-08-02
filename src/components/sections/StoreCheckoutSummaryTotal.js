@@ -20,7 +20,7 @@ const StoreCheckoutSummaryTotal = () => {
         {state &&
           state.map((item, index) => (
             <Row key={index} className="my-4">
-              <Col sm={3}>
+              <Col xs={3}>
                 <div>
                   <img
                     src={item.images[0].imageurl}
@@ -29,10 +29,10 @@ const StoreCheckoutSummaryTotal = () => {
                   />
                 </div>
               </Col>
-              <Col sm={6}>
+              <Col xs={6}>
                 <p className="text-bold text-upper">{item.name}</p>
               </Col>
-              <Col sm={3}>
+              <Col xs={3}>
                 <p className="text-end">${item.price}</p>
               </Col>
             </Row>

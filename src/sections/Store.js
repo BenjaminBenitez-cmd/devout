@@ -18,7 +18,8 @@ const Store = () => {
         <Route path="/checkout/" component={StoreCheckout} />
         <Route path="/cart" component={StoreCart} />
         <Route path="/shop" component={StoreMain} />
-        <Route path="/products" component={StoreProducts} />
+        <Route path="/products/:collection" component={StoreProducts} />
+        <Route path="/products/" component={StoreProducts} />
         <Route path="/product/:id" component={StoreProductDetails} />
         <Route path="/verification/:token" component={StoreVerify} />
         <Route path="/signin" component={StoreSignin} />
