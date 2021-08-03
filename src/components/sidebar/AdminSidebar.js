@@ -4,10 +4,11 @@ import { NavLink } from "react-router-dom";
 import sidebar from "../../assets/css/sidebar.module.css";
 //icons
 import FeatherIcon from "feather-icons-react";
+import { Col } from "reactstrap";
 
 const AdminSidebar = () => {
   return (
-    <div className="col-sm-2">
+    <Col sm={2} md={2}>
       <div className={sidebar.sidebar}>
         <ul className="list-unstyled">
           <NavLink to="/admin/dashboard">
@@ -39,7 +40,7 @@ const AdminSidebar = () => {
           </NavLink>
         </ul>
       </div>
-    </div>
+    </Col>
   );
 };
 

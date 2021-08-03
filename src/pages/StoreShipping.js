@@ -17,7 +17,7 @@ const StoreShipping = ({ setAddress }) => {
   const history = useHistory();
   const [userAddress, setUserAddress] = useState(false);
   //our formik initial state
-  const [initialValues, setInitialValues] = useState({
+  const [value, setValues] = useState({
     city: "",
     state: "",
     phone: "",
@@ -25,6 +25,15 @@ const StoreShipping = ({ setAddress }) => {
     address1: "",
     address2: "",
   });
+
+  const initialValues = {
+    city: value.city,
+    state: value.state,
+    phone: value.phone,
+    country: value.country,
+    address1: value.address1,
+    address2: value.address2,
+  };
 
   //our form validation
   const validationSchema = Yup.object().shape({
@@ -44,7 +53,7 @@ const StoreShipping = ({ setAddress }) => {
         if (!response.address) {
           return setUserAddress(false);
         } else {
-          setInitialValues({ ...response.address });
+          setValues({ ...response.address });
           setUserAddress(true);
         }
       } catch (err) {

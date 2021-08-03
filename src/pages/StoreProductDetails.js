@@ -18,6 +18,10 @@ const StoreProductDetails = (props) => {
     setProduct(response.product);
   }, [id]);
 
+  // const addItem = () => {
+  //   dispatch({ type: ADD_ITEM, payload: product });
+  // };
+
   //perform find on refresh
   useEffect(() => {
     fetchProduct();
@@ -67,7 +71,7 @@ const StoreProductDetails = (props) => {
               </div>
               <div className="my-5">
                 <PrimaryButton
-                  disabled={!product.live}
+                  // disabled={!product.live}
                   onClick={() => addItem(product)}
                   width="100%"
                 >

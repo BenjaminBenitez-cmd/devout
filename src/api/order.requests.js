@@ -2,9 +2,18 @@ import instance from "./axios.custom";
 
 //classes for our product requests
 class OrderRequests {
-  static getMany = async (id) => {
+  static getMany = async () => {
     try {
       const response = await instance.get(`/orders`);
+      return response.data;
+    } catch (err) {
+      throw err.response.message;
+    }
+  };
+
+  static getManyForUser = async () => {
+    try {
+      const response = await instance.get(`/users/orders`);
       return response.data;
     } catch (err) {
       throw err.response.message;

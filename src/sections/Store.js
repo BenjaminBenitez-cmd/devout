@@ -10,11 +10,14 @@ import StoreSignup from "../pages/StoreSignup";
 import StoreVerify from "../pages/StoreVerify";
 import CartProvider from "../context/CartContext";
 import StoreCheckout from "../pages/StoreCheckout";
+import StoreNotFound from "../pages/StoreNotFound";
+import StoreAccount from "../pages/StoreAccount";
 
 const Store = () => {
   return (
     <CartProvider>
       <Switch>
+        <Route exact path="/" component={StoreHome} />
         <Route path="/checkout/" component={StoreCheckout} />
         <Route path="/cart" component={StoreCart} />
         <Route path="/shop" component={StoreMain} />
@@ -24,7 +27,8 @@ const Store = () => {
         <Route path="/verification/:token" component={StoreVerify} />
         <Route path="/signin" component={StoreSignin} />
         <Route path="/signup" component={StoreSignup} />
-        <Route path="/" component={StoreHome} />
+        <Route path="/account" component={StoreAccount} />
+        <Route path="*" component={StoreNotFound} />
       </Switch>
     </CartProvider>
   );

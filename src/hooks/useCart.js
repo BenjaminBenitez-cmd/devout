@@ -33,38 +33,42 @@ const useCart = () => {
     dispatch({ type: REMOVE_ITEM, payload: skuid });
   };
 
-  const addItem = async (product) => {
-    if (!product) return;
+  const addItem = useCallback(
+    async (product) => {
+      if (!product) return;
+      let newItem = {
+        productid: product.id,
+        skuid: product.skuid,
+        images: product.images,
+        name: product.name,
+        price: product.price,
+        quantity: 1,
+      };
 
-    let newItem = {
-      productid: product.id,
-      skuid: product.skuid,
-      images: product.images,
-      name: product.name,
-      price: product.price,
-      quantity: 1,
-    };
-
-    if (!authenticated) {
-      debugger;
-      const localCart = getCartFromLocalStorage();
-      if (!localCart) return saveCartToLocalStorage([newItem]);
-      saveCartToLocalStorage([...localCart, newItem]);
-      dispatch({ type: ADD_ITEM, payload: newItem });
-    } else {
-      try {
-        const cartResponse = await CartRequests.getOne();
-        await CartRequests.addOneToCart(cartResponse.cart.id, {
-          skuid: product.skuid,
-          productid: product.id,
-          quantity: 1,
-        });
+      if (!authenticated) {
+        const localCart = getCartFromLocalStorage();
+        if (!localCart) {
+          saveCartToLocalStorage([newItem]);
+        } else {
+          saveCartToLocalStorage([...localCart, newItem]);
+        }
         dispatch({ type: ADD_ITEM, payload: newItem });
-      } catch (err) {
-        console.error(err);
+      } else {
+        try {
+          const cartResponse = await CartRequests.getOne();
+          await CartRequests.addOneToCart(cartResponse.cart.id, {
+            skuid: product.skuid,
+            productid: product.id,
+            quantity: 1,
+          });
+          dispatch({ type: ADD_ITEM, payload: newItem });
+        } catch (err) {
+          console.error(err);
+        }
       }
-    }
-  };
+    },
+    [authenticated, dispatch]
+  );
 
   const clearCartItems = useCallback(() => {
     localStorage.removeItem("cart");

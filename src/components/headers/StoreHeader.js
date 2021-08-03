@@ -10,7 +10,7 @@ import useCart from "../../hooks/useCart";
 
 const StoreHeader = () => {
   //global auth state
-  const { authenticated, logOut } = useAuth();
+  const { authenticated } = useAuth();
   //hook for the dropdown
   const { state } = useCart();
 
@@ -29,9 +29,7 @@ const StoreHeader = () => {
           </li>
           {authenticated ? (
             <li>
-              <NavLink to="/account" onClick={logOut}>
-                Account
-              </NavLink>
+              <NavLink to="/account/orders">Account</NavLink>
             </li>
           ) : (
             <li>

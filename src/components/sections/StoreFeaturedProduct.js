@@ -10,7 +10,7 @@ const StoreFeaturedProduct = () => {
       <Col sm={4} className="mx-auto">
         <h3 className="text-extra-large text-bold">{data.product.title}</h3>
       </Col>
-      <Col sm={12} className="d-flex justify-content-center">
+      <Col sm={12} className="d-flex justify-content-center mt-3">
         <img
           src={data.product.image.url}
           alt={data.product.image.alt}

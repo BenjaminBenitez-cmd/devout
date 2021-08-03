@@ -13,7 +13,7 @@ import { useParams } from "react-router-dom";
 const StoreProducts = () => {
   const { collection } = useParams();
   const { getProductsQuery } = useProducts();
-  const [filter, setFilter] = useState("addidas");
+  const [filter, setFilter] = useState("");
 
   const toggleFilter = (e) => {
     setFilter(e.target.value);

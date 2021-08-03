@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { Col, FormGroup, Row } from "reactstrap";
 import {
   CardElement,
@@ -32,7 +32,6 @@ const promise = loadStripe(config.STRIPE_KEY);
 
 const PaymentForm = ({ address }) => {
   const user = getUserFromLocalStorage();
-  // const userEmail = user.email || email;
   const { state } = useCart();
   const { email } = useAuth();
   const userEmail = email || user.email;
@@ -82,18 +81,19 @@ const PaymentForm = ({ address }) => {
     }
   };
 
+  const fetchPaymentToken = useCallback(async () => {
+    if (!state && !userEmail) return;
+    const response = await PaymentRequests.getInitializationToken({
+      items: state,
+      email: userEmail,
+    });
+    setClientSecret(response.clientSecret);
+  }, [state, userEmail]);
+
   //get the payment token
   useEffect(() => {
-    if (!state && !userEmail) return;
-    const fetchPaymentToken = async () => {
-      const response = await PaymentRequests.getInitializationToken({
-        items: state,
-        email: userEmail,
-      });
-      setClientSecret(response.clientSecret);
-    };
     fetchPaymentToken();
-  }, []);
+  }, [fetchPaymentToken]);
 
   return (
     <div>
