@@ -14,6 +14,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@babel/cli": "^7.14.8",
+    "@babel/core": "^7.14.8",
     "@sendgrid/mail": "^7.4.5",
     "bcrypt": "^5.0.1",
     "cloudinary": "^1.26.2",
@@ -29,8 +31,6 @@
     "stripe": "^8.164.0"
   },
   "devDependencies": {
-    "@babel/cli": "^7.14.8",
-    "@babel/core": "^7.14.8",
     "@babel/plugin-transform-runtime": "^7.14.5",
     "@babel/preset-env": "^7.14.7",
     "@babel/register": "^7.14.5",
