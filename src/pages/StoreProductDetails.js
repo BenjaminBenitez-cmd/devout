@@ -18,15 +18,14 @@ const StoreProductDetails = (props) => {
     setProduct(response.product);
   }, [id]);
 
-  // const addItem = () => {
-  //   dispatch({ type: ADD_ITEM, payload: product });
-  // };
-
   //perform find on refresh
   useEffect(() => {
     fetchProduct();
   }, [fetchProduct]);
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [id]);
   return (
     <LayoutStoreHome>
       {product ? (
