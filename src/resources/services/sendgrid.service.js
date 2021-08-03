@@ -3,7 +3,7 @@ const { default: config } = require("../../config");
 
 sgMail.setApiKey(config.SENDGRID_API_KEY);
 
-const sender_email = "emailfortesting07@gmail.com";
+const sender_email = config.SENDER_EMAIL;
 
 let templates = {
   verification_email: "d-fce4a4bf853e421b8b7614bed46f706f",

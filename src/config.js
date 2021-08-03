@@ -15,6 +15,7 @@ const config = (state) => {
         JWT_SECRET: process.env.JWT_SECRET,
         STRIPE_KEY: process.env.STRIPE_KEY,
         SENDGRID_API_KEY: process.env.SENDGRID_API_KEY,
+        SENDER_EMAIL: process.env.SENDER_EMAIL,
       };
     case "production":
       return {
@@ -23,6 +24,7 @@ const config = (state) => {
         JWT_SECRET: process.env.JWT_SECRET,
         STRIPE_KEY: process.env.STRIPE_KEY,
         SENDGRID_API_KEY: process.env.SENDGRID_API_KEY,
+        SENDER_EMAIL: process.env.SENDER_EMAIL,
       };
     default:
       return;
