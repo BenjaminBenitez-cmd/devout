@@ -3,12 +3,14 @@ import { Col, Container, Form, Row } from "reactstrap";
 import CategoryRequests from "../api/category.requests";
 import PrimaryButton from "../components/buttons/PrimaryButton";
 import { Input } from "../components/inputs/Input";
+import useNotifications from "../hooks/useNotifications";
 import LayoutAdmin from "../layouts/LayoutAdmin";
 import LayoutAdminPage from "../layouts/LayoutAdminPage";
 
 const AdminAddCategory = () => {
   //initial value state
   const [name, setName] = useState(null);
+  const { addNotification } = useNotifications();
 
   //handle submit
   const handleSubmit = async (e) => {
@@ -17,8 +19,10 @@ const AdminAddCategory = () => {
     try {
       //add products
       await CategoryRequests.addOne({ name });
+      addNotification("Successfully added Category");
     } catch (err) {
       console.error(err);
+      addNotification("Unable to add Category");
     }
   };
 

@@ -8,12 +8,6 @@
   align-items: center;
 }
 
-@media (min-width: 768px) {
-  .container {
-    padding-left: 115px;
-  }
-}
-
 .h1 {
   font-size: 4rem;
   width: 70%;

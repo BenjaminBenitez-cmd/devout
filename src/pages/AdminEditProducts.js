@@ -104,10 +104,10 @@ const AdminEditProducts = () => {
                       </Col>
                       <Col sm={6} className="my-3 p-0">
                         <Input
-                          type="text"
+                          type="number"
                           placeholder={initialValues.quantity}
                           value={initialValues.quantity}
-                          name="amount"
+                          name="quantity"
                           onChange={handleChange}
                         />
                       </Col>

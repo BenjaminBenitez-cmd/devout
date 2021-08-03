@@ -22,7 +22,7 @@ const Admin = () => {
           <Route path="/admin/signin" component={AdminSignin} />
           <Route path="/admin/signup" component={AdminSignup} />
           <AdminProtected
-            path="/admin/orders/:orderid/edit"
+            path="/admin/orders/:orderid"
             component={AdminEditOrders}
           />
           <AdminProtected path="/admin/orders" component={AdminOrders} />

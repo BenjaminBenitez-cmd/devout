@@ -8,7 +8,7 @@ import { Col } from "reactstrap";
 
 const AdminSidebar = () => {
   return (
-    <Col sm={2} md={2}>
+    <Col sm={12} md={12} lg={2}>
       <div className={sidebar.sidebar}>
         <ul className="list-unstyled">
           <NavLink to="/admin/dashboard">

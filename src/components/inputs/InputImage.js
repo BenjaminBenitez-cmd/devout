@@ -13,12 +13,13 @@ import ImageRequests from "../../api/image.requests";
 
 const InputImage = ({ images, updateImages }) => {
   //maintain track of the latest images
+  const [loading, setLoading] = useState(false);
   const [localImages, setLocalImages] = useState(images || []);
 
   //upload an image on every file upload
   const handleChange = async (e) => {
     let file = e.target.files[0];
-
+    setLoading(true);
     //prepare the form data
     const data = new FormData();
     data.append("myImage", file);
@@ -36,6 +37,7 @@ const InputImage = ({ images, updateImages }) => {
       });
       //use callback to keep track of the new image urls
       updateImages(response.image.path);
+      setLoading(false);
     } catch (err) {
       console.error(err);
     }
@@ -70,6 +72,7 @@ const InputImage = ({ images, updateImages }) => {
       {/**Create label for styling */}
       <div className={inputstyles.imagecontainer}>
         {/**Show preview of the images if provided */}
+        {loading && <Card className={inputstyles.imagebox}>Loading</Card>}
         {localImages &&
           localImages.map((image, index) => {
             return index < 5 ? (

@@ -3,10 +3,17 @@
   display: flex;
   justify-content: flex-start;
   border-right: 1px solid black;
+  margin-bottom: 2rem;
 }
 
 .ul {
   height: 100%;
+}
+
+@media (min-height: 768px) {
+  .sidebar {
+    height: 100%;
+  }
 }
 
 .li {

@@ -1,12 +1,9 @@
+import CategoryActionButton from "../components/buttons/actionbuttons/CategoryActionButton";
+import OrderActionButton from "../components/buttons/actionbuttons/OrderActionButton";
+import ProductActionButton from "../components/buttons/actionbuttons/ProductActionButton";
 /**
  * @returns {array} table definition for the products table
  */
-
-import { Link } from "react-router-dom";
-import CategoryRequests from "../api/category.requests";
-import ProductRequests from "../api/product.requests";
-import ActionButton from "../components/buttons/ActionButton";
-
 export const productDefinition = () => [
   {
     Header: "Name",
@@ -23,14 +20,7 @@ export const productDefinition = () => [
   {
     Header: "edit",
     accessor: "id",
-    Cell: ({ cell: { value } }) => (
-      <ActionButton id={value}>
-        <li>
-          <Link to={`/admin/products/${value}/edit/`}>Edit</Link>
-        </li>
-        <li onClick={() => ProductRequests.removeOne(value)}>Delete</li>
-      </ActionButton>
-    ),
+    Cell: ({ cell: { value } }) => <ProductActionButton id={value} />,
   },
 ];
 
@@ -54,14 +44,7 @@ export const orderDefinition = () => [
   {
     Header: "edit",
     accessor: "orderdetailsid",
-    Cell: ({ cell: { value } }) => (
-      <ActionButton>
-        <li>
-          <Link to={`/admin/orders/${value}/edit`}>Edit</Link>
-        </li>
-        <li>Delete</li>
-      </ActionButton>
-    ),
+    Cell: ({ cell: { value } }) => <OrderActionButton id={value} />,
   },
 ];
 
@@ -77,13 +60,6 @@ export const categoriesDefinition = () => [
   {
     Header: "edit",
     accessor: "id",
-    Cell: ({ cell: { value } }) => (
-      <ActionButton>
-        <li>
-          <Link to={`/admin/orders/${value}/edit`}></Link>Edit
-        </li>
-        <li onClick={() => CategoryRequests.removeOne(value)}>Delete</li>
-      </ActionButton>
-    ),
+    Cell: ({ cell: { value } }) => <CategoryActionButton id={value} />,
   },
 ];

@@ -4,8 +4,8 @@ import Heading from "../components/typography/Heading";
 
 const LayoutAdminPage = (props) => {
   return (
-    <Col sm={8}>
-      <Container>
+    <Col sm={12} lg={8}>
+      <Container fluid>
         <Row>
           <Heading text={props.title} />
         </Row>

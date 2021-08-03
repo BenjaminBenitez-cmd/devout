@@ -31,6 +31,7 @@ const AuthProvider = ({ children }) => {
   };
 
   const signInAdmin = (admin) => {
+    clearLocalStorage();
     saveAdminToLocalStorage(admin);
     setAdminAuthenticated((prev) => (prev = true));
   };
