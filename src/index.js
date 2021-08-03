@@ -1,4 +1,4 @@
-import express, { response } from "express";
+import express from "express";
 import morgan from "morgan";
 
 //routers
@@ -25,7 +25,7 @@ app.use(cors());
 
 app.use(express.static(__dirname + "/public"));
 
-app.get("/", (request, response) => {
+app.get("/", (_, response) => {
   response.send("Welcome to Devout :)");
 });
 
@@ -47,7 +47,7 @@ app.post("/api/v1/admin/signup", AuthControllers.createAnAdmin);
 
 const port = process.env.PORT || 3005;
 
-app.use((error, request, response, next) => {
+app.use((error, _, response, next) => {
   handleError(error, response);
 });
 

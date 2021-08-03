@@ -8,11 +8,10 @@ const hashPassword = async (password, saltRounds = 10) => {
     // Hash password
     return await bcrypt.hash(password, salt);
   } catch (error) {
-    console.log(error);
+    return null;
   }
 
   // Return null if error
-  return null;
 };
 
 const comparePassword = async (password, hash) => {
@@ -20,10 +19,8 @@ const comparePassword = async (password, hash) => {
     // Compare password
     return await bcrypt.compare(password, hash);
   } catch (error) {
-    console.log(error);
+    return false;
   }
-  // Return false if error
-  return false;
 };
 
 const encrypt = {

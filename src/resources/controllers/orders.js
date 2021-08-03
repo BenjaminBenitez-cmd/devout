@@ -57,7 +57,6 @@ const getAllOrders = async (_, response, next) => {
 
     response.status(SUCCESS).json({ message: "Success", orders: newOrders });
   } catch (err) {
-    console.log(err);
     next(err);
   }
 };
@@ -68,9 +67,17 @@ const getAllUserOrders = async (request, response, next) => {
 
   try {
     const orderQuery = await OrderCRUD.getManyByUserID(id);
-    response
-      .status(SUCCESS)
-      .json({ message: "success", orders: orderQuery.rows });
+    let orders = [];
+    if (orderQuery.rows.length > 0) {
+      orders = orderQuery.rows.map((order) => {
+        return {
+          id: order.orderdetailsid,
+          total: order.orderdetailtotal,
+          status: order.paymentstatus,
+        };
+      });
+    }
+    response.status(SUCCESS).json({ message: "success", orders });
   } catch (err) {
     next(err);
   }

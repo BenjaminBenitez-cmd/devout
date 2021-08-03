@@ -38,7 +38,9 @@ Categories.updateOne = (id, name) => {
 };
 
 Categories.removeOne = (id) => {
-  return db.query("DELETE FROM ProductCategories WHERE CategoryID = $1", [id]);
+  return db.query("DELETE FROM Categories WHERE CategoryID = $1 returning*", [
+    id,
+  ]);
 };
 
 export const CategoriesCRUD = Categories;

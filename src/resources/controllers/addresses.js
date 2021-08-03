@@ -5,6 +5,7 @@ import {
 } from "../../constants/statuscodes";
 import { checkResults } from "../../utils/validate";
 import { AddressCRUD } from "../../database/crud";
+import { ErrorHandler } from "../../utils/errors";
 
 const addAAddress = async (request, response, next) => {
   const { id } = request.user;
@@ -12,7 +13,9 @@ const addAAddress = async (request, response, next) => {
 
   try {
     const alreadyHasAddress = await AddressCRUD.getOneByUserID(id);
-    checkResults(alreadyHasAddress, NOT_FOUND, "user already has an address");
+    if (alreadyHasAddress.rows.length >= 1) {
+      throw new ErrorHandler(NOT_FOUND, "user already has an address");
+    }
 
     const addressQuery = await AddressCRUD.createOne(
       id,
@@ -23,6 +26,7 @@ const addAAddress = async (request, response, next) => {
       address1,
       address2
     );
+
     response.status(SUCCESS).json({
       message: "Success",
       address: { id: addressQuery.rows[0].addressid },
@@ -57,10 +61,9 @@ const getAddress = async (request, response, next) => {
 
   try {
     const addressQuery = await AddressCRUD.getOneByUserID(id);
-
-    let address = {};
+    let address = null;
     //reassign address values if available
-    if (addressQuery.rows[0]) {
+    if (addressQuery.rows.length === 1) {
       address = {
         id: addressQuery.rows[0].addressid,
         city: addressQuery.rows[0].addresscity,

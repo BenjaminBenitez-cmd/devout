@@ -12,11 +12,10 @@ import { UsersCRUD } from "../../database/crud/user.crud";
 import { checkResults } from "../../utils/validate";
 import Tokens from "../../utils/tokens";
 import encrypt from "../../utils/encrypt";
-import emailService from "../services/Mail";
+import SendGridService from "../services/sendgrid.service";
 
 const signInAnAdmin = async (request, response, next) => {
   const { username, password } = request.body;
-  console.log(request.body);
   if (!username || !password) {
     return next(new ErrorHandler(NOT_AUTHORIZED, "Missing parameters"));
   }
@@ -43,7 +42,6 @@ const signInAnAdmin = async (request, response, next) => {
 
     response.status(SUCCESS).json({ message: "Success", token });
   } catch (err) {
-    console.log(err);
     next(err);
   }
 };
@@ -73,7 +71,6 @@ const createAnAdmin = async (request, response, next) => {
       .status(SUCCESS)
       .json({ message: "success", user: { username: username } });
   } catch (err) {
-    console.log(err);
     next(err);
   }
 };
@@ -103,7 +100,6 @@ const protectAdmin = async (request, response, next) => {
     request.admin = { id: id };
     next();
   } catch (err) {
-    console.log(err);
     next(err);
   }
 };
@@ -145,7 +141,6 @@ const signInAUser = async (request, response, next) => {
       .status(SUCCESS)
       .json({ message: "Success", user: { token: token, email: email } });
   } catch (err) {
-    console.log(err);
     next(err);
   }
 };
@@ -185,10 +180,9 @@ const createAUser = async (request, response, next) => {
     //generate token from user id
     const token = await Tokens.newToken({ id: userid });
 
-    //send email with verification token
-    await emailService.authMailer(
+    await SendGridService.sendVerificationMail(
       email,
-      "Your verification link",
+      null,
       `${process.env.CLIENT_URL}/verification/${token}`
     );
 
@@ -199,7 +193,6 @@ const createAUser = async (request, response, next) => {
       .status(SUCCESS)
       .json({ message: "success", user: { email: email } });
   } catch (err) {
-    console.log(err);
     next(err);
   }
 };
@@ -250,7 +243,6 @@ const protectUser = async (request, response, next) => {
     request.user = { id: id };
     next();
   } catch (err) {
-    console.log(err);
     next(err);
   }
 };

@@ -1,12 +1,13 @@
 import { Router } from "express";
+import AuthControllers from "../controllers/authorization";
 import CategoryControllers from "../controllers/categories";
 const router = Router();
 
 router
   .route("/")
-  .post(CategoryControllers.addACategory)
+  .post(AuthControllers.protectAdmin, CategoryControllers.addACategory)
   .get(CategoryControllers.getAllCategories)
-  .put(CategoryControllers.updateACategory);
+  .put(AuthControllers.protectAdmin, CategoryControllers.updateACategory);
 
 router.route("/:id").delete(CategoryControllers.deleteACategory);
 

@@ -35,10 +35,11 @@ const paymentIntent = async (request, response, next) => {
 
     //create payment intent
     const paymentIntent = await stripeInstance.paymentIntents.create({
-      amount: OrderService.calculateOrder(items),
+      amount: 400,
       currency: "usd",
       metadata: {
         orderid: orderQuery.orderdetailsid,
+        userid: userid,
       },
     });
 
@@ -48,7 +49,6 @@ const paymentIntent = async (request, response, next) => {
       orderid: orderQuery,
     });
   } catch (err) {
-    console.log(err);
     next(err);
   }
 };
@@ -56,12 +56,13 @@ const paymentIntent = async (request, response, next) => {
 const paymentConfirm = async (request, response) => {
   const event = request.body;
   const paymentIntent = event.data.object;
-  console.log(event);
   // Handle the event
   switch (event.type) {
     case "payment_intent.succeeded":
-      console.log(paymentIntent.metadata.orderid);
-      await checkoutService.acceptOrder(paymentIntent.metadata.orderid);
+      await checkoutService.acceptOrder(
+        paymentIntent.metadata.userid,
+        paymentIntent.metadata.orderid
+      );
       // Then define and call a method to handle the successful payment intent.
       // handlePaymentIntentSucceeded(paymentIntent);
       break;
@@ -70,14 +71,13 @@ const paymentConfirm = async (request, response) => {
       break;
     case "payment_method.attached":
       const paymentMethod = event.data.object;
-      console.log(paymentMethod);
 
       // Then define and call a method to handle the successful attachment of a PaymentMethod.
       // handlePaymentMethodAttached(paymentMethod);
       break;
     // ... handle other event types
     default:
-      console.log(`Unhandled event type ${event.type}`);
+      break;
   }
 
   // Return a response to acknowledge receipt of the event

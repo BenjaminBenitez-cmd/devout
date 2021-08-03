@@ -1,6 +1,6 @@
 import { checkResults } from "../../utils/validate";
 import { ErrorHandler } from "../../utils/errors";
-import { CartItemCRUD, InventoryCRUD } from "../../database/crud";
+import { CartItemCRUD, ImageCRUD, InventoryCRUD } from "../../database/crud";
 import {
   SUCCESS_MODIFICATION,
   ERROR,
@@ -18,16 +18,25 @@ const getAllItems = async (request, response, next) => {
     const cartItemsQuery = await CartItemCRUD.getManyBySessionID(cartid);
 
     let cartItems;
-    cartItems =
+    cartItems = await Promise.all(
       cartItemsQuery.rows.length > 0 &&
-      cartItemsQuery.rows.map((item) => {
-        return {
-          id: item.cartid,
-          productid: item.productid,
-          skuid: item.skuid,
-          quantity: item.quantity,
-        };
-      });
+        cartItemsQuery.rows.map(async (item) => {
+          const products = await ProductCRUD.getOneByID(item.productid);
+          const images = await ImageCRUD.getManyByProductAndSKU(
+            item.productid,
+            item.skuid
+          );
+          return {
+            id: item.cartid,
+            productid: item.productid,
+            skuid: item.skuid,
+            quantity: item.quantity,
+            name: products.rows[0].productname,
+            images: images.rows,
+            price: products.rows[0].productprice,
+          };
+        })
+    );
 
     response.status(SUCCESS).json({
       message: "Success",
@@ -103,7 +112,6 @@ const addACartItem = async (request, response, next) => {
       .status(SUCCESS)
       .json({ message: "Success", item: { id: cartItemQuery.rows[0].cartid } });
   } catch (err) {
-    console.log(err);
     next(err);
   }
 };
@@ -114,7 +122,6 @@ const deleteCartItem = async (request, response, next) => {
    * get items in cart
    */
   try {
-    console.log(await db.query("SELECT * FROM CartItem WHERE CartID = 2"));
     /** remove one from cart */
     const removeQuery = await CartItemCRUD.removeOne(cartid, skuid);
     checkResults(removeQuery, NOT_FOUND, "Could not find cart item");

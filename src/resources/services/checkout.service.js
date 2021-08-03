@@ -4,6 +4,8 @@ import {
   InventoryCRUD,
   PaymentCRUD,
   SKUCRUD,
+  CartItemCRUD,
+  CartCRUD,
 } from "../../database/crud";
 import { checkResults, checkIfAvailable } from "../../utils/validate";
 import { ErrorHandler } from "../../utils/errors";
@@ -64,7 +66,7 @@ const createNewOrder = async (userid, items) => {
             )
           : items[0].quantity * items[0].price;
 
-      let [provider, status] = ["stripe", "pending"];
+      let [provider, status] = ["stripe", "initialized"];
 
       const paymentQuery = await PaymentCRUD.createOne(total, provider, status);
 
@@ -100,7 +102,7 @@ const createNewOrder = async (userid, items) => {
  * @param {Integer} orderid
  * @returns resolved promise
  */
-const acceptOrder = (orderid) => {
+const acceptOrder = (userid, orderid) => {
   return new Promise(async (resolve, reject) => {
     try {
       const orderQuery = await OrderCRUD.details.getOne(orderid);
@@ -127,6 +129,12 @@ const acceptOrder = (orderid) => {
           isLive
         );
       });
+
+      const cartQuery = await CartCRUD.getOneByUserID(userid);
+      //if there is a cart for user clear it
+      if (cartQuery.rows.length > 0) {
+        await CartItemCRUD.removeAll(cartQuery.rows[0].sessionid);
+      }
       resolve(true);
     } catch (err) {
       reject(err);

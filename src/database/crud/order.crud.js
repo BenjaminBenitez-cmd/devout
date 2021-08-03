@@ -43,7 +43,7 @@ Orders.items.getManyByOrderDetailsID = (id) => {
 Orders.items.getSalesByProductID = (id) => {
   return db.query(
     `
-    SELECT COUNT(pd.paymentstatus) 
+    SELECT *
     FROM OrderItems AS oi 
     INNER JOIN OrderDetails AS od
     ON oi.OrderDetailsID = od.OrderDetailsID
@@ -72,7 +72,7 @@ Orders.getManyByUserID = (userid) => {
     SELECT OD.OrderDetailsID, OD.OrderDetailTotal, PD.PaymentAmount, PD.PaymentStatus FROM OrderDetails AS OD
     INNER JOIN PaymentDetails AS PD
     ON PD.PaymentID = OD.OrderDetailPaymentID
-    WHERE OD.UserID = $1;
+    WHERE OD.UserID = $1 AND NOT PD.PaymentStatus = 'initialized' 
   `,
     [userid]
   );

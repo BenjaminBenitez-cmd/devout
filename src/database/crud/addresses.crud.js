@@ -12,7 +12,7 @@ Address.createOne = (
   address2
 ) => {
   return db.query(
-    "INSERT INTO Addresses(UserID, AddressCity, AddressState, AddressPhone, AddressCountry, Address1, Address2",
+    "INSERT INTO Addresses(UserID, AddressCity, AddressState, AddressPhone, AddressCountry, Address1, Address2) VALUES ($1, $2, $3, $4, $5, $6, $7 ) returning*",
     [userid, city, state, phone, country, address1, address2]
   );
 };

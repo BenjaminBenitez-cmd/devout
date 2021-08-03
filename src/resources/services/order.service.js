@@ -13,7 +13,7 @@ const calculateOrder = (cartitems) => {
   } else {
     total = cartitems.reduce((a, i) => a + i.price * i.quantity, 0);
   }
-  return total;
+  return total.toString();
 };
 
 const OrderService = {

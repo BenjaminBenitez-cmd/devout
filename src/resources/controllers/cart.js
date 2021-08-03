@@ -1,4 +1,9 @@
-import { CartCRUD, CartItemCRUD } from "../../database/crud";
+import {
+  CartCRUD,
+  CartItemCRUD,
+  ImageCRUD,
+  ProductCRUD,
+} from "../../database/crud";
 import { ErrorHandler } from "../../utils/errors";
 import {
   SUCCESS,
@@ -30,7 +35,6 @@ const addACart = async (request, response, next) => {
     await CartCRUD.createOne(id, total);
     response.status(SUCCESS).end();
   } catch (err) {
-    console.log(err);
     next(err);
   }
 };
@@ -50,34 +54,46 @@ const getACart = async (request, response, next) => {
     if (cartQuery.rows.length === 0) {
       const cartQuery = await CartCRUD.createOne(id, 0);
       cart = cartQuery.rows[0];
+    } else {
+      cart = cartQuery.rows[0];
     }
 
-    let cartItems = null;
-    if (cartQuery.rows.length > 0) {
-      const cartItemsQuery = await CartItemCRUD.getManyBySessionID(
-        cartQuery.rows[0].sessionid
-      );
-      cartItems =
+    const cartItemsQuery = await CartItemCRUD.getManyBySessionID(
+      cart.sessionid
+    );
+
+    let cartItems = [];
+
+    if (cartItemsQuery.rows.length > 0) {
+      cartItems = await Promise.all(
         cartItemsQuery.rows.length > 0 &&
-        cartItemsQuery.rows.map((item) => {
-          return {
-            id: item.cartid,
-            productid: item.productid,
-            skuid: item.skuid,
-            quantity: item.quantity,
-          };
-        });
+          cartItemsQuery.rows.map(async (item) => {
+            const products = await ProductCRUD.getOneByID(item.productid);
+            const images = await ImageCRUD.getManyByProductAndSKU(
+              item.productid,
+              item.skuid
+            );
+            return {
+              id: item.cartid,
+              productid: item.productid,
+              skuid: item.skuid,
+              name: products.rows[0].productname,
+              images: images.rows,
+              price: products.rows[0].productprice,
+              quantity: item.quantity,
+            };
+          })
+      );
     }
 
     response.status(SUCCESS).json({
       message: "Success",
       cart: {
-        id: cartQuery.rows[0].sessionid || cart.sessionid,
+        id: cart.sessionid,
         items: cartItems,
       },
     });
   } catch (err) {
-    console.log(err);
     next(err);
   }
 };

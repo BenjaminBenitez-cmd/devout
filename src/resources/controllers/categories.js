@@ -56,10 +56,11 @@ const getAllCategories = async (_, response, next) => {
   }
 };
 
-const deleteACategory = async (_, response, next) => {
-  const { id } = req.params;
+const deleteACategory = async (request, response, next) => {
+  const { id } = request.params;
   try {
-    await CategoriesCRUD.deleteACategory(id);
+    const deleteQuery = await CategoriesCRUD.removeOne(id);
+    checkResults(deleteQuery, NOT_FOUND, "Unable to find Category");
     response.status(SUCCESS_MODIFICATION).send("Deleted Category");
   } catch (err) {
     next(err);

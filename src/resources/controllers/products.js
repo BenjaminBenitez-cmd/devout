@@ -18,7 +18,7 @@ const addAProduct = async (request, response, next) => {
     longdesc,
     discountid,
     images,
-    amount,
+    quantity,
   } = request.body;
 
   try {
@@ -32,7 +32,7 @@ const addAProduct = async (request, response, next) => {
       longdesc,
       discountid,
       images,
-      amount
+      quantity
     );
 
     response.status(SUCCESS).json({
@@ -40,7 +40,6 @@ const addAProduct = async (request, response, next) => {
       product: newProduct,
     });
   } catch (err) {
-    console.log(err);
     next(err);
   }
 };
@@ -84,7 +83,7 @@ const updateAProduct = async (request, response, next) => {
     shortdescription,
     longdescription,
     images,
-    amount,
+    quantity,
   } = request.body;
 
   try {
@@ -96,10 +95,8 @@ const updateAProduct = async (request, response, next) => {
       shortdescription,
       longdescription,
       images,
-      amount
+      quantity
     );
-
-    console.log(product.imagesQuery);
 
     response.status(SUCCESS_MODIFICATION).json({
       status: "Success",

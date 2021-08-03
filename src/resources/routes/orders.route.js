@@ -4,6 +4,6 @@ const router = Router();
 
 router.route("/").get(OrderControllers.getAllOrders);
 
-router.route("/:orderid").get(OrderControllers.getAnOrder).delete();
+router.route("/:orderid").get(OrderControllers.getAnOrder);
 
 export const orderRouter = router;

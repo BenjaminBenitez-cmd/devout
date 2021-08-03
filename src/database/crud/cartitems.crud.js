@@ -34,4 +34,11 @@ CartItem.removeOne = (sessionid, skuid) => {
   );
 };
 
+CartItem.removeAll = (sessionid) => {
+  return db.query(`DELETE FROM CartItem WHERE SessionID = $1 returning*`, [
+    sessionid,
+    skuid,
+  ]);
+};
+
 export const CartItemCRUD = CartItem;

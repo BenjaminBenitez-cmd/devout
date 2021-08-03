@@ -167,7 +167,6 @@ const getAllProducts = async () => {
 
       resolve(productsOrdersAndSales);
     } catch (err) {
-      console.log(err);
       reject(err);
     }
   });
@@ -270,6 +269,7 @@ const getAProduct = async (id) => {
         skuid: nonVariant.skuid,
         skucode: nonVariant.skuname,
         images: nonVariant.images,
+        live: nonVariant.live,
         quantity: nonVariant.quantity,
         cartdescription: productcartdesc,
         shortdescription: productshortdesc,
@@ -281,7 +281,6 @@ const getAProduct = async (id) => {
         ),
       });
     } catch (err) {
-      console.log();
       reject(err);
     }
   });

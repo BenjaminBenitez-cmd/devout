@@ -97,7 +97,6 @@ const createAVariant = async (request, response, next) => {
 
     //
   } catch (err) {
-    console.log(err);
     next(err);
   }
 };
@@ -156,7 +155,6 @@ const updateAVariant = async (request, response, next) => {
       },
     });
   } catch (err) {
-    console.log(err);
     next(err);
   }
 };

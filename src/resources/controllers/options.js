@@ -67,7 +67,6 @@ const getOptions = async (request, response, next) => {
       .status(SUCCESS)
       .json({ message: "Successfull", options: mapOptions });
   } catch (err) {
-    console.log(err);
     next(err);
   }
 };
