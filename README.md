@@ -1,4 +1,4 @@
-# Devout - A full-stack eCommerce application:
+# Devout - A Full-stack E-commerce application:
 
 ## Summary: 
 Pre-built tools such as SnipCart and Shopify minimize the amount of work and time involved in building e-commerce applications. As a result, I decided to build an entire e-commerce solution from the ground up. Although building everything from the ground up was the goal,l I still had to use third-party services such as Stripe, in order to reduce the complexity of the project.
@@ -21,22 +21,22 @@ git checkout api
 ```
 
 #### Requirements:
--Node JS: 12.19.0 and up
--Docker(optional)
--Sendgrid, Cloudinary, Stripe account
+- Node JS: 12.19.0 and up
+- Docker(optional)
+- Sendgrid, Cloudinary, Stripe account
 
 #### To get started you will need to sign up for the following accounts: 
 
 1. SendGrid: 
- 1. Create a send grid account and set up your email templates
- 2. Get your api key
+ - Create a send grid account and set up your email templates
+ - Get your api key
 
 2. Stripe:
- 1. Get your api-key
- 2. Get your publishing key
+ - Get your api-key
+ - Get your publishing key
 
 3. Cloudinary: 
- 1. Get your api key
+ - Get your api key
 
 #### Setup your Postgres docker file
 ```
