@@ -41,6 +41,7 @@ function MySelect({ options, ...props }) {
   // This isn't an input, so instead of using the values in 'field' directly,
   // we'll use 'meta' and 'helpers'.
   const { isOpen, toggleOpen } = useDropdown();
+  /* eslint-disable no-unused-vars */
   const [field, meta, helpers] = useField(props.name);
 
   const { value } = meta;
