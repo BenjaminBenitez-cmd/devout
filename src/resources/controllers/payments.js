@@ -49,25 +49,34 @@ const paymentIntent = async (request, response, next) => {
       orderid: orderQuery,
     });
   } catch (err) {
+    console.log(err);
     next(err);
   }
 };
 
-const paymentConfirm = async (request, response) => {
+const paymentConfirm = async (request, response, next) => {
   const event = request.body;
   const paymentIntent = event.data.object;
   // Handle the event
   switch (event.type) {
     case "payment_intent.succeeded":
-      await checkoutService.acceptOrder(
-        paymentIntent.metadata.userid,
-        paymentIntent.metadata.orderid
-      );
+      try {
+        await checkoutService.acceptOrder(
+          paymentIntent.metadata.userid,
+          paymentIntent.metadata.orderid
+        );
+      } catch (err) {
+        next(err);
+      }
       // Then define and call a method to handle the successful payment intent.
       // handlePaymentIntentSucceeded(paymentIntent);
       break;
     case "payment_intent.failed":
-      await checkoutService.declineOrder(paymentIntent.metadata.orderid);
+      try {
+        await checkoutService.declineOrder(paymentIntent.metadata.orderid);
+      } catch (err) {
+        next(err);
+      }
       break;
     case "payment_method.attached":
       const paymentMethod = event.data.object;
