@@ -1,9 +1,9 @@
-#Devout - A full-stack eCommerce application:
+# Devout - A full-stack eCommerce application:
 
-##Summary: 
+## Summary: 
 Pre-built tools such as SnipCart and Shopify minimize the amount of work and time involved in building e-commerce applications. As a result, I decided to build an entire e-commerce solution from the ground up. Although building everything from the ground up was the goal,l I still had to use third-party services such as Stripe, in order to reduce the complexity of the project.
 
-##Technology used:
+## Technology used:
 -Node Js
 -React
 -SendGrid 
@@ -12,20 +12,20 @@ Pre-built tools such as SnipCart and Shopify minimize the amount of work and tim
 -Bootstrap
 
 
-##Setup
+## Setup
 
-###API
-####Clone the repo: 
+### API
+#### Clone the repo: 
 ```
 git checkout api
 ```
 
-####Requirements:
+#### Requirements:
 -Node JS: 12.19.0 and up
 -Docker(optional)
 -Sendgrid, Cloudinary, Stripe account
 
-####To get started you will need to sign up for the following accounts: 
+#### To get started you will need to sign up for the following accounts: 
 
 1.SendGrid: 
 1.Create a send grid account and set up your email templates
@@ -38,8 +38,8 @@ git checkout api
 3.Cloudinary: 
 1.Get your api key
 
-####Setup your Postgres docker file
-
+#### Setup your Postgres docker file
+```
 version: "3.1"
  
 services:
@@ -53,17 +53,17 @@ services:
       POSTGRES_PASSWORD: << Your password >>
     volumes:
       - ./scripts:/docker-entrypoint-initdb.d
- 
+ ```
 
 
 
  
-####Initialize your container
+#### Initialize your container
 ```
 docker-compose up 
 ```
 
-####Create your env file:
+#### Create your env file:
 ```
 (Replace with your own)
 PGDATABASE=
@@ -91,31 +91,31 @@ CLOUDINARY_SECRET_KEY=
 SENDGRID_API_KEY=
 SENDER_EMAIL=
 ```
-####Run:
+#### Run:
 ```
 npm install 
 npm run dev
 ```
-###Client
+### Client
 
-####Run
+#### Run
 ```
-Git checkout web
+git checkout web
 ```
 
-####Create .env file
+#### Create .env file
 ```
 REACT_APP_LOCAL_API= <<The API address >>
 REACT_APP_STRIPE_API_KEY=<<Stripe Client Key>>
 ```
 
-####Run
+#### Run
 ``` 
 npm install
 npm start
 ```
 
-##Features: 
+## Features: 
 
 -Backend Portal 
 -Client Portal 
