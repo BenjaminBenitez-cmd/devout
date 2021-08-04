@@ -398,6 +398,7 @@ const deleteAProduct = async (id) => {
       await ProductCRUD.removeOne(id);
       resolve(true);
     } catch (err) {
+      console.log(err);
       reject(err);
     }
   });

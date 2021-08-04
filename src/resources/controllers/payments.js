@@ -35,7 +35,7 @@ const paymentIntent = async (request, response, next) => {
 
     //create payment intent
     const paymentIntent = await stripeInstance.paymentIntents.create({
-      amount: 400,
+      amount: OrderService.calculateOrder(items),
       currency: "usd",
       metadata: {
         orderid: orderQuery.orderdetailsid,

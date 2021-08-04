@@ -40,6 +40,7 @@ const addAProduct = async (request, response, next) => {
       product: newProduct,
     });
   } catch (err) {
+    console.log(err);
     next(err);
   }
 };
@@ -113,13 +114,17 @@ const updateAProduct = async (request, response, next) => {
 
 const deleteAProduct = async (request, response, next) => {
   const { id } = request.params;
-
+  console.log(id);
   try {
+    console.log("Yow");
+    const product = await ProductCRUD.getOneByID(id);
+    console.log(product.rows[0]);
     //remove one by product crud
-    await ProductCRUD.removeOne(id);
-
+    const deleteQuery = await ProductCRUD.removeOne(id);
+    console.log(deleteQuery.rows[0]);
     response.status(SUCCESS_MODIFICATION).send("Success");
   } catch (err) {
+    console.log();
     next(err);
   }
 };

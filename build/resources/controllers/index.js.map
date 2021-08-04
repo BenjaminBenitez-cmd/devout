@@ -1,0 +1,1 @@
+{"version":3,"sources":["../../../src/resources/controllers/index.js"],"names":["Controllers","AddressControllers"],"mappings":";;;;;;;;;AAAA;;AAEO,IAAMA,WAAW,GAAG;AACzBC,EAAAA,kBAAkB,EAAlBA;AADyB,CAApB","sourcesContent":["import AddressControllers from \"./addresses\";\n\nexport const Controllers = {\n  AddressControllers,\n};\n"],"file":"index.js"}
