@@ -5,10 +5,12 @@ const config = (environment) => {
     case "production":
       return {
         API_URL: process.env.REACT_APP_PRODUCTION_API,
+        STRIPE_KEY: process.env.REACT_APP_STRIPE_API_KEY,
       };
     case "development":
       return {
         API_URL: process.env.REACT_APP_LOCAL_API,
+        STRIPE_KEY: process.env.REACT_APP_STRIPE_API_KEY,
       };
     default:
       break;
