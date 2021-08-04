@@ -43,7 +43,6 @@ const AdminEditProducts = () => {
       await ProductRequests.updateOne(values);
       addNotification("Successfully Updated Product");
     } catch (err) {
-      console.log(err);
       addNotification("Unable to Update Product");
     }
   };

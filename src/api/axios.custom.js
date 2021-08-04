@@ -11,7 +11,6 @@ const instance = axios.create({
 
 instance.interceptors.request.use(function (config) {
   const user = getUserFromLocalStorage() || getAdminFromLocalStorage();
-  console.log(user);
   config.headers.Authorization = user ? `Bearer ${user.token}` : "";
   return config;
 });

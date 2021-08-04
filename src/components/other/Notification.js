@@ -5,7 +5,6 @@ import NotificationItem from "./NotificationItem";
 
 const Notifications = () => {
   const { notifications } = useNotifications();
-  console.log(notifications);
   return (
     <div className={styles.container}>
       {notifications.map((notification, index) => (

@@ -48,7 +48,6 @@ const AdminAddProducts = () => {
       addNotification("Added Product");
       history.push("/admin/products");
     } catch (err) {
-      console.log(err);
       addNotification("Unable to Add Product");
     }
   };
