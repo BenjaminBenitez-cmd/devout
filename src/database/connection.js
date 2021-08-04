@@ -1,12 +1,12 @@
 const { Pool } = require("pg");
 
+const isProduction = process.env.NODE_ENV === "production";
+
+const connectionString = `postgresql://${process.env.PGUSER}:${process.env.PGPASSWORD}@${process.env.PGHOST}:${process.env.PGPORT}/${process.env.PGDATABASE}`;
+
 const pool = new Pool({
-  database: "postgres",
-  user: "postgres",
-  password: "example",
-  port: 5432,
-  max: 10,
-  idleTimeoutMillis: 1000,
+  connectionString: isProduction ? process.env.DATABASE_URL : connectionString,
+  ssl: { rejectUnauthorized: false },
 });
 
 const db = {
