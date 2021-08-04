@@ -25,8 +25,8 @@ app.use(cors());
 
 app.use(express.static(__dirname + "/public"));
 
-app.get("/", (_, response) => {
-  response.send("Welcome to Devout :)");
+app.get("/", async (_, response) => {
+  response.send("Hi this is the Devout API");
 });
 
 app.use("/api/v1/products", productRouter);

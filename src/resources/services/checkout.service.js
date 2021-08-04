@@ -6,9 +6,13 @@ import {
   SKUCRUD,
   CartItemCRUD,
   CartCRUD,
+  ProductCRUD,
+  UsersCRUD,
 } from "../../database/crud";
 import { checkResults, checkIfAvailable } from "../../utils/validate";
 import { ErrorHandler } from "../../utils/errors";
+import SendGridService from "./sendgrid.service";
+import config from "../../config";
 
 /**
  * ValidateItems will check the inventory against items
@@ -122,13 +126,33 @@ const acceptOrder = (userid, orderid) => {
         );
         const newQuantity =
           inventoryQuery.rows[0].inventoryquantity - item.orderquantity;
-        const isLive = newQuantity === 0 && false;
+        const isLive = newQuantity === 0 ? false : true;
         await InventoryCRUD.updateOne(
           inventoryQuery.rows[0].inventoryid,
           newQuantity,
           isLive
         );
       });
+
+      let emailItems = await Promise.all(
+        orderItems.rows.map(async (item) => {
+          const productQuery = await ProductCRUD.getOneByID(item.productid);
+          return {
+            name: productQuery.rows[0].productname,
+            price: productQuery.rows[0].productprice,
+            quantity: item.orderquantity,
+          };
+        })
+      );
+
+      const userQuery = await UsersCRUD.getOneByID(userid);
+
+      await SendGridService.sendReceiptEmail(
+        userQuery.rows[0].useremail,
+        orderid,
+        emailItems,
+        config.CLIENT_URL
+      );
 
       const cartQuery = await CartCRUD.getOneByUserID(userid);
       //if there is a cart for user clear it

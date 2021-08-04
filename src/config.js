@@ -7,15 +7,17 @@ const config = (state) => {
   switch (state) {
     case "development":
       return {
-        PGUSER: process.env.PGDATABASE,
+        PGDATABASE: process.env.PGDATABASE,
         PGPORT: process.env.PGPORT,
         PGUSER: process.env.PGUSER,
+        PGHOST: process.env.PGHOST,
         PGPASSWORD: process.env.PGPASSWORD,
         JWT_EXPIRY: process.env.JWT_EXPIRY,
         JWT_SECRET: process.env.JWT_SECRET,
         STRIPE_KEY: process.env.STRIPE_KEY,
         SENDGRID_API_KEY: process.env.SENDGRID_API_KEY,
         SENDER_EMAIL: process.env.SENDER_EMAIL,
+        CLIENT_URL: process.env.CLIENT_URL,
       };
     case "production":
       return {
@@ -25,6 +27,7 @@ const config = (state) => {
         STRIPE_KEY: process.env.STRIPE_KEY,
         SENDGRID_API_KEY: process.env.SENDGRID_API_KEY,
         SENDER_EMAIL: process.env.SENDER_EMAIL,
+        CLIENT_URL: process.env.CLIENT_URL,
       };
     default:
       return;

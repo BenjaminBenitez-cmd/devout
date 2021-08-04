@@ -1,5 +1,3 @@
-import checkoutService from "./checkout.service";
-
 /**
  *
  * @param {Array} cartitems cartitem ids along with their products
@@ -13,7 +11,10 @@ const calculateOrder = (cartitems) => {
   } else {
     total = cartitems.reduce((a, i) => a + i.price * i.quantity, 0);
   }
-  return total.toString();
+
+  const tax = total * (13.5 / 100);
+  total = Math.round(total + tax);
+  return total;
 };
 
 const OrderService = {
