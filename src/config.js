@@ -7,9 +7,10 @@ const config = (state) => {
   switch (state) {
     case "development":
       return {
-        PGUSER: process.env.PGDATABASE,
+        PGDATABASE: process.env.PGDATABASE,
         PGPORT: process.env.PGPORT,
         PGUSER: process.env.PGUSER,
+        PGHOST: process.env.PGHOST,
         PGPASSWORD: process.env.PGPASSWORD,
         JWT_EXPIRY: process.env.JWT_EXPIRY,
         JWT_SECRET: process.env.JWT_SECRET,
