@@ -3,6 +3,7 @@ import ProductRequests from "../../api/product.requests";
 import FeatherIcons from "feather-icons-react";
 import { mapCategories } from "../../helpers/mappers";
 import inputstyles from "../../assets/css/input.module.css";
+import CategoryRequests from "../../api/category.requests";
 
 export default function InputCategories({ values, productid }) {
   //drop down state
@@ -16,9 +17,8 @@ export default function InputCategories({ values, productid }) {
 
   //fetch the available categories
   const fetchCategories = async () => {
-    const response = await fetch("http://localhost:3005/api/v1/categories");
-    const data = await response.json();
-    setCategories(data.categories);
+    const response = await CategoryRequests.getMany();
+    setCategories(response.categories);
   };
 
   //toggle open dropdown

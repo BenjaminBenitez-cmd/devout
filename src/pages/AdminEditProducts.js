@@ -21,10 +21,9 @@ const AdminEditProducts = () => {
 
   //fetch products
   const fetchProduct = async (id) => {
-    const response = await fetch("http://localhost:3005/api/v1/products/" + id);
-    const data = await response.json();
+    const response = await ProductRequests.getOne(id);
     setInitialValues({
-      ...data.product,
+      ...response.product,
     });
   };
 
