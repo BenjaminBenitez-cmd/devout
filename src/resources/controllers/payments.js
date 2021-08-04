@@ -32,8 +32,8 @@ const paymentIntent = async (request, response, next) => {
 
     //create new order
     const orderQuery = await checkoutService.createNewOrder(userid, items);
+    //multiply by 100 to convert to cents
     const total = OrderService.calculateOrder(items) * 100;
-    console;
     //create payment intent
     const paymentIntent = await stripeInstance.paymentIntents.create({
       amount: total,
