@@ -4,12 +4,12 @@
 Pre-built tools such as SnipCart and Shopify minimize the amount of work and time involved in building e-commerce applications. As a result, I decided to build an entire e-commerce solution from the ground up. Although building everything from the ground up was the goal,l I still had to use third-party services such as Stripe, in order to reduce the complexity of the project.
 
 ## Technology used:
--Node Js
--React
--SendGrid 
--Stripe
--Docker 
--Bootstrap
+- Node Js
+- React
+- SendGrid 
+- Stripe
+- Docker 
+- Bootstrap
 
 
 ## Setup
@@ -27,16 +27,16 @@ git checkout api
 
 #### To get started you will need to sign up for the following accounts: 
 
-1.SendGrid: 
-1.Create a send grid account and set up your email templates
-2.Get your api key
+1. SendGrid: 
+ 1. Create a send grid account and set up your email templates
+ 2. Get your api key
 
-2.Stripe:
-1.Get your api-key
-2.Get your publishing key
+2. Stripe:
+ 1. Get your api-key
+ 2. Get your publishing key
 
-3.Cloudinary: 
-1.Get your api key
+3. Cloudinary: 
+ 1. Get your api key
 
 #### Setup your Postgres docker file
 ```
@@ -117,9 +117,9 @@ npm start
 
 ## Features: 
 
--Backend Portal 
--Client Portal 
--Client Account System 
--Stripe Payments
+- Backend Portal 
+- Client Portal 
+- Client Account System 
+- Stripe Payments
 
 
