@@ -34,7 +34,12 @@ export const sendVerificationMail = (
   });
 };
 
-export const sendReceiptEmail = (receiver_email, order_id, order_items) => {
+export const sendReceiptEmail = (
+  receiver_email,
+  order_id,
+  order_items,
+  client_url
+) => {
   return new Promise(async (resolve, reject) => {
     const msg = {
       to: receiver_email,
@@ -44,6 +49,7 @@ export const sendReceiptEmail = (receiver_email, order_id, order_items) => {
         order_items: order_items,
         recipient_email: receiver_email,
         order_id: order_id,
+        client_url: client_url,
       },
     };
     try {

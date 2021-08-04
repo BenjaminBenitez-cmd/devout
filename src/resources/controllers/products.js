@@ -54,6 +54,7 @@ const getAllProducts = async (request, response, next) => {
       products: productsAndSales,
     });
   } catch (err) {
+    console.log(err);
     next(err);
   }
 };

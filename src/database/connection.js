@@ -8,7 +8,6 @@ const connectionString = `postgresql://${config.PGUSER}:${config.PGPASSWORD}@${c
 
 const pool = new Pool({
   connectionString: isProduction ? process.env.DATABASE_URL : connectionString,
-  ssl: { rejectUnauthorized: false },
 });
 
 const db = {

@@ -12,6 +12,7 @@ import {
 import { checkResults, checkIfAvailable } from "../../utils/validate";
 import { ErrorHandler } from "../../utils/errors";
 import SendGridService from "./sendgrid.service";
+import config from "../../config";
 
 /**
  * ValidateItems will check the inventory against items
@@ -125,7 +126,7 @@ const acceptOrder = (userid, orderid) => {
         );
         const newQuantity =
           inventoryQuery.rows[0].inventoryquantity - item.orderquantity;
-        const isLive = newQuantity === 0 && false;
+        const isLive = newQuantity === 0 ? false : true;
         await InventoryCRUD.updateOne(
           inventoryQuery.rows[0].inventoryid,
           newQuantity,
@@ -133,12 +134,8 @@ const acceptOrder = (userid, orderid) => {
         );
       });
 
-      //name
-      //price
-      //quantity
-
       let emailItems = await Promise.all(
-        orderItems.map(async (item) => {
+        orderItems.rows.map(async (item) => {
           const productQuery = await ProductCRUD.getOneByID(item.productid);
           return {
             name: productQuery.rows[0].productname,
@@ -153,7 +150,8 @@ const acceptOrder = (userid, orderid) => {
       await SendGridService.sendReceiptEmail(
         userQuery.rows[0].useremail,
         orderid,
-        emailItems
+        emailItems,
+        config.CLIENT_URL
       );
 
       const cartQuery = await CartCRUD.getOneByUserID(userid);

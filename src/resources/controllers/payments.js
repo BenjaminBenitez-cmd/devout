@@ -32,10 +32,11 @@ const paymentIntent = async (request, response, next) => {
 
     //create new order
     const orderQuery = await checkoutService.createNewOrder(userid, items);
-
+    const total = OrderService.calculateOrder(items) * 100;
+    console;
     //create payment intent
     const paymentIntent = await stripeInstance.paymentIntents.create({
-      amount: 400,
+      amount: total,
       currency: "usd",
       metadata: {
         orderid: orderQuery.orderdetailsid,
@@ -57,40 +58,38 @@ const paymentIntent = async (request, response, next) => {
 const paymentConfirm = async (request, response, next) => {
   const event = request.body;
   const paymentIntent = event.data.object;
-  // Handle the event
-  switch (event.type) {
-    case "payment_intent.succeeded":
-      try {
+  try {
+    // Handle the event
+    switch (event.type) {
+      case "payment_intent.succeeded":
         await checkoutService.acceptOrder(
           paymentIntent.metadata.userid,
           paymentIntent.metadata.orderid
         );
-      } catch (err) {
-        next(err);
-      }
-      // Then define and call a method to handle the successful payment intent.
-      // handlePaymentIntentSucceeded(paymentIntent);
-      break;
-    case "payment_intent.failed":
-      try {
+        // Then define and call a method to handle the successful payment intent.
+        // handlePaymentIntentSucceeded(paymentIntent);
+        break;
+      case "payment_intent.failed":
         await checkoutService.declineOrder(paymentIntent.metadata.orderid);
-      } catch (err) {
-        next(err);
-      }
-      break;
-    case "payment_method.attached":
-      const paymentMethod = event.data.object;
 
-      // Then define and call a method to handle the successful attachment of a PaymentMethod.
-      // handlePaymentMethodAttached(paymentMethod);
-      break;
-    // ... handle other event types
-    default:
-      break;
+        break;
+      case "payment_method.attached":
+        const paymentMethod = event.data.object;
+
+        // Then define and call a method to handle the successful attachment of a PaymentMethod.
+        // handlePaymentMethodAttached(paymentMethod);
+        break;
+      // ... handle other event types
+      default:
+        break;
+    }
+
+    // Return a response to acknowledge receipt of the event
+    response.status(200).end();
+  } catch (err) {
+    console.log(err);
+    next(err);
   }
-
-  // Return a response to acknowledge receipt of the event
-  response.json({ received: true });
 };
 
 const PaymentControllers = {
