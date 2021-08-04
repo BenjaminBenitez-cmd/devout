@@ -17,7 +17,7 @@ export const calculateSubTotal = (cartitems) => {
  */
 
 export const calculateTax = (total, tax) => {
-  return Math.round((total * tax) / 100);
+  return Math.round(total * (tax / 100));
 };
 
 /**
