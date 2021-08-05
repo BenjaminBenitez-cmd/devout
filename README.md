@@ -1,7 +1,7 @@
 # Devout - A Full-stack E-commerce application:
 
 ## Summary: 
-Pre-built tools such as SnipCart and Shopify minimize the amount of work and time involved in building e-commerce applications. As a result, I decided to build an entire e-commerce solution from the ground up. Although building everything from the ground up was the goal,l I still had to use third-party services such as Stripe, in order to reduce the complexity of the project.
+Pre-built tools such as SnipCart and Shopify minimize the amount of work and time involved in building modern e-commerce applications. In order to fully appreciate the processes behind an ecommerce store, I decided to build one from the ground up. Although building everything from the ground up was the goal,l I still had to use third-party services such as Stripe, in order to reduce the complexity of the project.
 
 ## Technology used:
 - Node Js
