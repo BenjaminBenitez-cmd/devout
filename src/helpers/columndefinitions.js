@@ -1,6 +1,6 @@
-import CategoryActionButton from "../components/buttons/actionbuttons/CategoryActionButton";
-import OrderActionButton from "../components/buttons/actionbuttons/OrderActionButton";
-import ProductActionButton from "../components/buttons/actionbuttons/ProductActionButton";
+import CategoryActionButton from "components/buttons/actionbuttons/CategoryActionButton";
+import OrderActionButton from "components/buttons/actionbuttons/OrderActionButton";
+import ProductActionButton from "components/buttons/actionbuttons/ProductActionButton";
 /**
  * @returns {array} table definition for the products table
  */

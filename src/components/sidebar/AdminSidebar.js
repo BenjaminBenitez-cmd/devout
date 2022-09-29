@@ -1,10 +1,9 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
-//css
-import sidebar from "../../assets/css/sidebar.module.css";
-//icons
 import FeatherIcon from "feather-icons-react";
 import { Col } from "reactstrap";
+
+import sidebar from "assets/css/sidebar.module.css";
 
 const AdminSidebar = () => {
   return (

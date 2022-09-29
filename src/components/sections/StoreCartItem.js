@@ -1,7 +1,8 @@
 import React from "react";
 import { Col, Container, Row } from "reactstrap";
-import PrimaryButton from "../buttons/PrimaryButton";
-import OptionItem from "../other/OptionItem";
+
+import PrimaryButton from "components/buttons/PrimaryButton";
+import OptionItem from "components/other/OptionItem";
 
 export const StoreCartItem = ({ item, handleRemove }) => {
   return (

@@ -1,12 +1,12 @@
 import React from "react";
 import FeatherIcon from "feather-icons-react";
 //info
-import headerdata from "../../data/header.json";
+import headerdata from "data/header.json";
 //css
-import headerstyles from "../../assets/css/header.module.css";
-import useDropdown from "../../hooks/useDropdown";
-import Dropdown from "../buttons/Dropdown";
-import useAuth from "../../hooks/useAuth";
+import headerstyles from "assets/css/header.module.css";
+import useDropdown from "hooks/useDropdown";
+import Dropdown from "components/buttons/Dropdown";
+import useAuth from "hooks/useAuth";
 
 const AdminHeader = () => {
   //hook for the dropdown

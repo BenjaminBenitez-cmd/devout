@@ -1,6 +1,6 @@
 import React from "react";
 import { Col, Container, Row } from "reactstrap";
-import Heading from "../components/typography/Heading";
+import Heading from "components/typography/Heading";
 
 const LayoutAdminPage = (props) => {
   return (

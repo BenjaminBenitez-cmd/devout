@@ -1,7 +1,8 @@
 import React from "react";
 import { Col, Row } from "reactstrap";
-import Circle from "../shapes/Circle";
-import data from "../../data/featured.json";
+
+import Circle from "components/shapes/Circle";
+import data from "data/featured.json";
 
 const StoreHero2 = () => {
   return (

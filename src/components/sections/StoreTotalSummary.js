@@ -3,10 +3,11 @@ import {
   calculateSubTotal,
   calculateTax,
   calculateTotal,
-} from "../../helpers/calculators";
-import PrimaryButtonLink from "../buttons/PrimaryButtonLink";
-import SummaryItem from "../other/SummaryItem";
-import settingsdata from "../../data/settings.json";
+} from "helpers/calculators";
+
+import PrimaryButtonLink from "components/buttons/PrimaryButtonLink";
+import SummaryItem from "components/other/SummaryItem";
+import settingsdata from "data/settings.json";
 
 export const StoreTotalSummary = ({ cartItems }) => {
   return (

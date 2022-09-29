@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useState } from "react";
-import styles from "../../assets/css/notification.module.css";
-import useNotifications from "../../hooks/useNotifications";
+
+import styles from "assets/css/notification.module.css";
+import useNotifications from "hooks/useNotifications";
 
 const NotificationItem = ({ message, id }) => {
   const { removeNotification } = useNotifications();

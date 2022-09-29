@@ -1,13 +1,15 @@
 import React from "react";
 import { Col, Container, Row } from "reactstrap";
+
 import {
   calculateSubTotal,
   calculateTax,
   calculateTotal,
-} from "../../helpers/calculators";
-import useCart from "../../hooks/useCart";
-import settings from "../../data/settings.json";
-import styles from "../../assets/css/storeCheckoutTotal.module.css";
+} from "helpers/calculators";
+import useCart from "hooks/useCart";
+
+import settings from "data/settings.json";
+import styles from "assets/css/storeCheckoutTotal.module.css";
 
 const StoreCheckoutSummaryTotal = () => {
   const { state } = useCart();

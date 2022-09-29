@@ -2,9 +2,8 @@ import React from "react";
 import { QueryClientProvider, QueryClient } from "react-query";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import AuthProvider from "./context/AuthContext";
-// import LayoutAdmin from "./layouts/LayoutAdmin";
-import Admin from "./sections/Admin";
-import Store from "./sections/Store";
+import Admin from "./pages/admin/Root";
+import Store from "./pages/store/Root";
 
 const queryClient = new QueryClient();
 

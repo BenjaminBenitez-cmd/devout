@@ -1,6 +1,7 @@
 import React from "react";
 import { Col, Row } from "reactstrap";
-import data from "../../data/featured.json";
+
+import data from "data/featured.json";
 
 const StoreBrands = () => {
   return (

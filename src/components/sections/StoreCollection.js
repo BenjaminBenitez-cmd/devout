@@ -2,7 +2,8 @@ import React from "react";
 import { NavLink } from "react-router-dom";
 import Slider from "react-slick";
 import { Col, Row } from "reactstrap";
-import collectiondata from "../../data/collections.json";
+
+import collectiondata from "data/collections.json";
 
 const StoreCollection = () => {
   const settings = {

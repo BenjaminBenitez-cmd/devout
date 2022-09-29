@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
-import ProductRequests from "../../api/product.requests";
 import FeatherIcons from "feather-icons-react";
-import { mapCategories } from "../../helpers/mappers";
-import inputstyles from "../../assets/css/input.module.css";
-import CategoryRequests from "../../api/category.requests";
+
+import ProductRequests from "api/product.requests";
+import CategoryRequests from "api/category.requests";
+import { mapCategories } from "helpers/mappers";
+
+import inputstyles from "assets/css/input.module.css";
 
 export default function InputCategories({ values, productid }) {
   //drop down state

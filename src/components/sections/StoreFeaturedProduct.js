@@ -1,8 +1,9 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { Col, Row } from "reactstrap";
-import data from "../../data/featured.json";
-import styles from "../../assets/css/featuredproduct.module.css";
+
+import data from "data/featured.json";
+import styles from "assets/css/featuredproduct.module.css";
 
 const StoreFeaturedProduct = () => {
   return (

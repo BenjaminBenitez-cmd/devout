@@ -1,12 +1,13 @@
 import React from "react";
-import { FormGroup } from "reactstrap";
-import PrimaryButton from "../buttons/PrimaryButton";
-import { Form, Formik } from "formik";
-import { MyTextField } from "../inputs/CustomInputs";
-import * as Yup from "yup";
-import { CustomRadio } from "../inputs/Input";
 import { useHistory } from "react-router-dom";
-import useAuth from "../../hooks/useAuth";
+import { FormGroup } from "reactstrap";
+import { Form, Formik } from "formik";
+import * as Yup from "yup";
+
+import PrimaryButton from "components/buttons/PrimaryButton";
+import { MyTextField } from "components/inputs/CustomInputs";
+import { CustomRadio } from "components/inputs/Input";
+import useAuth from "hooks/useAuth";
 
 const GuestEmail = () => {
   const { setEmail } = useAuth();

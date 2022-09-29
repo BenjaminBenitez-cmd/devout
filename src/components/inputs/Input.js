@@ -1,5 +1,5 @@
 import React from "react";
-import inputstyles from "../../assets/css/input.module.css";
+import inputstyles from "assets/css/input.module.css";
 //css
 
 const Input = (props) => {

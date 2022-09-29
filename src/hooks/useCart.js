@@ -1,6 +1,6 @@
 import { useCallback, useContext, useEffect } from "react";
-import CartRequests from "../api/cart.requests";
-import { CartContext } from "../context/CartContext";
+import CartRequests from "api/cart.requests";
+import { CartContext } from "context/CartContext";
 import {
   getCartFromLocalStorage,
   saveCartToLocalStorage,

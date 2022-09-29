@@ -1,7 +1,8 @@
 import React from "react";
 import { Redirect, Route } from "react-router-dom";
-import useAuth from "../../hooks/useAuth";
-import useCart from "../../hooks/useCart";
+
+import useAuth from "hooks/useAuth";
+import useCart from "hooks/useCart";
 
 const StoreProtected = ({ render, ...rest }) => {
   const { state } = useCart();

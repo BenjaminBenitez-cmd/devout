@@ -1,6 +1,6 @@
 import React from "react";
-import styles from "../../assets/css/notification.module.css";
-import useNotifications from "../../hooks/useNotifications";
+import styles from "assets/css/notification.module.css";
+import useNotifications from "hooks/useNotifications";
 import NotificationItem from "./NotificationItem";
 
 const Notifications = () => {

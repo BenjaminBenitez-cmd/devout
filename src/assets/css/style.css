@@ -1,5 +1,7 @@
+@import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro:regular,bold,italic&subset=latin,latin-ext');
+
 :root {
-  --font-main: "Open Sans";
+  --font-main: "PT Serif";
   --main-color: #000000;
   --secondary-color: #ffffff;
   --light-gray: #c4c4c4;
@@ -61,6 +63,7 @@ h3,
 h4,
 h5,
 h6 {
+  font-family: 'Bebas Neue';
   font-weight: 400;
   text-transform: uppercase;
 }

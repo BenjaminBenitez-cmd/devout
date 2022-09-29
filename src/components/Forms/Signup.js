@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
 import { FormGroup } from "reactstrap";
-import PrimaryButton from "../buttons/PrimaryButton";
-import AuthRequests from "../../api/auth.requests";
-import { Form, Formik } from "formik";
-import { MyTextField } from "../inputs/CustomInputs";
 import * as Yup from "yup";
+import { Form, Formik } from "formik";
+
+import PrimaryButton from "components/buttons/PrimaryButton";
+import { MyTextField } from "components/inputs/CustomInputs";
+import AuthRequests from "api/auth.requests";
 
 const Signup = () => {
   //state for message

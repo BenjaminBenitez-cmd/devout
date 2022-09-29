@@ -1,7 +1,8 @@
 import React from "react";
 import { Col, Row } from "reactstrap";
-import pagedata from "../../data/home.json";
-import ProductCorousel from "../product/ProductCorousel";
+
+import ProductCorousel from "components/product/ProductCorousel";
+import pagedata from "data/home.json";
 
 const StoreLatest = () => {
   return (

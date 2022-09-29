@@ -1,7 +1,7 @@
 import React from "react";
 import { Col, Container, Row } from "reactstrap";
 //data
-import pagedata from "../../data/home.json";
+import pagedata from "data/home.json";
 
 const StoreAbout = () => {
   return (

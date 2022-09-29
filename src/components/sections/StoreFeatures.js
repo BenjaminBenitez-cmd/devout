@@ -2,8 +2,8 @@ import React from "react";
 import { NavLink } from "react-router-dom";
 import { Card, Col, Row } from "reactstrap";
 //data
-import homedata from "../../data/home.json";
-import styles from "../../assets/css/overlay.module.css";
+import homedata from "data/home.json";
+import styles from "assets/css/overlay.module.css";
 
 const StoreFeatures = () => {
   return (

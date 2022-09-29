@@ -1,12 +1,12 @@
 import React from "react";
-//info
-import headerdata from "../../data/header.json";
-//css
-import headerstyles from "../../assets/css/header.module.css";
 import { Link, NavLink } from "react-router-dom";
-import useAuth from "../../hooks/useAuth";
-import useCart from "../../hooks/useCart";
+
+import useAuth from "hooks/useAuth";
+import useCart from "hooks/useCart";
 // import useCount from "../../hooks/useCount";
+
+import headerstyles from "assets/css/header.module.css";
+import headerdata from "data/header.json";
 
 const StoreHeader = () => {
   //global auth state

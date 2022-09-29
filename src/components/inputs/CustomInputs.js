@@ -1,8 +1,10 @@
 import React from "react";
 import { useField } from "formik";
-import styles from "../../assets/css/input.module.css";
-import useDropdown from "../../hooks/useDropdown";
-import Dropdown from "../buttons/Dropdown";
+
+import useDropdown from "hooks/useDropdown";
+import Dropdown from "components/buttons/Dropdown";
+
+import styles from "assets/css/input.module.css";
 
 const MyTextField = ({ label, ...props }) => {
   const [field, meta] = useField(props);

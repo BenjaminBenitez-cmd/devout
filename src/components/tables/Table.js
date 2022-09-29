@@ -1,10 +1,8 @@
 import React from "react";
-//react table hooks
-import { useTable } from "react-table";
-//table css
-import tablestyles from "../../assets/css/table.module.css";
-
 import PropTypes from "prop-types";
+import { useTable } from "react-table";
+
+import tablestyles from "assets/css/table.module.css";
 
 const Table = ({ data, definition }) => {
   const columns = React.useMemo(

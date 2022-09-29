@@ -1,5 +1,6 @@
 import React from "react";
-import circlestyles from "../../assets/css/circle.module.css";
+
+import circlestyles from "assets/css/circle.module.css";
 
 const Circle = (props) => {
   return (

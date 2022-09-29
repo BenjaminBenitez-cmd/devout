@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 import { NavLink, useHistory } from "react-router-dom";
 import { FormGroup } from "reactstrap";
-import PrimaryButton from "../buttons/PrimaryButton";
-import AuthRequests from "../../api/auth.requests";
 import { Form, Formik } from "formik";
-import useAuth from "../../hooks/useAuth";
-import { MyTextField } from "../inputs/CustomInputs";
 import * as Yup from "yup";
+
+import PrimaryButton from "components/buttons/PrimaryButton";
+import { MyTextField } from "components/inputs/CustomInputs";
+import AuthRequests from "api/auth.requests";
+import useAuth from "hooks/useAuth";
 
 const Signin = ({ redirect }) => {
   //use hook to signin

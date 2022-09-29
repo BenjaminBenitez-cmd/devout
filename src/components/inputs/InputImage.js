@@ -2,14 +2,8 @@ import React, { useState } from "react";
 import { Card } from "reactstrap";
 import FeatherIcons from "feather-icons-react";
 //css
-import inputstyles from "../../assets/css/inputimage.module.css";
-import ImageRequests from "../../api/image.requests";
-
-/**
- *
- * we have to upload the image using form data
- * then get the url and send it on submission
- */
+import inputstyles from "assets/css/inputimage.module.css";
+import ImageRequests from "api/image.requests";
 
 const InputImage = ({ images, updateImages }) => {
   //maintain track of the latest images

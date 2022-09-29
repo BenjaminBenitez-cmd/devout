@@ -1,9 +1,10 @@
 import React from "react";
-import StoreSidebarOption from "./StoreSidebarOption";
-import { FormGroup } from "reactstrap";
-import { CustomRadio } from "../inputs/Input";
 import { useQuery } from "react-query";
-import CategoryRequests from "../../api/category.requests";
+import { FormGroup } from "reactstrap";
+
+import { CustomRadio } from "components/inputs/Input";
+import CategoryRequests from "api/category.requests";
+import StoreSidebarOption from "./StoreSidebarOption";
 
 const StoreFilter = ({ toggleFilter }) => {
   const { isLoading, data } = useQuery("categories", CategoryRequests.getMany);

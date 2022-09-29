@@ -4,7 +4,7 @@ import {
   CLEAR_ITEMS,
   FETCH_ITEMS,
   REMOVE_ITEM,
-} from "../hooks/cart.constants";
+} from "hooks/cart.constants";
 
 export const CartContext = createContext();
 

@@ -1,7 +1,8 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 import { Card } from "reactstrap";
-import styles from "../../assets/css/product.module.css";
+
+import styles from "assets/css/product.module.css";
 
 const ProductCard = (props) => {
   return (

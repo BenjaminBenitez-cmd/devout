@@ -1,9 +1,11 @@
 import React from "react";
-import homedata from "../../data/home.json";
-import herostyles from "../../assets/css/hero.module.css";
-import PrimaryButtonLink from "../buttons/PrimaryButtonLink";
 import { Container } from "reactstrap";
-import overlaystyle from "../../assets/css/overlay.module.css";
+
+import PrimaryButtonLink from "components/buttons/PrimaryButtonLink";
+
+import homedata from "data/home.json";
+import herostyles from "assets/css/hero.module.css";
+import overlaystyle from "assets/css/overlay.module.css";
 
 const StoreHero = () => {
   return (

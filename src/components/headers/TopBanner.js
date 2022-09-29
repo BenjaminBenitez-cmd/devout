@@ -1,6 +1,6 @@
 import React from "react";
-import settings from "../../data/settings.json";
-import styles from "../../assets/css/banner.module.css";
+import settings from "data/settings.json";
+import styles from "assets/css/banner.module.css";
 
 const TopBanner = () => {
   return (

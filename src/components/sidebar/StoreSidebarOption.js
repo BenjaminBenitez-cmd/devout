@@ -1,9 +1,9 @@
 import React from "react";
 import FeatherIcons from "feather-icons-react";
-import Dropdown from "../buttons/Dropdown";
-import useDropdown from "../../hooks/useDropdown";
-//css
-import styles from "../../assets/css/filter.module.css";
+
+import Dropdown from "components/buttons/Dropdown";
+import useDropdown from "hooks/useDropdown";
+import styles from "assets/css/filter.module.css";
 
 const StoreSidebarOption = ({ name, children }) => {
   const { isOpen, toggleOpen } = useDropdown();
