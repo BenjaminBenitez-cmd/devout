@@ -2,17 +2,21 @@ import React from "react";
 import { Col, Row } from "reactstrap";
 
 import Signin from "components/Forms/Signin";
-import GuestEmail from "components/Forms/GuestEmail";
+import FormGuestEmail from "components/Forms/GuestEmail";
 import useAuth from "hooks/useAuth";
 import { Redirect } from "react-router-dom";
 
 import styles from "assets/css/auth.module.css";
 
-const StoreCheckoutAuth = () => {
+const AuthWall = () => {
   const { authenticated } = useAuth();
+
+  if (authenticated) {
+    return <Redirect to="/checkout/shipping" />;
+  }
+
   return (
     <>
-      {authenticated && <Redirect to="/checkout/shipping" />}
       <Row className={styles.container}>
         <Col sm={12} md={6}>
           <div className="px-5">
@@ -21,7 +25,7 @@ const StoreCheckoutAuth = () => {
         </Col>
         <Col sm={12} md={6} className="mt-5 mt-md-0">
           <div className="px-5">
-            <GuestEmail />
+            <FormGuestEmail />
           </div>
         </Col>
       </Row>
@@ -29,4 +33,4 @@ const StoreCheckoutAuth = () => {
   );
 };
 
-export default StoreCheckoutAuth;
+export default AuthWall;

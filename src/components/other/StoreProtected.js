@@ -9,7 +9,7 @@ const StoreProtected = ({ render, ...rest }) => {
   const { authenticated, email } = useAuth();
   const Component = render;
 
-  if (state.length <= 0) return <Redirect to="/cart" />;
+  if (state.length <= 0) return <Redirect to="/" />;
 
   return (
     <Route
@@ -20,7 +20,7 @@ const StoreProtected = ({ render, ...rest }) => {
         ) : (
           <Redirect
             to={{
-              pathname: "/checkout/auth",
+              pathname: "/",
               state: { from: props.location },
             }}
           />

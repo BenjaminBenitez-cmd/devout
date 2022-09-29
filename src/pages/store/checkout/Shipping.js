@@ -14,8 +14,9 @@ import settings from "data/settings.json";
 import useAuth from "hooks/useAuth";
 
 const StoreShipping = ({ setAddress }) => {
-  const { authenticated } = useAuth();
   const history = useHistory();
+
+  const { authenticated } = useAuth();
   const [userAddress, setUserAddress] = useState(false);
   //our formik initial state
   const [value, setValues] = useState({
@@ -46,13 +47,15 @@ const StoreShipping = ({ setAddress }) => {
   });
   //fetch our address
   useEffect(() => {
-    if (!authenticated) return;
+    if (!authenticated) {
+      return;
+    }
     //get address if authenticated
     const fetchAddress = async () => {
       try {
         const response = await AddressRequests.getOne();
         if (!response.address) {
-          return setUserAddress(false);
+          setUserAddress(false);
         } else {
           setValues({ ...response.address });
           setUserAddress(true);

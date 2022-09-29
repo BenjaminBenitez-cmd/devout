@@ -10,8 +10,9 @@ import { CustomRadio } from "components/inputs/Input";
 import useAuth from "hooks/useAuth";
 
 const GuestEmail = () => {
-  const { setEmail } = useAuth();
   const history = useHistory();
+
+  const { setEmail } = useAuth();
   //validation schema
   const validationSchema = Yup.object().shape({
     email: Yup.string().email("Invalid Email").required("Required Field"),

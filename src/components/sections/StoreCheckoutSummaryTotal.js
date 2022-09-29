@@ -6,21 +6,19 @@ import {
   calculateTax,
   calculateTotal,
 } from "helpers/calculators";
-import useCart from "hooks/useCart";
 
 import settings from "data/settings.json";
 import styles from "assets/css/storeCheckoutTotal.module.css";
 
-const StoreCheckoutSummaryTotal = () => {
-  const { state } = useCart();
+const StoreCheckoutSummaryTotal = ({ items }) => {
   return (
     <div>
       <Container fluid className="px-0">
         <div className={styles.underline}>
-          <h5 className="text-small">Order Summary Items({state.length})</h5>
+          <h5 className="text-small">Order Summary Items({items.length})</h5>
         </div>
-        {state &&
-          state.map((item, index) => (
+        {items &&
+          items.map((item, index) => (
             <Row key={index} className="my-4">
               <Col xs={3}>
                 <div>
@@ -47,7 +45,7 @@ const StoreCheckoutSummaryTotal = () => {
         <div className="my-4">
           <div className="d-flex justify-content-between my-1">
             <span className="text-upper">Subtotal</span>{" "}
-            <span className="text-upper">${calculateSubTotal(state)}</span>
+            <span className="text-upper">${calculateSubTotal(items)}</span>
           </div>
           <div className="d-flex justify-content-between my-1">
             <span className=" text-upper">Shipping Total</span>{" "}
@@ -56,13 +54,13 @@ const StoreCheckoutSummaryTotal = () => {
           <div className="d-flex justify-content-between my-1">
             <span className=" text-upper">Tax</span>{" "}
             <span className=" text-upper">
-              ${calculateTax(calculateSubTotal(state), settings.tax)}
+              ${calculateTax(calculateSubTotal(items), settings.tax)}
             </span>
           </div>
           <div className="d-flex justify-content-between my-1">
             <span className=" text-upper">Total</span>
             <span className=" text-upper">
-              ${calculateTotal(state, settings.tax)}
+              ${calculateTotal(items, settings.tax)}
             </span>
           </div>
         </div>

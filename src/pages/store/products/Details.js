@@ -9,10 +9,12 @@ import LayoutStoreHome from "layouts/LayoutStoreHome";
 import ProductRequests from "api/product.requests";
 import useCart from "hooks/useCart";
 
-const StoreProductDetails = (props) => {
+const StoreProductDetails = () => {
   const { id } = useParams();
-  const [product, setProduct] = useState(null);
   const { addItem } = useCart();
+
+  const [product, setProduct] = useState(null);
+
   //find product by id
   const fetchProduct = useCallback(async () => {
     const response = await ProductRequests.getOne(id);
@@ -27,9 +29,12 @@ const StoreProductDetails = (props) => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [id]);
+
   return (
     <LayoutStoreHome>
-      {product ? (
+      {!product ? (
+        <div>No product</div>
+      ) : (
         <>
           <Row>
             <Col sm={12} md={7}>
@@ -107,8 +112,6 @@ const StoreProductDetails = (props) => {
             <ProductCorousel />
           </Row>
         </>
-      ) : (
-        <div>No product</div>
       )}
     </LayoutStoreHome>
   );

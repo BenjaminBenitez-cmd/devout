@@ -55,7 +55,11 @@ const PaymentForm = ({ address }) => {
   //handle the submission logic
   const onSubmit = async (e) => {
     e.preventDefault();
-    if (!clientSecret) return;
+
+    if (!clientSecret) {
+      return;
+    }
+
     setProcessing(true);
     const payload = await stripe.confirmCardPayment(clientSecret, {
       payment_method: {
@@ -84,7 +88,10 @@ const PaymentForm = ({ address }) => {
   };
 
   const fetchPaymentToken = useCallback(async () => {
-    if (!state && !userEmail) return;
+    if (!state && !userEmail) {
+      return;
+    }
+
     const response = await PaymentRequests.getInitializationToken({
       items: state,
       email: userEmail,
@@ -141,7 +148,7 @@ const PaymentForm = ({ address }) => {
             </div>
           </Col>
           <Col md={{ offset: 5, size: 3 }}>
-            <StoreCheckoutSummaryTotal />
+            <StoreCheckoutSummaryTotal items={state} />
             {/**submit button */}
             <PrimaryButton
               width="100%"

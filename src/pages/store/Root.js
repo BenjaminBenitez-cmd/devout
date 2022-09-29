@@ -14,6 +14,7 @@ import StoreNotFound from "pages/store/404";
 import StoreAccount from "pages/store/account/Orders";
 
 import CartProvider from "context/CartContext";
+import StoreProtected from "components/other/StoreProtected";
 
 const Store = () => {
   return (
@@ -29,7 +30,7 @@ const Store = () => {
         <Route path="/verification/:token" component={StoreAuthVerifyLink} />
         <Route path="/signin" component={StoreAuthSignin} />
         <Route path="/signup" component={StoreAuthSignup} />
-        <Route path="/account" component={StoreAccount} />
+        <StoreProtected path="/account" component={StoreAccount} />
         <Route path="*" component={StoreNotFound} />
       </Switch>
     </CartProvider>

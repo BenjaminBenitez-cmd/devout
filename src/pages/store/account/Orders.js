@@ -1,11 +1,8 @@
 import React from "react";
 import { useQuery } from "react-query";
-import { NavLink, Redirect, Route, Switch } from "react-router-dom";
 import { Col, Container, Row } from "reactstrap";
 
 import OrderRequests from "api/order.requests";
-import useAuth from "hooks/useAuth";
-import LayoutStoreHome from "layouts/LayoutStoreHome";
 
 const Orders = () => {
   const { isLoading, data } = useQuery("orders", OrderRequests.getManyForUser);
@@ -55,34 +52,4 @@ const Orders = () => {
   );
 };
 
-const Account = () => {
-  const { authenticated, logOut } = useAuth();
-  return (
-    <LayoutStoreHome>
-      {!authenticated && <Redirect to="/" />}
-      <Row>
-        <Col md={4}>
-          <ul className="list-unstyled">
-            <li className="my-2">
-              <NavLink className="text-small" to="/account/orders">
-                Orders
-              </NavLink>
-            </li>
-            <li className="text-upper">
-              <span to="/" onClick={logOut}>
-                Log Out
-              </span>
-            </li>
-          </ul>
-        </Col>
-        <Col md={4}>
-          <Switch>
-            <Route path="/account/orders" component={Orders} />
-          </Switch>
-        </Col>
-      </Row>
-    </LayoutStoreHome>
-  );
-};
-
-export default Account;
+export default Orders;
