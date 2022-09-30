@@ -8,7 +8,7 @@ import LayoutStoreHome from "layouts/LayoutStoreHome";
 import useCart from "hooks/useCart";
 
 const StoreCart = () => {
-  const { state } = useCart();
+  const { items } = useCart();
   const { removeItem } = useCart();
   // const [cartItems, setCartItems] = useState([]);
   // const { authenticated } = useAuth();
@@ -46,7 +46,7 @@ const StoreCart = () => {
 
   return (
     <LayoutStoreHome>
-      {state && state.length === 0 && (
+      {items && items.length === 0 && (
         <div className="section text-center text-extrasmall text-uppercase">
           <p>
             NO ITEMS IN CART ADD{" "}
@@ -56,12 +56,12 @@ const StoreCart = () => {
           </p>
         </div>
       )}
-      {state && state.length > 0 && (
+      {items && items.length > 0 && (
         <Row className="section">
           <Col sm={12} md={8}>
             <Container fluid className="px-0">
-              {state &&
-                state.map((item, index) => (
+              {items &&
+                items.map((item, index) => (
                   <StoreCartItem
                     key={index}
                     item={item}
@@ -71,7 +71,7 @@ const StoreCart = () => {
             </Container>
           </Col>
           <Col sm={12} md={4} className="mt-5 mt-lg-0">
-            <StoreTotalSummary cartItems={state} />
+            <StoreTotalSummary cartItems={items} />
           </Col>
         </Row>
       )}

@@ -9,10 +9,10 @@ import headerstyles from "assets/css/header.module.css";
 import headerdata from "data/header.json";
 
 const StoreHeader = () => {
-  //global auth state
+  //global auth items
   const { authenticated } = useAuth();
   //hook for the dropdown
-  const { state } = useCart();
+  const { items } = useCart();
 
   return (
     <nav className={headerstyles.container}>
@@ -25,7 +25,7 @@ const StoreHeader = () => {
             <NavLink to="/shop">SHOP</NavLink>
           </li>
           <li className="me-4">
-            <NavLink to="/cart">CART {state.length}</NavLink>
+            <NavLink to="/cart">CART {items.length}</NavLink>
           </li>
           {authenticated ? (
             <li>

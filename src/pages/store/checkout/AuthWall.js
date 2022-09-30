@@ -7,6 +7,7 @@ import useAuth from "hooks/useAuth";
 import { Redirect } from "react-router-dom";
 
 import styles from "assets/css/auth.module.css";
+import LayoutStoreHome from "layouts/LayoutStoreHome";
 
 const AuthWall = () => {
   const { authenticated } = useAuth();
@@ -16,7 +17,7 @@ const AuthWall = () => {
   }
 
   return (
-    <>
+    <LayoutStoreHome>
       <Row className={styles.container}>
         <Col sm={12} md={6}>
           <div className="px-5">
@@ -29,7 +30,7 @@ const AuthWall = () => {
           </div>
         </Col>
       </Row>
-    </>
+    </LayoutStoreHome>
   );
 };
 

@@ -5,11 +5,11 @@ import useAuth from "hooks/useAuth";
 import useCart from "hooks/useCart";
 
 const StoreProtected = ({ render, ...rest }) => {
-  const { state } = useCart();
+  const { items } = useCart();
   const { authenticated, email } = useAuth();
   const Component = render;
 
-  if (state.length <= 0) return <Redirect to="/" />;
+  if (items.length <= 0) return <Redirect to="/" />;
 
   return (
     <Route

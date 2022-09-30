@@ -11,6 +11,8 @@ import settings from "data/settings.json";
 import styles from "assets/css/storeCheckoutTotal.module.css";
 
 const StoreCheckoutSummaryTotal = ({ items }) => {
+  console.log(items);
+
   return (
     <div>
       <Container fluid className="px-0">

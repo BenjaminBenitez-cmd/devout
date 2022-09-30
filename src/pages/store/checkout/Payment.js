@@ -12,6 +12,7 @@ import { loadStripe } from "@stripe/stripe-js";
 import PrimaryButton from "components/buttons/PrimaryButton";
 import StoreCheckoutSummaryTotal from "components/sections/StoreCheckoutSummaryTotal";
 import CheckoutSteps from "components/headers/CheckoutSteps";
+import LayoutStoreHome from "layouts/LayoutStoreHome";
 
 import useCart from "hooks/useCart";
 import useAuth from "hooks/useAuth";
@@ -32,9 +33,9 @@ const options = {
 
 const promise = loadStripe(config.STRIPE_KEY);
 
-const PaymentForm = ({ address }) => {
+const PaymentForm = () => {
   const user = getUserFromLocalStorage();
-  const { state } = useCart();
+  const { items, address } = useCart();
   const { email } = useAuth();
   const userEmail = email || user.email;
   const elements = useElements();
@@ -88,16 +89,16 @@ const PaymentForm = ({ address }) => {
   };
 
   const fetchPaymentToken = useCallback(async () => {
-    if (!state && !userEmail) {
+    if (!items && !userEmail) {
       return;
     }
 
     const response = await PaymentRequests.getInitializationToken({
-      items: state,
+      items,
       email: userEmail,
     });
     setClientSecret(response.clientSecret);
-  }, [state, userEmail]);
+  }, [items, userEmail]);
 
   //get the payment token
   useEffect(() => {
@@ -148,7 +149,7 @@ const PaymentForm = ({ address }) => {
             </div>
           </Col>
           <Col md={{ offset: 5, size: 3 }}>
-            <StoreCheckoutSummaryTotal items={state} />
+            <StoreCheckoutSummaryTotal items={items} />
             {/**submit button */}
             <PrimaryButton
               width="100%"
@@ -173,9 +174,11 @@ const PaymentForm = ({ address }) => {
 
 const StorePayment = ({ address }) => {
   return (
-    <Elements stripe={promise}>
-      <PaymentForm address={address} />
-    </Elements>
+    <LayoutStoreHome>
+      <Elements stripe={promise}>
+        <PaymentForm address={address} />
+      </Elements>
+    </LayoutStoreHome>
   );
 };
 

@@ -10,6 +10,7 @@ import {
   CLEAR_ITEMS,
   FETCH_ITEMS,
   REMOVE_ITEM,
+  ADD_ADDRESS,
 } from "./cart.constants";
 import useAuth from "./useAuth";
 
@@ -75,6 +76,13 @@ const useCart = () => {
     dispatch({ type: CLEAR_ITEMS });
   }, [dispatch]);
 
+  const addAddress = useCallback(
+    (address) => {
+      dispatch({ type: ADD_ADDRESS, payload: address });
+    },
+    [dispatch]
+  );
+
   useEffect(() => {
     if (!authenticated) {
       const items = getCartFromLocalStorage();
@@ -87,7 +95,7 @@ const useCart = () => {
     }
   }, [authenticated, dispatch]);
 
-  return { state, removeItem, addItem, clearCartItems };
+  return { ...state, removeItem, addItem, clearCartItems, addAddress };
 };
 
 export default useCart;

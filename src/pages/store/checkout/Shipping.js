@@ -8,15 +8,19 @@ import CheckoutSteps from "components/headers/CheckoutSteps";
 import { MySelect, MyTextField } from "components/inputs/CustomInputs";
 import PrimaryButton from "components/buttons/PrimaryButton";
 import StoreCheckoutSummaryTotal from "components/sections/StoreCheckoutSummaryTotal";
+import LayoutStoreHome from "layouts/LayoutStoreHome";
 
 import AddressRequests from "api/address.requests";
 import settings from "data/settings.json";
 import useAuth from "hooks/useAuth";
+import useCart from "hooks/useCart";
 
-const StoreShipping = ({ setAddress }) => {
+const StoreShipping = () => {
   const history = useHistory();
 
   const { authenticated } = useAuth();
+  const { items, addAddress } = useCart();
+
   const [userAddress, setUserAddress] = useState(false);
   //our formik initial state
   const [value, setValues] = useState({
@@ -70,7 +74,7 @@ const StoreShipping = ({ setAddress }) => {
 
   //handle the submission logic
   const onSubmit = async (values) => {
-    setAddress(values);
+    addAddress(values);
     if (!userAddress && authenticated) {
       try {
         await AddressRequests.addOne(values);
@@ -82,85 +86,87 @@ const StoreShipping = ({ setAddress }) => {
   };
 
   return (
-    <Formik
-      enableReinitialize
-      initialValues={initialValues}
-      validationSchema={validationSchema}
-      onSubmit={onSubmit}
-    >
-      {(props) => (
-        <Form>
-          <Row>
-            <Col sm={12}>
-              <CheckoutSteps step1 />
-            </Col>
-            <Col sm={12} md={4}>
-              <FormGroup className="my-3">
-                <MyTextField
-                  label="City"
-                  type="text"
-                  name="city"
-                  placeholder="City"
+    <LayoutStoreHome>
+      <Formik
+        enableReinitialize
+        initialValues={initialValues}
+        validationSchema={validationSchema}
+        onSubmit={onSubmit}
+      >
+        {(props) => (
+          <Form>
+            <Row>
+              <Col sm={12}>
+                <CheckoutSteps step1 />
+              </Col>
+              <Col sm={12} md={4}>
+                <FormGroup className="my-3">
+                  <MyTextField
+                    label="City"
+                    type="text"
+                    name="city"
+                    placeholder="City"
+                  />
+                </FormGroup>
+                <FormGroup className="my-3">
+                  <MyTextField
+                    label="State"
+                    type="text"
+                    name="state"
+                    placeholder="State"
+                  />
+                </FormGroup>
+                <FormGroup className="my-3">
+                  <MyTextField
+                    label="Phone"
+                    type="text"
+                    name="phone"
+                    placeholder="Phone"
+                  />
+                </FormGroup>
+                <FormGroup className="my-3">
+                  <MySelect
+                    name="country"
+                    label="Country"
+                    options={settings.countries}
+                  />
+                </FormGroup>
+                <FormGroup className="my-3">
+                  <MyTextField
+                    label="Address 1"
+                    type="text"
+                    name="address1"
+                    placeholder="Address 1"
+                  />
+                </FormGroup>
+                <FormGroup className="my-3">
+                  <MyTextField
+                    label="Address 2"
+                    type="text"
+                    name="address2"
+                    placeholder="Address 2"
+                  />
+                </FormGroup>
+              </Col>
+              <Col sm={12} md={{ offset: 5, size: 3 }}>
+                <StoreCheckoutSummaryTotal items={items} />
+                <PrimaryButton
+                  type="submit"
+                  style={{
+                    width: "100%",
+                    backgroundColor: !props.isValid
+                      ? "gray"
+                      : "var(--main-color)",
+                    pointerEvents: !props.isValid ? "none" : "auto",
+                  }}
+                  text="Continue"
                 />
-              </FormGroup>
-              <FormGroup className="my-3">
-                <MyTextField
-                  label="State"
-                  type="text"
-                  name="state"
-                  placeholder="State"
-                />
-              </FormGroup>
-              <FormGroup className="my-3">
-                <MyTextField
-                  label="Phone"
-                  type="text"
-                  name="phone"
-                  placeholder="Phone"
-                />
-              </FormGroup>
-              <FormGroup className="my-3">
-                <MySelect
-                  name="country"
-                  label="Country"
-                  options={settings.countries}
-                />
-              </FormGroup>
-              <FormGroup className="my-3">
-                <MyTextField
-                  label="Address 1"
-                  type="text"
-                  name="address1"
-                  placeholder="Address 1"
-                />
-              </FormGroup>
-              <FormGroup className="my-3">
-                <MyTextField
-                  label="Address 2"
-                  type="text"
-                  name="address2"
-                  placeholder="Address 2"
-                />
-              </FormGroup>
-            </Col>
-            <Col sm={12} md={{ offset: 5, size: 3 }}>
-              <StoreCheckoutSummaryTotal />
-              <PrimaryButton
-                type="submit"
-                style={{
-                  width: "100%",
-                  backgroundColor: !props.isValid
-                    ? "gray"
-                    : "var(--main-color)",
-                  pointerEvents: !props.isValid ? "none" : "auto",
-                }}
-                text="Continue"
-              />
-            </Col>
-          </Row>
-        </Form>
-      )}
-    </Formik>
+              </Col>
+            </Row>
+          </Form>
+        )}
+      </Formik>
+    </LayoutStoreHome>
   );
 };
 

@@ -4,26 +4,46 @@ import {
   CLEAR_ITEMS,
   FETCH_ITEMS,
   REMOVE_ITEM,
+  ADD_ADDRESS,
 } from "hooks/cart.constants";
 
 export const CartContext = createContext();
 
-const initialState = [];
+const initialState = {
+  items: [],
+  address: {},
+};
 
 const CartProvider = ({ children }) => {
   const [state, dispatch] = useReducer((state, action) => {
     switch (action.type) {
       case ADD_ITEM:
-        if (state.length <= 0) {
-          return [...state, action.payload];
-        }
-        return [...state, action.payload];
+        return {
+          ...state,
+          items: [...state.items, action.payload],
+        };
       case REMOVE_ITEM:
-        return state.filter((item) => item.skuid !== action.payload);
+        return {
+          ...state,
+          items: state.items.filter((item) => item.skuid !== action.payload),
+        };
       case FETCH_ITEMS:
-        return [...action.payload];
+        return {
+          ...state,
+          items: [...action.payload],
+        };
       case CLEAR_ITEMS:
-        return [];
+        return {
+          ...state,
+          items: [],
+        };
+      case ADD_ADDRESS:
+        return {
+          ...state,
+          address: {
+            ...action.payload,
+          },
+        };
       default:
         return state;
     }
