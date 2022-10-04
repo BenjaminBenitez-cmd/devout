@@ -3,16 +3,16 @@ import React from "react";
 import dropdownstyles from "../../assets/css/dropdown.module.css";
 import PropTypes from "prop-types";
 
-const Dropdown = (props) => {
+const Dropdown = ({ isOpen, unstyled, onClick, style, children }) => {
   return (
     <>
-      {props.isOpen && (
+      {isOpen && (
         <div
-          className={!props.unstyled ? dropdownstyles.dropdown : ""}
-          onClick={props.onClick}
-          style={props.style}
+          className={!unstyled ? dropdownstyles.dropdown : ""}
+          onClick={onClick}
+          style={style}
         >
-          <ul className="list-unstyled">{props.children}</ul>
+          <ul className="list-unstyled">{children}</ul>
         </div>
       )}
     </>

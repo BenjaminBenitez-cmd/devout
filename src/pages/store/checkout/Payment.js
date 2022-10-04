@@ -9,8 +9,8 @@ import {
 } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 
-import PrimaryButton from "components/buttons/PrimaryButton";
-import StoreCheckoutSummaryTotal from "components/sections/StoreCheckoutSummaryTotal";
+import Button from "components/buttons/Button";
+import CheckoutSummary from "components/blocks/CheckoutSummary";
 import CheckoutSteps from "components/headers/CheckoutSteps";
 import LayoutStoreHome from "layouts/LayoutStoreHome";
 
@@ -149,9 +149,9 @@ const PaymentForm = () => {
             </div>
           </Col>
           <Col md={{ offset: 5, size: 3 }}>
-            <StoreCheckoutSummaryTotal items={items} />
+            <CheckoutSummary items={items} />
             {/**submit button */}
-            <PrimaryButton
+            <Button
               width="100%"
               type="submit"
               disabled={processing || disabled || succeeded}
@@ -164,7 +164,7 @@ const PaymentForm = () => {
               ) : (
                 "Pay Now"
               )}
-            </PrimaryButton>
+            </Button>
           </Col>
         </Row>
       </form>

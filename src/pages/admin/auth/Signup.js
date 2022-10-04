@@ -4,9 +4,9 @@ import { NavLink } from "react-router-dom";
 import { Col, FormGroup, Row } from "reactstrap";
 import * as Yup from "yup";
 
-import PrimaryButton from "components/buttons/PrimaryButton";
-import AdminFooter from "components/footers/AdminFooter";
-import { MyTextField } from "components/inputs/CustomInputs";
+import Button from "components/buttons/Button";
+import AdminFooter from "components/footers/Admin";
+import { MyTextField } from "components/inputs/Custom";
 
 import AuthRequests from "api/auth.requests";
 
@@ -104,7 +104,7 @@ const Signup = () => {
                 </p>
 
                 <FormGroup className="mt-3">
-                  <PrimaryButton text="submit" type="submit" />
+                  <Button text="submit" type="submit" />
                 </FormGroup>
               </Form>
             </div>

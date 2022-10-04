@@ -4,8 +4,8 @@ import { FormGroup } from "reactstrap";
 import { Form, Formik } from "formik";
 import * as Yup from "yup";
 
-import PrimaryButton from "components/buttons/PrimaryButton";
-import { MyTextField } from "components/inputs/CustomInputs";
+import Button from "components/buttons/Button";
+import { MyTextField } from "components/inputs/Custom";
 import { CustomRadio } from "components/inputs/Input";
 import useAuth from "hooks/useAuth";
 
@@ -43,7 +43,7 @@ const GuestEmail = () => {
             <CustomRadio label="Sign me up for the latest updates" />
           </FormGroup>
           <FormGroup className="mt-3">
-            <PrimaryButton text="submit" type="submit" />
+            <Button text="submit" type="submit" />
           </FormGroup>
         </Form>
       </div>

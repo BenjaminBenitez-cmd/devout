@@ -1,10 +1,10 @@
 import React from "react";
 import { Col, Row } from "reactstrap";
 
-import ProductCorousel from "components/product/ProductCorousel";
-import StoreFeaturedProduct from "components/sections/StoreFeaturedProduct";
-import StoreCollection from "components/sections/StoreCollection";
-import StoreBrands from "components/sections/StoreBrands";
+import ProductCorousel from "components/product/Corousel";
+import FeaturedProduct from "components/blocks/FeaturedProduct";
+import Collection from "components/blocks/Collection";
+import Brands from "components/blocks/Brands";
 import LayoutStoreHome from "layouts/LayoutStoreHome";
 
 import data from "data/featured.json";
@@ -13,7 +13,7 @@ const Collections = () => {
   return (
     <LayoutStoreHome>
       {/**Collection */}
-      <StoreCollection />
+      <Collection />
 
       {/**The latest */}
       <Row className="section">
@@ -24,10 +24,10 @@ const Collections = () => {
       </Row>
 
       {/**Featured sneaker */}
-      <StoreFeaturedProduct />
+      <FeaturedProduct />
 
       {/** Brands you love */}
-      <StoreBrands />
+      <Brands />
       {/**The latest */}
       <Row className="section">
         <Col sm={12}>

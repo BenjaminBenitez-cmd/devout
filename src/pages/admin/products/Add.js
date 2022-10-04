@@ -2,10 +2,10 @@ import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import { Col, Container, Form, FormGroup, Row } from "reactstrap";
 
-import PrimaryButton from "components/buttons/PrimaryButton";
+import Button from "components/buttons/Button";
 import { Input, TextArea } from "components/inputs/Input";
-import InputCategories from "components/inputs/InputCategories";
-import InputImage from "components/inputs/InputImage";
+import InputCategories from "pages/admin/products/components/InputCategories";
+import InputImage from "pages/admin/products/components/InputImage";
 import LayoutAdmin from "layouts/LayoutAdmin";
 import LayoutAdminPage from "layouts/LayoutAdminPage";
 import useNotifications from "hooks/useNotifications";
@@ -161,7 +161,7 @@ const AdminAddProducts = () => {
                 </Col>
                 <Col sm={{ size: 4, offset: 2 }}>
                   {/**Save and categories */}
-                  <PrimaryButton
+                  <Button
                     onSubmit={handleSubmit}
                     type="submit"
                     text="Save product"

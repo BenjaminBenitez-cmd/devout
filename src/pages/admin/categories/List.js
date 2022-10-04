@@ -2,7 +2,7 @@ import React from "react";
 import { useQuery } from "react-query";
 
 import Table from "components/tables/Table";
-import { categoriesDefinition } from "helpers/columndefinitions";
+import { categoriesDefinition } from "helpers/columnDefinitions";
 import LayoutAdmin from "layouts/LayoutAdmin";
 import LayoutAdminPage from "layouts/LayoutAdminPage";
 import CategoryRequests from "api/category.requests";

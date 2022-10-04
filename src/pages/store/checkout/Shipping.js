@@ -5,9 +5,9 @@ import { Col, FormGroup, Row } from "reactstrap";
 import * as Yup from "yup";
 
 import CheckoutSteps from "components/headers/CheckoutSteps";
-import { MySelect, MyTextField } from "components/inputs/CustomInputs";
-import PrimaryButton from "components/buttons/PrimaryButton";
-import StoreCheckoutSummaryTotal from "components/sections/StoreCheckoutSummaryTotal";
+import { MySelect, MyTextField } from "components/inputs/Custom";
+import Button from "components/buttons/Button";
+import CheckoutSummary from "components/blocks/CheckoutSummary";
 import LayoutStoreHome from "layouts/LayoutStoreHome";
 
 import AddressRequests from "api/address.requests";
@@ -149,8 +149,8 @@ const StoreShipping = () => {
                 </FormGroup>
               </Col>
               <Col sm={12} md={{ offset: 5, size: 3 }}>
-                <StoreCheckoutSummaryTotal items={items} />
-                <PrimaryButton
+                <CheckoutSummary items={items} />
+                <Button
                   type="submit"
                   style={{
                     width: "100%",

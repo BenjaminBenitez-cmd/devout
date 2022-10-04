@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import ActionButton from "../ActionButton";
+import ActionButton from "components/buttons/Action";
 
 const OrderActionButton = ({ id }) => {
   return (

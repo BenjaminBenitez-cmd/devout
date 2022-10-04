@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Col, Container, Form, Row } from "reactstrap";
 
-import PrimaryButton from "components/buttons/PrimaryButton";
+import Button from "components/buttons/Button";
 import { Input } from "components/inputs/Input";
 import useNotifications from "hooks/useNotifications";
 import LayoutAdmin from "layouts/LayoutAdmin";
@@ -57,7 +57,7 @@ const AdminAddCategory = () => {
               </Col>
               <Col sm={{ size: 4, offset: 2 }}>
                 {/**Save and categories */}
-                <PrimaryButton
+                <Button
                   onSubmit={handleSubmit}
                   type="submit"
                   text="Save Category"

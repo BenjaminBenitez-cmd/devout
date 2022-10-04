@@ -3,7 +3,7 @@ import { Col, Row } from "reactstrap";
 
 import data from "data/featured.json";
 
-const StoreBrands = () => {
+const Brands = () => {
   return (
     <Row className="section">
       <h3 className="text-medium text-bold">{data.brands.title}</h3>
@@ -20,4 +20,4 @@ const StoreBrands = () => {
   );
 };
 
-export default StoreBrands;
+export default Brands;

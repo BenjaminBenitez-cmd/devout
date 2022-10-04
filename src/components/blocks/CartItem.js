@@ -1,10 +1,10 @@
 import React from "react";
 import { Col, Container, Row } from "reactstrap";
 
-import PrimaryButton from "components/buttons/PrimaryButton";
+import Button from "components/buttons/Button";
 import OptionItem from "components/other/OptionItem";
 
-export const StoreCartItem = ({ item, handleRemove }) => {
+export const CartItem = ({ item, handleRemove }) => {
   return (
     <Row className="mb-3" key={item.id}>
       <Col xs={4} md={3}>
@@ -32,7 +32,7 @@ export const StoreCartItem = ({ item, handleRemove }) => {
           <p>${item.price}</p>
         </div>
         <div>
-          <PrimaryButton
+          <Button
             onClick={() => handleRemove(item)}
             bold="true"
             bgcolor="secondary"
@@ -44,4 +44,4 @@ export const StoreCartItem = ({ item, handleRemove }) => {
   );
 };
 
-export default StoreCartItem;
+export default CartItem;

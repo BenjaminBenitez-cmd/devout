@@ -1,7 +1,7 @@
 import React from "react";
 import { Container } from "reactstrap";
 
-import PrimaryButtonLink from "components/buttons/PrimaryButtonLink";
+import Link from "components/buttons/Link";
 
 import homedata from "data/home.json";
 import herostyles from "assets/css/hero.module.css";
@@ -17,7 +17,7 @@ const StoreHero = () => {
         <Container>
           <div>
             <h1 className={herostyles.h1}>{homedata.hero.title}</h1>
-            <PrimaryButtonLink to={homedata.hero.link} text="View Now" />
+            <Link to={homedata.hero.link} text="View Now" />
           </div>
         </Container>
       </div>

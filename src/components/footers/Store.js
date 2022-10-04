@@ -2,7 +2,7 @@ import React from "react";
 import { Col, Row } from "reactstrap";
 import FeatherIcons from "feather-icons-react";
 
-const StoreFooter = () => {
+const Footer = () => {
   return (
     <Row className="mt-5">
       <Col xs={6} sm={3} md={3} lg={1}>
@@ -33,4 +33,4 @@ const StoreFooter = () => {
   );
 };
 
-export default StoreFooter;
+export default Footer;

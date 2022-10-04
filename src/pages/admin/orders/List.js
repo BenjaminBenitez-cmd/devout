@@ -2,7 +2,7 @@ import React from "react";
 import { useQuery } from "react-query";
 
 import Table from "components/tables/Table";
-import { orderDefinition } from "helpers/columndefinitions";
+import { orderDefinition } from "helpers/columnDefinitions";
 import LayoutAdmin from "layouts/LayoutAdmin";
 import LayoutAdminPage from "layouts/LayoutAdminPage";
 

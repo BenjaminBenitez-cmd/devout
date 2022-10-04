@@ -3,7 +3,7 @@ import { Col, Container, Row } from "reactstrap";
 //data
 import pagedata from "data/home.json";
 
-const StoreAbout = () => {
+const About = () => {
   return (
     <Row className="section">
       <Col sm={6}>
@@ -28,4 +28,4 @@ const StoreAbout = () => {
   );
 };
 
-export default StoreAbout;
+export default About;

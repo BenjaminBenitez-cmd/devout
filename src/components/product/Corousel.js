@@ -2,7 +2,7 @@ import React from "react";
 import { useQuery } from "react-query";
 import Slider from "react-slick";
 
-import ProductCard from "./ProductCard";
+import ProductCard from "./Card";
 import ProductRequests from "../../api/product.requests";
 
 import "slick-carousel/slick/slick.css";

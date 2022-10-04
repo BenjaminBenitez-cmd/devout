@@ -1,7 +1,7 @@
 import React from "react";
 import { Container } from "reactstrap";
-import StoreFooter from "components/footers/StoreFooter";
-import StoreHeader from "components/headers/StoreHeader";
+import StoreFooter from "components/footers/Store";
+import StoreHeader from "components/headers/Store";
 import TopBanner from "components/headers/TopBanner";
 
 const LayoutStoreHome = (props) => {

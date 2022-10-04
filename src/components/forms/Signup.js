@@ -4,8 +4,8 @@ import { FormGroup } from "reactstrap";
 import * as Yup from "yup";
 import { Form, Formik } from "formik";
 
-import PrimaryButton from "components/buttons/PrimaryButton";
-import { MyTextField } from "components/inputs/CustomInputs";
+import Button from "components/buttons/Button";
+import { MyTextField } from "components/inputs/Custom";
 import AuthRequests from "api/auth.requests";
 
 const Signup = () => {
@@ -62,7 +62,7 @@ const Signup = () => {
           </FormGroup>
           <p className="mt-3">{message}</p>
           <FormGroup className="mt-3">
-            <PrimaryButton disable={loading} text="submit" type="submit" />
+            <Button disable={loading} text="submit" type="submit" />
           </FormGroup>
           <FormGroup className="mt-3">
             <p className="text-extrasmall">

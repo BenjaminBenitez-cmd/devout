@@ -1,9 +1,9 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Col, Container, Row } from "reactstrap";
 
-import ProductCorousel from "components/product/ProductCorousel";
-import PrimaryButton from "components/buttons/PrimaryButton";
+import ProductCorousel from "components/product/Corousel";
+import Button from "components/buttons/Button";
 import LayoutStoreHome from "layouts/LayoutStoreHome";
 
 import ProductRequests from "api/product.requests";
@@ -15,16 +15,10 @@ const StoreProductDetails = () => {
 
   const [product, setProduct] = useState(null);
 
-  //find product by id
-  const fetchProduct = useCallback(async () => {
-    const response = await ProductRequests.getOne(id);
-    setProduct(response.product);
-  }, [id]);
-
   //perform find on refresh
   useEffect(() => {
-    fetchProduct();
-  }, [fetchProduct]);
+    ProductRequests.getOne(id).then((response) => setProduct(response.product));
+  }, [id]);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -75,13 +69,13 @@ const StoreProductDetails = () => {
                 <h3 className="text-medium">${product.price}</h3>
               </div>
               <div className="my-5">
-                <PrimaryButton
+                <Button
                   // disabled={!product.live}
                   onClick={() => addItem(product)}
                   width="100%"
                 >
                   {!product.live ? "Unavailable" : "Add to Cart"}
-                </PrimaryButton>
+                </Button>
               </div>
               <div className="my-5">
                 <h5 className="text-small text-bold">Editor's Note</h5>

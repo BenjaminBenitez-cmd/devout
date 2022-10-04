@@ -20,24 +20,27 @@ const useCart = () => {
 
   const removeItem = async (skuid) => {
     if (!authenticated) {
-      const localCart = getCartFromLocalStorage();
-      if (!localCart) return;
-      saveCartToLocalStorage(localCart.filter((item) => item.skuid !== skuid));
+      const savedCart = getCartFromLocalStorage();
+      saveCartToLocalStorage(savedCart.filter((item) => item.skuid !== skuid));
+      dispatch({ type: REMOVE_ITEM, payload: skuid });
     } else {
       try {
-        const cart = await CartRequests.getOne();
-        await CartRequests.removeOneFromCart(cart.cart.id, skuid);
+        const response = await CartRequests.getOne();
+        await CartRequests.removeOneFromCart(response.cart.id, skuid);
+        dispatch({ type: REMOVE_ITEM, payload: skuid });
       } catch (err) {
         console.error(err);
       }
     }
-    dispatch({ type: REMOVE_ITEM, payload: skuid });
   };
 
   const addItem = useCallback(
     async (product) => {
-      if (!product) return;
-      let newItem = {
+      if (!product || !product.live) {
+        return;
+      }
+
+      const payload = {
         productid: product.id,
         skuid: product.skuid,
         images: product.images,
@@ -47,22 +50,19 @@ const useCart = () => {
       };
 
       if (!authenticated) {
-        const localCart = getCartFromLocalStorage();
-        if (!localCart) {
-          saveCartToLocalStorage([newItem]);
-        } else {
-          saveCartToLocalStorage([...localCart, newItem]);
-        }
-        dispatch({ type: ADD_ITEM, payload: newItem });
+        const savedCart = getCartFromLocalStorage() || [];
+        saveCartToLocalStorage([...savedCart, payload]);
+        dispatch({ type: ADD_ITEM, payload });
       } else {
         try {
-          const cartResponse = await CartRequests.getOne();
-          await CartRequests.addOneToCart(cartResponse.cart.id, {
+          // fetch existing cart
+          const response = await CartRequests.getOne();
+          await CartRequests.addOneToCart(response.cart.id, {
             skuid: product.skuid,
             productid: product.id,
             quantity: 1,
           });
-          dispatch({ type: ADD_ITEM, payload: newItem });
+          dispatch({ type: ADD_ITEM, payload });
         } catch (err) {
           console.error(err);
         }
@@ -84,15 +84,17 @@ const useCart = () => {
   );
 
   useEffect(() => {
+    let items = [];
+
     if (!authenticated) {
-      const items = getCartFromLocalStorage();
-      if (!items) return;
-      dispatch({ type: FETCH_ITEMS, payload: items });
+      items = getCartFromLocalStorage() || [];
     } else {
       CartRequests.getOne().then((response) => {
-        dispatch({ type: FETCH_ITEMS, payload: response.cart.items });
+        items = response.cart.items;
       });
     }
+
+    dispatch({ type: FETCH_ITEMS, payload: items });
   }, [authenticated, dispatch]);
 
   return { ...state, removeItem, addItem, clearCartItems, addAddress };

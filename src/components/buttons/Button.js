@@ -1,7 +1,7 @@
 import React from "react";
 import buttonstyles from "../../assets/css/primarybutton.module.css";
 
-const PrimaryButton = (props) => {
+const Button = (props) => {
   return (
     <button
       className={
@@ -15,4 +15,4 @@ const PrimaryButton = (props) => {
   );
 };
 
-export default PrimaryButton;
+export default Button;

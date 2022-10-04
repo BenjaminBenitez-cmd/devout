@@ -4,8 +4,8 @@ import { FormGroup } from "reactstrap";
 import { Form, Formik } from "formik";
 import * as Yup from "yup";
 
-import PrimaryButton from "components/buttons/PrimaryButton";
-import { MyTextField } from "components/inputs/CustomInputs";
+import Button from "components/buttons/Button";
+import { MyTextField } from "components/inputs/Custom";
 import AuthRequests from "api/auth.requests";
 import useAuth from "hooks/useAuth";
 
@@ -58,7 +58,7 @@ const Signin = ({ redirect }) => {
           <p className="mt-3">{message}</p>
 
           <FormGroup className="mt-3">
-            <PrimaryButton text="submit" type="submit" />
+            <Button text="submit" type="submit" />
           </FormGroup>
           <div className="mt-4">
             <p className="text-extrasmall">

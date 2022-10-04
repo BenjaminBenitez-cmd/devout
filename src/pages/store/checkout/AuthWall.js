@@ -1,8 +1,8 @@
 import React from "react";
 import { Col, Row } from "reactstrap";
 
-import Signin from "components/Forms/Signin";
-import FormGuestEmail from "components/Forms/GuestEmail";
+import Signin from "components/forms/Signin";
+import FormGuestEmail from "components/forms/GuestEmail";
 import useAuth from "hooks/useAuth";
 import { Redirect } from "react-router-dom";
 

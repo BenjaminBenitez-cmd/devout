@@ -10,7 +10,7 @@ import {
 import settings from "data/settings.json";
 import styles from "assets/css/storeCheckoutTotal.module.css";
 
-const StoreCheckoutSummaryTotal = ({ items }) => {
+const CheckoutSummary = ({ items }) => {
   console.log(items);
 
   return (
@@ -71,4 +71,4 @@ const StoreCheckoutSummaryTotal = ({ items }) => {
   );
 };
 
-export default StoreCheckoutSummaryTotal;
+export default CheckoutSummary;

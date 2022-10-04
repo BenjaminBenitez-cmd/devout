@@ -2,7 +2,7 @@ import React from "react";
 import { NavLink } from "react-router-dom";
 import buttonstyles from "../../assets/css/primarybutton.module.css";
 
-const PrimaryButtonLink = (props) => {
+const Link = (props) => {
   return (
     <NavLink
       to={props.to}
@@ -15,4 +15,4 @@ const PrimaryButtonLink = (props) => {
   );
 };
 
-export default PrimaryButtonLink;
+export default Link;

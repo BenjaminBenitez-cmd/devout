@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import { Col, Container, Row } from "reactstrap";
 import { useParams } from "react-router-dom";
 
-import StoreCollection from "components/sections/StoreCollection";
-import ProductCard from "components/product/ProductCard";
+import Collection from "components/blocks/Collection";
+import ProductCard from "components/product/Card";
 import StoreFilter from "components/sidebar/StoreFilter";
 import LayoutStoreHome from "layouts/LayoutStoreHome";
 
@@ -23,7 +23,7 @@ const StoreProducts = () => {
   return (
     <LayoutStoreHome>
       {/**Collection bar */}
-      <StoreCollection />
+      <Collection />
       <Row className="justify-content-between my-5">
         {/**Product info */}
         <Col sm={3}>

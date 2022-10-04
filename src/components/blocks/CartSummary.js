@@ -5,11 +5,11 @@ import {
   calculateTotal,
 } from "helpers/calculators";
 
-import PrimaryButtonLink from "components/buttons/PrimaryButtonLink";
+import Link from "components/buttons/Link";
 import SummaryItem from "components/other/SummaryItem";
 import settingsdata from "data/settings.json";
 
-export const StoreTotalSummary = ({ cartItems }) => {
+export const CartSummary = ({ cartItems }) => {
   return (
     <div>
       <h2 className="text-small">Apply promo code</h2>
@@ -25,15 +25,11 @@ export const StoreTotalSummary = ({ cartItems }) => {
           value={calculateTotal(cartItems, settingsdata.tax)}
         />
         <div className="my-3">
-          <PrimaryButtonLink
-            width="100%"
-            to="/checkout"
-            text="Proceed to checkout"
-          />
+          <Link width="100%" to="/checkout" text="Proceed to checkout" />
         </div>
       </div>
     </div>
   );
 };
 
-export default StoreTotalSummary;
+export default CartSummary;

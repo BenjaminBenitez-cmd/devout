@@ -5,7 +5,7 @@ import { Col, Row } from "reactstrap";
 
 import collectiondata from "data/collections.json";
 
-const StoreCollection = () => {
+const Collection = () => {
   const settings = {
     dots: false,
     infinite: false,
@@ -57,4 +57,4 @@ const StoreCollection = () => {
   );
 };
 
-export default StoreCollection;
+export default Collection;

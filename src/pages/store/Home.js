@@ -1,22 +1,22 @@
 import React from "react";
 
 import LayoutStoreHome from "layouts/LayoutStoreHome";
-import StoreHero from "components/sections/StoreHero";
-import StoreFeatures from "components/sections/StoreFeatures";
-import StoreLatest from "components/sections/StoreLatest";
-import StoreAbout from "components/sections/StoreAbout";
+import Hero from "components/blocks/Hero";
+import Features from "components/blocks/Features";
+import Latest from "components/blocks/Latest";
+import About from "components/blocks/About";
 
 const Home = () => {
   return (
     <LayoutStoreHome>
       {/**Hero */}
-      <StoreHero />
+      <Hero />
       {/**Features section */}
-      <StoreFeatures />
+      <Features />
       {/**Latest section */}
-      <StoreLatest />
+      <Latest />
       {/**About section */}
-      <StoreAbout />
+      <About />
     </LayoutStoreHome>
   );
 };

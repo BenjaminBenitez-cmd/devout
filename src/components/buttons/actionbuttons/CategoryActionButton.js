@@ -1,7 +1,7 @@
 import React from "react";
-import CategoryRequests from "../../../api/category.requests";
-import useNotifications from "../../../hooks/useNotifications";
-import ActionButton from "../ActionButton";
+import CategoryRequests from "api/category.requests";
+import useNotifications from "hooks/useNotifications";
+import ActionButton from "components/buttons/Action";
 
 const CategoryActionButton = ({ id }) => {
   const { addNotification } = useNotifications();
