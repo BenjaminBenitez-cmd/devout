@@ -17,7 +17,7 @@ Pre-built tools such as SnipCart and Shopify minimize the amount of work and tim
 ### API
 #### Clone the repo: 
 ```
-git checkout api
+cd api 
 ```
 
 #### Requirements:
@@ -100,7 +100,7 @@ npm run dev
 
 #### Run
 ```
-git checkout web
+cd client
 ```
 
 #### Create .env file
