@@ -15,6 +15,7 @@ import StoreCheckoutPayment from "pages/store/checkout/Payment";
 import StoreCheckoutSuccess from "pages/store/checkout/Success";
 import StoreNotFound from "pages/store/404";
 import StoreAccount from "pages/store/account/Orders";
+import StoreTemplate from "pages/store/Template";
 
 import CartProvider from "context/CartContext";
 import StoreProtected from "components/other/StoreProtected";
@@ -32,6 +33,7 @@ const Store = () => {
         <Route path="/verification/:token" component={StoreAuthVerifyLink} />
         <Route path="/signin" component={StoreAuthSignin} />
         <Route path="/signup" component={StoreAuthSignup} />
+        <Route path="/template" component={StoreTemplate} />
         <StoreProtected path="/account" component={StoreAccount} />
         <Route path="/checkout/auth" component={StoreCheckoutAuthWall} />
         <StoreProtected
