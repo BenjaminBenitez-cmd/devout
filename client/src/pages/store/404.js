@@ -1,6 +1,6 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
-import LayoutStoreHome from "layouts/LayoutStoreHome";
+import LayoutStoreHome from "layouts/StoreHome";
 
 const StoreNotFound = () => {
   return (

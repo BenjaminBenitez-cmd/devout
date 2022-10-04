@@ -8,7 +8,7 @@ import CheckoutSteps from "components/headers/CheckoutSteps";
 import { MySelect, MyTextField } from "components/inputs/Custom";
 import Button from "components/buttons/Button";
 import CheckoutSummary from "components/blocks/CheckoutSummary";
-import LayoutStoreHome from "layouts/LayoutStoreHome";
+import LayoutStoreHome from "layouts/StoreHome";
 
 import AddressRequests from "api/address.requests";
 import settings from "data/settings.json";

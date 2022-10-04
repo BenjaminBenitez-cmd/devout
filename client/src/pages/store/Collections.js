@@ -5,7 +5,7 @@ import ProductCorousel from "components/product/Corousel";
 import FeaturedProduct from "components/blocks/FeaturedProduct";
 import Collection from "components/blocks/Collection";
 import Brands from "components/blocks/Brands";
-import LayoutStoreHome from "layouts/LayoutStoreHome";
+import LayoutStoreHome from "layouts/StoreHome";
 
 import data from "data/featured.json";
 

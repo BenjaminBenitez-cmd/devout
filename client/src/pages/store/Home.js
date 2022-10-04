@@ -1,6 +1,6 @@
 import React from "react";
 
-import LayoutStoreHome from "layouts/LayoutStoreHome";
+import LayoutStoreHome from "layouts/StoreHome";
 import Hero from "components/blocks/Hero";
 import Features from "components/blocks/Features";
 import Latest from "components/blocks/Latest";

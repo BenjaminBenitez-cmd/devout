@@ -2,8 +2,8 @@ import React from "react";
 import { Col, Row } from "reactstrap";
 
 import Circle from "components/shapes/Circle";
-import LayoutAdmin from "layouts/LayoutAdmin";
-import LayoutAdminPage from "layouts/LayoutAdminPage";
+import LayoutAdmin from "layouts/Admin";
+import LayoutAdminPage from "layouts/AdminPage";
 
 const AdminDashboard = () => {
   return (

@@ -5,7 +5,7 @@ import { useParams } from "react-router-dom";
 import Collection from "components/blocks/Collection";
 import ProductCard from "components/product/Card";
 import StoreFilter from "components/sidebar/StoreFilter";
-import LayoutStoreHome from "layouts/LayoutStoreHome";
+import LayoutStoreHome from "layouts/StoreHome";
 
 import useProducts from "hooks/useProducts";
 import { filterByOption } from "helpers/filters";

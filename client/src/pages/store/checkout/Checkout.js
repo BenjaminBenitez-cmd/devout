@@ -1,6 +1,6 @@
 import React from "react";
 
-import LayoutStoreHome from "layouts/LayoutStoreHome";
+import LayoutStoreHome from "layouts/StoreHome";
 import CheckoutForm from "components/Forms/Checkout";
 
 const StoreCheckout = () => {

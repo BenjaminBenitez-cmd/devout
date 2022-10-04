@@ -2,8 +2,8 @@ import React from "react";
 import { useQuery } from "react-query";
 
 import Table from "components/tables/Table";
-import LayoutAdmin from "layouts/LayoutAdmin";
-import LayoutAdminPage from "layouts/LayoutAdminPage";
+import LayoutAdmin from "layouts/Admin";
+import LayoutAdminPage from "layouts/AdminPage";
 import { productDefinition } from "helpers/columnDefinitions";
 import ProductRequests from "api/product.requests";
 

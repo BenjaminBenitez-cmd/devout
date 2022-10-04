@@ -12,7 +12,7 @@ import { loadStripe } from "@stripe/stripe-js";
 import Button from "components/buttons/Button";
 import CheckoutSummary from "components/blocks/CheckoutSummary";
 import CheckoutSteps from "components/headers/CheckoutSteps";
-import LayoutStoreHome from "layouts/LayoutStoreHome";
+import LayoutStoreHome from "layouts/StoreHome";
 
 import useCart from "hooks/useCart";
 import useAuth from "hooks/useAuth";

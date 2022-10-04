@@ -1,7 +1,7 @@
 import React from "react";
 import { Col, Row } from "reactstrap";
 
-import LayoutStoreHome from "layouts/LayoutStoreHome";
+import LayoutStoreHome from "layouts/StoreHome";
 import FormSignup from "components/forms/Signup";
 
 const Signup = () => {

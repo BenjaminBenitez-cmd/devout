@@ -1,7 +1,7 @@
 import React from "react";
 import { Col, Row } from "reactstrap";
 
-import LayoutStoreHome from "layouts/LayoutStoreHome";
+import LayoutStoreHome from "layouts/StoreHome";
 import FormSignin from "components/forms/Signin";
 
 const Signin = () => {

@@ -6,8 +6,8 @@ import Button from "components/buttons/Button";
 import { Input, TextArea } from "components/inputs/Input";
 import InputCategories from "pages/admin/products/components/InputCategories";
 import InputImage from "pages/admin/products/components/InputImage";
-import LayoutAdmin from "layouts/LayoutAdmin";
-import LayoutAdminPage from "layouts/LayoutAdminPage";
+import LayoutAdmin from "layouts/Admin";
+import LayoutAdminPage from "layouts/AdminPage";
 import useNotifications from "hooks/useNotifications";
 import ProductRequests from "api/product.requests";
 

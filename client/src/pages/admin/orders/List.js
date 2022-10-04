@@ -3,8 +3,8 @@ import { useQuery } from "react-query";
 
 import Table from "components/tables/Table";
 import { orderDefinition } from "helpers/columnDefinitions";
-import LayoutAdmin from "layouts/LayoutAdmin";
-import LayoutAdminPage from "layouts/LayoutAdminPage";
+import LayoutAdmin from "layouts/Admin";
+import LayoutAdminPage from "layouts/AdminPage";
 
 import OrderRequests from "api/order.requests";
 

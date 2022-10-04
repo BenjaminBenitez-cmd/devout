@@ -4,8 +4,8 @@ import { Col, Container, Form, Row } from "reactstrap";
 import Button from "components/buttons/Button";
 import { Input } from "components/inputs/Input";
 import useNotifications from "hooks/useNotifications";
-import LayoutAdmin from "layouts/LayoutAdmin";
-import LayoutAdminPage from "layouts/LayoutAdminPage";
+import LayoutAdmin from "layouts/Admin";
+import LayoutAdminPage from "layouts/AdminPage";
 import CategoryRequests from "api/category.requests";
 
 const AdminAddCategory = () => {

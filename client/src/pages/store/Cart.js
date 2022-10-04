@@ -4,7 +4,7 @@ import { NavLink } from "react-router-dom";
 
 import CartItem from "components/blocks/CartItem";
 import CartSummary from "components/blocks/CartSummary";
-import LayoutStoreHome from "layouts/LayoutStoreHome";
+import LayoutStoreHome from "layouts/StoreHome";
 import useCart from "hooks/useCart";
 
 const StoreCart = () => {

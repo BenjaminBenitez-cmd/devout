@@ -7,7 +7,7 @@ import useAuth from "hooks/useAuth";
 import { Redirect } from "react-router-dom";
 
 import styles from "assets/css/auth.module.css";
-import LayoutStoreHome from "layouts/LayoutStoreHome";
+import LayoutStoreHome from "layouts/StoreHome";
 
 const AuthWall = () => {
   const { authenticated } = useAuth();

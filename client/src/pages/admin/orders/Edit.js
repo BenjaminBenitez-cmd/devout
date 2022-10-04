@@ -3,8 +3,8 @@ import { useParams } from "react-router-dom";
 import { Col, Row } from "reactstrap";
 import { useQuery } from "react-query";
 
-import LayoutAdmin from "layouts/LayoutAdmin";
-import LayoutAdminPage from "layouts/LayoutAdminPage";
+import LayoutAdmin from "layouts/Admin";
+import LayoutAdminPage from "layouts/AdminPage";
 import { calculateTax } from "helpers/calculators";
 
 import OrderRequests from "api/order.requests";

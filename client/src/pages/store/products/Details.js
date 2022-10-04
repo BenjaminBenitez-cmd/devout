@@ -4,7 +4,7 @@ import { Col, Container, Row } from "reactstrap";
 
 import ProductCorousel from "components/product/Corousel";
 import Button from "components/buttons/Button";
-import LayoutStoreHome from "layouts/LayoutStoreHome";
+import LayoutStoreHome from "layouts/StoreHome";
 
 import ProductRequests from "api/product.requests";
 import useCart from "hooks/useCart";

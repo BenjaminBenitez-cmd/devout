@@ -1,6 +1,6 @@
 import { NavLink, Route, Switch } from "react-router-dom";
 
-import LayoutStoreHome from "layouts/LayoutStoreHome";
+import LayoutStoreHome from "layouts/StoreHome";
 import useAuth from "hooks/useAuth";
 
 const Options = () => {

@@ -3,7 +3,7 @@ import { useQuery } from "react-query";
 import { NavLink, useParams } from "react-router-dom";
 
 import AuthRequests from "api/auth.requests";
-import LayoutStoreHome from "layouts/LayoutStoreHome";
+import LayoutStoreHome from "layouts/StoreHome";
 
 const VerifyLink = () => {
   const { token } = useParams();
