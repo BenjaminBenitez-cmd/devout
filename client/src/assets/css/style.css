@@ -1,14 +1,14 @@
-@import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro:regular,bold,italic&subset=latin,latin-ext');
-
+@import url("https://fonts.googleapis.com/css2?family=Italiana&family=Roboto&display=swap");
 :root {
-  --font-main: "PT Serif";
+  --font-main: "Roboto", sans-serif;
+  --font-secondary: "Italiana";
   --main-color: #000000;
   --secondary-color: #ffffff;
   --light-gray: #c4c4c4;
 }
 
 * {
-  font-size: 16px;
+  font-size: 14px;
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -63,8 +63,7 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: 'Bebas Neue';
-  font-weight: 400;
+  font-family: var(--font-secondary);
   text-transform: uppercase;
 }
 
@@ -72,6 +71,7 @@ a {
   text-decoration: none;
   text-transform: uppercase;
   color: var(--main-color);
+  font-family: var(--font-main);
 }
 
 a:hover {
@@ -81,4 +81,12 @@ a:hover {
 
 .section {
   margin: 150px 0;
+}
+
+.font-main {
+  font-family: var(--font-main);
+}
+
+.font-secondary {
+  font-family: var(--font-secondary);
 }

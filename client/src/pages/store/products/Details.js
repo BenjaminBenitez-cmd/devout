@@ -66,7 +66,7 @@ const StoreProductDetails = () => {
                 <h1 className="text-extra-large text-bold">{product.name}</h1>
               </div>
               <div className="my-5">
-                <h3 className="text-medium">${product.price}</h3>
+                <h3 className="text-small font-main">${product.price}</h3>
               </div>
               <div className="my-5">
                 <Button

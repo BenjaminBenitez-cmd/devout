@@ -23,7 +23,9 @@ const StoreFeatures = () => {
                 <div className={styles.overlay}>
                   <div>
                     <span className="text-extra-large">.{index + 1}</span>
-                    <h2 className="text-small w-50">{feature.description}</h2>
+                    <h2 className="text-small w-50 font-main">
+                      {feature.description}
+                    </h2>
                   </div>
                 </div>
               </div>
