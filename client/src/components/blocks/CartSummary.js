@@ -12,7 +12,7 @@ import settingsdata from "data/settings.json";
 export const CartSummary = ({ cartItems }) => {
   return (
     <div>
-      <h2 className="text-small">Apply promo code</h2>
+      <h2 className="text-small font-main">Apply promo code</h2>
       <div>
         <SummaryItem title="Subtotal" value={calculateSubTotal(cartItems)} />
         <SummaryItem title="Shipping And Handling" value="0" />

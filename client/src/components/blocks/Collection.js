@@ -47,7 +47,9 @@ const Collection = () => {
           <Col md={4} key={index}>
             <div className="d-flex justify-content-center">
               <NavLink to="/products">
-                <p className="text-small text-uppercase">{collection}</p>
+                <p className="text-medium text-uppercase font-secondary">
+                  {collection}
+                </p>
               </NavLink>
             </div>
           </Col>
